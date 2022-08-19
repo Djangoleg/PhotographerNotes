@@ -1,4 +1,9 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React from 'react';
+import axios from 'axios'
+import $ from 'jquery';
+import Popper from 'popper.js';
 import logo from './logo.svg';
 import './App.css';
 import PhotoNotesList from "./components/PhotoNotes";
@@ -12,29 +17,22 @@ class PhotoNotes extends React.Component {
     }
 
     componentDidMount() {
-        const notes = [
-            {
-                'title': 'Хорошее фото №1',
-                'image': 'http://127.0.0.1:8000/media/post_photo/1.jpg',
-                'photo_comment': 'Люблю гулять и прохлаждаться 1'
-            },
-            {
-                'title': 'Хорошее фото №2',
-                'image': 'http://127.0.0.1:8000/media/post_photo/2.jpg',
-                'photo_comment': 'Люблю гулять и прохлаждаться 2'
-            },
-        ]
-        this.setState(
-            {
-                'notes': notes
-            }
-        )
+        axios.get('http://127.0.0.1:8000/api/notes/')
+            .then(response => {
+                const notes = response.data
+                this.setState(
+                    {
+                        'notes': notes
+                    }
+                )
+            }).catch(error => console.log(error))
     }
+
 
     render() {
         return (
             <div>
-                <PhotoNotesList notes={this.state.notes} />
+                <PhotoNotesList notes={this.state.notes}/>
             </div>
         )
     }

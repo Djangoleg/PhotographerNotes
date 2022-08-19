@@ -2,33 +2,24 @@ import React from 'react'
 
 const PhotoNotesItem = ({note}) => {
     return (
-        <tr>
-            <td>
-                {note.title}
-            </td>
-            <td>
-                <img src={note.image} width="200" height="300"/>
-            </td>
-            <td>
-                {note.photo_comment}
-            </td>
-        </tr>
+        <td>
+            <img src={note.image} width="500" height="600"/>
+        </td>
     )
 }
 
 const PhotoNotesList = ({notes}) => {
     return (
-        <table>
-            <th>
-                Title
-            </th>
-            <th>
-                Image
-            </th>
-            <th>
-                Post
-            </th>
-            {notes.map((note) => <PhotoNotesItem note={note}/>)}
+        <table className="table-info">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    {notes.map((note) => <PhotoNotesItem key={note.id} note={note}/>)}
+                </tr>
+            </tbody>
+            <tfoot>
+            </tfoot>
         </table>
     )
 }
