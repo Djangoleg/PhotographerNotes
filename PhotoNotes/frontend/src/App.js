@@ -31,7 +31,7 @@ class PhotoNotes extends React.Component {
 
     render() {
         return (
-            <div className="container container-custom">
+            <div className="h-100 d-flex justify-content-center align-items-center container-custom">
                 <PhotoNotesList notes={this.state.notes}/>
             </div>
         )

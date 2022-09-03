@@ -16,7 +16,7 @@ html, body {
 }
 
 .footer {
-    height: 30%;
+    height: 25%;
     background: #C5D9D9;
 }
 
@@ -41,11 +41,11 @@ html, body {
 .content {
     position: absolute;
     width: 100%;
+    height: 75%;
 }
 
 .container-custom {
     margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 
