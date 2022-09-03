@@ -31,7 +31,7 @@ class PhotoNotes extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <PhotoNotesList notes={this.state.notes}/>
             </div>
         )

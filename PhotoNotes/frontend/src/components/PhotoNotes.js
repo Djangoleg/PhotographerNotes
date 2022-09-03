@@ -2,25 +2,17 @@ import React from 'react'
 
 const PhotoNotesItem = ({note}) => {
     return (
-        <td>
-            <img src={note.image} width="500" height="600"/>
-        </td>
+        <div className="col-sm">
+            <img className="index-img" src={note.image}/>
+        </div>
     )
 }
 
 const PhotoNotesList = ({notes}) => {
     return (
-        <table className="table-info">
-            <thead>
-            </thead>
-            <tbody>
-                <tr>
-                    {notes.map((note) => <PhotoNotesItem key={note.id} note={note}/>)}
-                </tr>
-            </tbody>
-            <tfoot>
-            </tfoot>
-        </table>
+        <div className="row">
+            {notes.map((note) => <PhotoNotesItem key={note.id} note={note}/>)}
+        </div>
     )
 }
 export default PhotoNotesList
