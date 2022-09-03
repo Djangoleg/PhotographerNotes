@@ -8,7 +8,7 @@ from notes.serializers import PhotoNoteModelSerializer
 
 
 class PhotoNoteViewSet(ModelViewSet):
-    queryset = PhotoNotes.objects.all()
+    queryset = PhotoNotes.objects.all()[:3]
 
     def get_serializer_class(self):
         return PhotoNoteModelSerializer

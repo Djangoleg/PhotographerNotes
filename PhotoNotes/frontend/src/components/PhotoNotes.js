@@ -3,7 +3,7 @@ import React from 'react'
 const PhotoNotesItem = ({note}) => {
     return (
         <div className="col-sm">
-            <img className="index-img" src={note.image}/>
+            <img className="img-fluid img-thumbnail" src={note.image}/>
         </div>
     )
 }
