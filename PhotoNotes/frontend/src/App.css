@@ -31,17 +31,10 @@ html, body {
     white-space: pre-line;
 }
 
-.index-img {
-    width: 100%;
-    height: auto;
-    /* Magic! */
-    max-width: 50vw;
-}
-
 .content {
     position: absolute;
     width: 100%;
-    height: 75%;
+    height: 70%;
 }
 
 .container-custom {
