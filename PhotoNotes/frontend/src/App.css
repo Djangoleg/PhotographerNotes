@@ -20,14 +20,14 @@ html, body {
     background: #C5D9D9;
 }
 
-.footer_contacts {
+.footer-contacts {
     position: absolute;
     margin-left: 10px;
     bottom: 0;
     margin-bottom: 10px;
 }
 
-.footer_contacts span {
+.footer-contacts span {
     white-space: pre-line;
 }
 

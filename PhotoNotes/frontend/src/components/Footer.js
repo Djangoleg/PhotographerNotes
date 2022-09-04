@@ -4,7 +4,7 @@ const Footer = () => {
 
     return (
         <div className="page-footer fixed-bottom footer">
-            <div className="footer_contacts">
+            <div className="footer-contacts">
 				<span>Contacts:
 					pb@admin.com</span>
             </div>
