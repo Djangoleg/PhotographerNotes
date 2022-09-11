@@ -7,6 +7,7 @@ import Popper from 'popper.js';
 import logo from './logo.svg';
 import './App.css';
 import PhotoNotesList from "./components/PhotoNotes";
+import IndexPhotoList from "./components/IndexPhoto";
 import NotFound from "./components/NotFound";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
@@ -38,22 +39,37 @@ class PhotoNotes extends React.Component {
         return (
             <BrowserRouter>
                 <Menu/>
-                <div className="content">
-                    <Routes>
-                        <Route path={appPath.index} element={
-                            <div className="h-100 d-flex justify-content-center align-items-center container-custom">
+                <Routes>
+                    <Route path={appPath.index} element={
+                        <div>
+                            <div className="content">
+                                <div
+                                    className="h-100 d-flex justify-content-center align-items-center container-custom">
+                                    <IndexPhotoList notes={this.state.notes}/>
+                                </div>
+                            </div>
+                            <Footer/>
+                        </div>
+                    }/>
+                    <Route exact path={appPath.blog} element={
+                        <div className="content">
+                            <div
+                                className="justify-content-center align-items-center">
                                 <PhotoNotesList notes={this.state.notes}/>
                             </div>
-                        }/>
-                        <Route exact path={appPath.blog} element={
-                            <div>Test</div>
-                        }/>
-                        <Route path={appPath.any} element={
-                            <NotFound/>
-                        }/>
-                    </Routes>
-                </div>
-                <Footer/>
+                        </div>
+                    }/>
+                    <Route path={appPath.any} element={
+                        <div>
+                            <div className="content">
+                                <NotFound/>
+                            </div>
+                            <Footer/>
+                        </div>
+                    }/>
+                </Routes>
+
+
             </BrowserRouter>
         )
     }

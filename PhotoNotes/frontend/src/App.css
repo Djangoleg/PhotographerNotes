@@ -45,4 +45,20 @@ html, body {
     background-color: #C5D9D9;
 }
 
+.blog-img {
+    max-width: 50%;
+}
 
+.row {
+    --bs-gutter-x: 0rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+}
+
+.container-blog {
+    max-width: 50%;
+}
