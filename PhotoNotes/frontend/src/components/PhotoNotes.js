@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from 'react-bootstrap/Button';
 
 const PhotoNotesItem = ({note}) => {
     return (
@@ -9,7 +10,10 @@ const PhotoNotesItem = ({note}) => {
                     <img className="rounded mx-auto d-block blog-img" src={note.image} alt=''/>
                     <p className="text-left">{note.photo_comment}</p>
                     <div className="text-right">
-                        <a className="bottom" href="#">Edit</a>
+                        <Button href={`/notes/${note.id}/`} variant="primary" size="lg">
+                            Edit
+                        </Button>
+
                     </div>
                 </div>
             </div>
