@@ -9,11 +9,10 @@ const PhotoNotesItem = ({note}) => {
                     <p className="text-center mt-4"><b>{note.title}</b></p>
                     <img className="rounded mx-auto d-block blog-img" src={note.image} alt=''/>
                     <p className="text-left">{note.photo_comment}</p>
-                    <div className="text-right">
-                        <Button href={`/notes/${note.id}/`} variant="primary" size="lg">
+                    <div className="button-tar">
+                        <Button href={`/notes/${note.id}/`} variant="info" size="lg">
                             Edit
                         </Button>
-
                     </div>
                 </div>
             </div>

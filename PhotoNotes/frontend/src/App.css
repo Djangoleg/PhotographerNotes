@@ -62,3 +62,8 @@ html, body {
 .container-blog {
     max-width: 50%;
 }
+
+.button-tar {
+    text-align: right;
+    margin-bottom: 10px;
+}
