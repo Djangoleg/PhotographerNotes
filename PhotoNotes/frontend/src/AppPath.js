@@ -1,6 +1,7 @@
 const appPath = {
         'index': '/',
         'blog': '/blog',
+        'notes': '/notes/:id',
         'any': '*',
     };
 

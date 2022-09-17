@@ -5,14 +5,16 @@ import axios from 'axios';
 import $ from 'jquery';
 import Popper from 'popper.js';
 import logo from './logo.svg';
+import {BrowserRouter, HashRouter, Routes, Router, Route} from 'react-router-dom';
 import './App.css';
+import appPath from "./AppPath";
 import PhotoNotesList from "./components/PhotoNotes";
 import IndexPhotoList from "./components/IndexPhoto";
 import NotFound from "./components/NotFound";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
-import {BrowserRouter, HashRouter, Routes, Router, Route} from 'react-router-dom';
-import appPath from "./AppPath";
+import Note from "./components/Note";
+
 
 class PhotoNotes extends React.Component {
     constructor(props) {
@@ -57,6 +59,11 @@ class PhotoNotes extends React.Component {
                                 className="justify-content-center align-items-center">
                                 <PhotoNotesList notes={this.state.notes}/>
                             </div>
+                        </div>
+                    }/>
+                    <Route exact path={appPath.notes} element={
+                        <div className="content">
+                            <Note notes={this.state.notes}/>
                         </div>
                     }/>
                     <Route path={appPath.any} element={
