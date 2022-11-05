@@ -150,6 +150,11 @@ class UserRole:
     # Читатель.
     READER = 2
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
