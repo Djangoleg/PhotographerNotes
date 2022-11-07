@@ -25,7 +25,7 @@ class PhotoNotes extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://127.0.0.1:8000/api/notes/')
+        axios.get(`http://${window.location.hostname}:8000/api/notes/`)
             .then(response => {
                 const notes = response.data
                 this.setState(
