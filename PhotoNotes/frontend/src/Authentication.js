@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import appPath from "./AppPath";
 
 const auth = {
     token: '',
@@ -10,11 +11,13 @@ const auth = {
         .then(response => {
 
             this.setToken(response.data['token'], username);
+            document.location.pathname = appPath.index;
 
         }).catch(error => alert('Неверный логин или пароль'));
     },
     logout: function () {
         this.setToken('', '');
+        document.location.reload();
     },
     setToken: function (token, username) {
         const cookies = new Cookies();
