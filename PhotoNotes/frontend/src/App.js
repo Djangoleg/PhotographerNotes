@@ -14,12 +14,14 @@ import NotFound from "./components/NotFound";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
 import Note from "./components/Note";
+import auth from "./Authentication";
 
 
 class PhotoNotes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            'mainAuth': auth,
             'notes': []
         }
     }
@@ -36,11 +38,10 @@ class PhotoNotes extends React.Component {
             }).catch(error => console.log(error))
     }
 
-
     render() {
         return (
             <BrowserRouter>
-                <Menu/>
+                <Menu auth={this.state.mainAuth}/>
                 <Routes>
                     <Route path={appPath.index} element={
                         <div>

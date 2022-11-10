@@ -3,6 +3,9 @@ const appPath = {
         'blog': '/blog',
         'notes': '/notes/:id',
         'any': '*',
+        'login': '/login',
+        'logout': '/logout',
+        'registration': '/registration',
     };
 
 export default appPath

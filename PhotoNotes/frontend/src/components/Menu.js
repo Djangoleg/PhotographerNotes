@@ -1,8 +1,10 @@
 import React from "react";
 import {Navbar,} from "react-bootstrap";
 import appPath from "../AppPath";
+import {NavLink} from "react-router-dom";
 
-const Menu = () => {
+
+const Menu = ({auth: mainAuth}) => {
 
     return (
         <div className="menu">
@@ -29,9 +31,9 @@ const Menu = () => {
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
-                                        <li><a className="dropdown-item" href="#">Login</a></li>
-                                        <li><a className="dropdown-item" href="#">Logout</a></li>
-                                        <li><a className="dropdown-item" href="#">Registration</a></li>
+                                        {mainAuth.isAuthenticated() ? <li><a className="dropdown-item" href={appPath.logout}>{mainAuth.username} Logout</a></li> :
+                                            <li><a className="dropdown-item" href={appPath.login}>Login</a></li>}
+                                        <li><a className="dropdown-item" href={appPath.registration}>Registration</a></li>
                                     </ul>
                                 </li>
                             </ul>
