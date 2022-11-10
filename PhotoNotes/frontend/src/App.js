@@ -15,6 +15,7 @@ import Menu from "./components/Menu";
 import Footer from "./components/Footer";
 import Note from "./components/Note";
 import auth from "./Authentication";
+import LoginForm from "./components/LoginForm";
 
 
 class PhotoNotes extends React.Component {
@@ -27,6 +28,9 @@ class PhotoNotes extends React.Component {
     }
 
     componentDidMount() {
+
+        this.state.mainAuth.getTokenFromStorage();
+
         axios.get(`http://${window.location.hostname}:8000/api/notes/`)
             .then(response => {
                 const notes = response.data
@@ -52,6 +56,16 @@ class PhotoNotes extends React.Component {
                                 </div>
                             </div>
                             <Footer/>
+                        </div>
+                    }/>
+                    <Route exact path={appPath.login} element={
+                        <div>
+                            <div className="contentDiscription">
+                                <b>Авторизация</b>
+                            </div>
+                            <br/>
+                            <LoginForm
+                                authData={(username, password) => this.state.mainAuth.login(username, password)}/>
                         </div>
                     }/>
                     <Route exact path={appPath.blog} element={
