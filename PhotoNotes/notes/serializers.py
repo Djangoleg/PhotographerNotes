@@ -13,4 +13,5 @@ class PhotoNoteModelSerializer(HyperlinkedModelSerializer):
         fields = ('id', 'created', 'title', 'image', 'image_url', 'photo_comment', 'use_on_index')
 
     def get_image_url(self, obj):
-        return obj.image.url
+        request = self.context.get('request')
+        return request.build_absolute_uri(obj.image.url)
