@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-t7xc8zi&n#+f-q9o@h$ng52$hpmh53p#))7t=a8xv5xcr4fs7t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -118,13 +118,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static',]
-
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',
+# ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -139,9 +141,7 @@ USER_EMAIL_KEY_LIFETIME = 48
 
 
 class UserRole:
-    # Владелец.
     OWNER = 1
-    # Читатель.
     READER = 2
 
 
@@ -152,5 +152,6 @@ class UserRole:
 # }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
+    'http://193.160.119.6',
+    'http://localhost:3000',
 ]
