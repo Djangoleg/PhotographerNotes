@@ -29,7 +29,7 @@ class Command(BaseCommand):
         User.objects.all().delete()
         Role.objects.all().delete()
 
-        superuser = User.objects.create_superuser('ok', 'kr.oleg@gmail.com', '1', pk=1)
+        superuser = User.objects.create_superuser('ok', 'test@gmail.com', 'KJH1212sdfg', pk=1)
         superuser.save()
         self.user_pk = 1
 
