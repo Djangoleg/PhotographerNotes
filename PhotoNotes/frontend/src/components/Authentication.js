@@ -13,7 +13,7 @@ const auth = {
             this.setToken(response.data['token'], username);
             document.location.pathname = appPath.index;
 
-        }).catch(error => alert('Неверный логин или пароль'));
+        }).catch(error => alert('Wrong login or password'));
     },
     logout: function () {
         this.setToken('', '');
@@ -47,6 +47,6 @@ const auth = {
     }
 }
 
-export default auth;
+export default auth
 
 

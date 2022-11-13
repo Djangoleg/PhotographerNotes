@@ -1,6 +1,6 @@
 import React from "react";
 import {Navbar,} from "react-bootstrap";
-import appPath from "../AppPath";
+import appPath from "./AppPath";
 import {NavLink} from "react-router-dom";
 
 

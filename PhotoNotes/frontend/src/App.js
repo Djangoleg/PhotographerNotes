@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './auth.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import React from 'react';
 import axios from 'axios';
@@ -7,15 +8,17 @@ import Popper from 'popper.js';
 import logo from './logo.svg';
 import {BrowserRouter, HashRouter, Routes, Router, Route} from 'react-router-dom';
 import './App.css';
-import appPath from "./AppPath";
+import appPath from "./components/AppPath";
 import PhotoNotesList from "./components/PhotoNotes";
 import IndexPhotoList from "./components/IndexPhoto";
 import NotFound from "./components/NotFound";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
 import Note from "./components/Note";
-import auth from "./Authentication";
+import auth from "./components/Authentication";
+import reg from "./components/Registration";
 import LoginForm from "./components/LoginForm";
+import RegForm from "./components/RegistrationForm";
 
 
 class PhotoNotes extends React.Component {
@@ -23,6 +26,7 @@ class PhotoNotes extends React.Component {
         super(props)
         this.state = {
             'mainAuth': auth,
+            'regData': reg,
             'notes': []
         }
     }
@@ -60,12 +64,14 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route exact path={appPath.login} element={
                         <div>
-                            <div className="contentDiscription">
-                                <b>Авторизация</b>
-                            </div>
-                            <br/>
                             <LoginForm
                                 authData={(username, password) => this.state.mainAuth.login(username, password)}/>
+                        </div>
+                    }/>
+                    <Route exact path={appPath.registration} element={
+                        <div>
+                            <RegForm
+                                redData={(username, password, email) => this.state.regData.sendRegData(username, password, email)}/>
                         </div>
                     }/>
                     <Route exact path={appPath.blog} element={
