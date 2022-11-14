@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-t7xc8zi&n#+f-q9o@h$ng52$hpmh53p#))7t=a8xv5xcr4fs7t'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -156,3 +156,26 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://myphotonotes.tech'
 ]
+
+# настройки для подтверждения email
+# для получения в термина ссылки (linux):  sudo python3 -m smtpd -n -c DebuggingServer localhost:25
+# для получения в термина ссылки (windows):  python -m smtpd -n -c DebuggingServer localhost:25
+DOMAIN_NAME = '127.0.0.1:8000'
+
+# if os.getenv('EMAIL_HOST'):
+#     EMAIL_HOST = os.getenv('EMAIL_HOST')
+#     EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+#     EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+#     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+#     EMAIL_USE_TLS = True if os.getenv('EMAIL_USE_TLS') == 'True' else False
+#     EMAIL_USE_SSL = True if os.getenv('EMAIL_USE_SSL') == 'True' else False
+# else:
+#     EMAIL_HOST = 'localhost'
+#     EMAIL_PORT = 25
+#     EMAIL_USER_SSL = True if os.getenv('EMAIL_USER_SSL') == 'True' else False
+#     EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_USER_SSL = True if os.getenv('EMAIL_USER_SSL') == 'True' else False
+EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
