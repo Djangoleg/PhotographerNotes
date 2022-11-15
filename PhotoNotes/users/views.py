@@ -55,16 +55,20 @@ class UserViewSet(ModelViewSet):
         """Check that the key in the link matches the key in the database and 48 hours have not passed"""
         status = 'ok'
         description = str()
-        user = User.objects.get(email=email, username=username)
-        if user and user.activation_key == activation_key and not user.is_activation_key_expired():
-            user.activation_key = ''
-            user.activation_key_created = None
-            user.is_active = True
-            user.save()
-        else:
+        try:
+            user = User.objects.get(email=email, username=username)
+            if user and user.activation_key == activation_key and not user.is_activation_key_expired():
+                user.activation_key = ''
+                user.activation_key_created = None
+                user.is_active = True
+                user.save()
+            else:
+                status = 'error'
+                description = 'activation key is not valid'
+            auth.login(self, user, backend='django.contrib.auth.backends.ModelBackend')
+        except Exception:
             status = 'error'
             description = 'activation key is not valid'
-        auth.login(self, user, backend='django.contrib.auth.backends.ModelBackend')
 
         return JsonResponse({'status': status, 'description': description})
 
