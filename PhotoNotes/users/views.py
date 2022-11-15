@@ -48,7 +48,7 @@ class UserViewSet(ModelViewSet):
         """Send an email with a link to activate your profile"""
         verify_link = reverse('verify', args=[user.username, user.email, user.activation_key])
         subject = f'To activate the {user.username} account follow the link'
-        message = f'To verify the {user.username} account on the portal \n {settings.DOMAIN_NAME}{verify_link}'
+        message = f'To verify the {user.username} account on the portal \n http://{settings.DOMAIN_NAME}{verify_link}'
         return send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
 
     def verify(self, username, email, activation_key):

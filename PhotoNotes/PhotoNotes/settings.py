@@ -12,9 +12,12 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -157,25 +160,25 @@ CORS_ALLOWED_ORIGINS = [
     'http://myphotonotes.tech'
 ]
 
-# настройки для подтверждения email
-# для получения в термина ссылки (linux):  sudo python3 -m smtpd -n -c DebuggingServer localhost:25
-# для получения в термина ссылки (windows):  python -m smtpd -n -c DebuggingServer localhost:25
+# Veryfi email
+# (linux):  sudo python3 -m smtpd -n -c DebuggingServer localhost:25
+# (windows):  python -m smtpd -n -c DebuggingServer localhost:25
+
+# For console test.
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 DOMAIN_NAME = '127.0.0.1:8000'
 
-# if os.getenv('EMAIL_HOST'):
-#     EMAIL_HOST = os.getenv('EMAIL_HOST')
-#     EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
-#     EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-#     EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-#     EMAIL_USE_TLS = True if os.getenv('EMAIL_USE_TLS') == 'True' else False
-#     EMAIL_USE_SSL = True if os.getenv('EMAIL_USE_SSL') == 'True' else False
-# else:
-#     EMAIL_HOST = 'localhost'
-#     EMAIL_PORT = 25
-#     EMAIL_USER_SSL = True if os.getenv('EMAIL_USER_SSL') == 'True' else False
-#     EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+if os.getenv('EMAIL_HOST'):
+    EMAIL_HOST = os.getenv('EMAIL_HOST')
+    EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_TLS = True if os.getenv('EMAIL_USE_TLS') == 'True' else False
+    EMAIL_USE_SSL = True if os.getenv('EMAIL_USE_SSL') == 'True' else False
+else:
+    EMAIL_HOST = 'localhost'
+    EMAIL_PORT = 25
+    EMAIL_USER_SSL = True if os.getenv('EMAIL_USER_SSL') == 'True' else False
+    EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 25
-EMAIL_USER_SSL = True if os.getenv('EMAIL_USER_SSL') == 'True' else False
-EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
