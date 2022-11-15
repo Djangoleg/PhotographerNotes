@@ -69,6 +69,6 @@ class UserViewSet(ModelViewSet):
         except Exception:
             status = 'error'
             description = 'activation key is not valid'
-
-        return JsonResponse({'status': status, 'description': description})
+        finally:
+            return JsonResponse({'status': status, 'description': description})
 
