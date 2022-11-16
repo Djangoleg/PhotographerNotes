@@ -10,6 +10,8 @@ class RegistrationForm extends React.Component {
             'username': '',
             'email': '',
             'password': '',
+            'firstname': '',
+            'lastname': '',
             'confirmpassword': ''
         }
     }
@@ -49,10 +51,10 @@ class RegistrationForm extends React.Component {
                 const form = forms[0];
                 if (this.checkPassword()) {
                     if (form.checkValidity()) {
-                        this.props.redData(this.state.username, this.state.password, this.state.email);
+                        this.props.redData(this.state.username, this.state.password, this.state.email,
+                            this.state.firstname, this.state.lastname);
                         event.preventDefault();
                         event.stopPropagation();
-                        $('#reg_message').html(`${this.state.username}, ${this.state.password}, ${this.state.email}`).css('color', '#ff606e');
                     } else {
                         event.preventDefault();
                         event.stopPropagation();
@@ -85,6 +87,22 @@ class RegistrationForm extends React.Component {
                                                onChange={(event) => this.handleChange(event)}/>
                                         <div className="valid-feedback">Username field is valid!</div>
                                         <div className="invalid-feedback">Username field cannot be blank!</div>
+                                    </div>
+
+                                    <div className="col-md-12">
+                                        <input className="form-control" type="firstname" name="firstname"
+                                               placeholder="Firstname" value={this.state.firstname}
+                                               onChange={(event) => this.handleChange(event)}/>
+                                        <div className="valid-feedback">Firstname field is valid!</div>
+                                        <div className="invalid-feedback">Firstname field cannot be blank!</div>
+                                    </div>
+
+                                    <div className="col-md-12">
+                                        <input className="form-control" type="lastname" name="lastname"
+                                               placeholder="Lastname" value={this.state.lastname}
+                                               onChange={(event) => this.handleChange(event)}/>
+                                        <div className="valid-feedback">Lastname field is valid!</div>
+                                        <div className="invalid-feedback">Lastname field cannot be blank!</div>
                                     </div>
 
                                     <div className="col-md-12">

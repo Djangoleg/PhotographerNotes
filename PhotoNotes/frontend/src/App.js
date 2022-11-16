@@ -71,7 +71,8 @@ class PhotoNotes extends React.Component {
                     <Route exact path={appPath.registration} element={
                         <div>
                             <RegForm
-                                redData={(username, password, email) => this.state.regData.sendRegData(username, password, email)}/>
+                                redData={(username, password, email, firstname, lastname) =>
+                                    this.state.regData.sendRegData(username, password, email, firstname, lastname)}/>
                         </div>
                     }/>
                     <Route exact path={appPath.blog} element={
