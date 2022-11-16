@@ -19,6 +19,7 @@ import auth from "./components/Authentication";
 import reg from "./components/Registration";
 import LoginForm from "./components/LoginForm";
 import RegForm from "./components/RegistrationForm";
+import VerifyPage from "./components/VerifyPage";
 
 
 class PhotoNotes extends React.Component {
@@ -88,6 +89,13 @@ class PhotoNotes extends React.Component {
                             <Note notes={this.state.notes}/>
                         </div>
                     }/>
+
+                    <Route path="/verify/:username/:email/:activation_key" element={
+                        <div className="content">
+                            <VerifyPage/>
+                        </div>
+                    }/>
+
                     <Route path={appPath.any} element={
                         <div>
                             <div className="content">

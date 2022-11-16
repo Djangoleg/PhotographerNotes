@@ -9,11 +9,7 @@ const VerifyPage = () => {
     verify.email(username, email, activation_key);
 
     return (
-            <div>
-                <h3>username: {username}</h3>
-                <h3>email: {email}</h3>
-                <h3>activation_key: {activation_key}</h3>
-            </div>
+            <div id="reg_message"></div>
         );
 }
 

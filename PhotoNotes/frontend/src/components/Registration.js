@@ -4,7 +4,7 @@ import $ from "jquery";
 
 const reg = {
     sendRegData: function (username, password, email, firstname, lastname) {
-            axios.post(`http://${window.location.hostname}:8080/api/users/`,
+        axios.post(`http://${window.location.hostname}:8080/api/users/`,
                 {username: username, password: password, email: email, first_name: firstname, last_name: lastname})
         .then(response => {
             if (response.data) {
