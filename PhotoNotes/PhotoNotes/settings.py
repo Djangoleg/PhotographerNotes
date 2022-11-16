@@ -167,7 +167,7 @@ CORS_ALLOWED_ORIGINS = [
 # For console test.
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-DOMAIN_NAME = '127.0.0.1:8000'
+DOMAIN_NAME = '127.0.0.1:8080'
 
 if os.getenv('EMAIL_HOST'):
     EMAIL_HOST = os.getenv('EMAIL_HOST')

@@ -134,7 +134,7 @@ class RegistrationForm extends React.Component {
                                     <div id="confirm_password_message"></div>
 
                                     <div className="form-button mt-3">
-                                        <button type="submit" className="btn btn-primary">Registration</button>
+                                        <button id="reg_form_btn" type="submit" className="btn btn-primary">Registration</button>
                                     </div>
                                 </form>
                             </div>

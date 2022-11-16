@@ -35,7 +35,7 @@ class PhotoNotes extends React.Component {
 
         this.state.mainAuth.getTokenFromStorage();
 
-        axios.get(`http://${window.location.hostname}:8000/api/notes/`)
+        axios.get(`http://${window.location.hostname}:8080/api/notes/`)
             .then(response => {
                 const notes = response.data
                 this.setState(

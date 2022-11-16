@@ -7,7 +7,7 @@ const auth = {
     username: '',
     login: function (username, password) {
 
-        axios.post(`http://${window.location.hostname}:8000/api-token-auth/`, {username: username, password: password})
+        axios.post(`http://${window.location.hostname}:8080/api-token-auth/`, {username: username, password: password})
         .then(response => {
 
             this.setToken(response.data['token'], username);
