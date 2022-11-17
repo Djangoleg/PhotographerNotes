@@ -7,7 +7,6 @@ const auth = {
     token: '',
     username: '',
     login: function (username, password) {
-
         axios.post(`${url.get()}/api-token-auth/`, {username: username, password: password})
         .then(response => {
 

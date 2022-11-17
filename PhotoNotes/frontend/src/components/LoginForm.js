@@ -25,10 +25,10 @@ class LoginForm extends React.Component {
                 if (form.checkValidity()) {
                     this.props.authData(this.state.username, this.state.password);
                 } else {
-                    event.preventDefault();
-                    event.stopPropagation();
                     form.classList.add('was-validated');
                 }
+                event.preventDefault();
+                event.stopPropagation();
             }
         }
     }

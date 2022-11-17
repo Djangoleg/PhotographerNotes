@@ -48,7 +48,7 @@ class UserViewSet(ModelViewSet):
         """Send an email with a link to activate your profile"""
         verify_link = reverse('verify', args=[user.username, user.email, user.activation_key])
         subject = f'To activate the {user.username} account follow the link'
-        message = f'To verify the {user.username} account on the portal \n http://{settings.DOMAIN_NAME}{verify_link}'
+        message = f'To verify the {user.username} account on the portal \n {settings.DOMAIN_NAME}{verify_link}'
         return send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
 
     def verify(self, username, email, activation_key):
@@ -56,16 +56,18 @@ class UserViewSet(ModelViewSet):
         status = 'ok'
         description = str()
         try:
-            user = User.objects.get(email=email, username=username)
-            if user and user.activation_key == activation_key and not user.is_activation_key_expired():
-                user.activation_key = ''
-                user.activation_key_created = None
-                user.is_active = True
-                user.save()
+            users = User.objects.filter(email=email, username=username)
+            if len(users) > 0:
+                user = users.first()
+                if user and user.activation_key == activation_key and not user.is_activation_key_expired():
+                    user.activation_key = ''
+                    user.activation_key_created = None
+                    user.is_active = True
+                    user.save()
+                auth.login(self, user, backend='django.contrib.auth.backends.ModelBackend')
             else:
                 status = 'error'
                 description = 'activation key is not valid'
-            auth.login(self, user, backend='django.contrib.auth.backends.ModelBackend')
         except Exception:
             status = 'error'
             description = 'activation key is not valid'

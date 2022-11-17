@@ -53,18 +53,14 @@ class RegistrationForm extends React.Component {
                     if (form.checkValidity()) {
                         this.props.redData(this.state.username, this.state.password, this.state.email,
                             this.state.firstname, this.state.lastname);
-                        event.preventDefault();
-                        event.stopPropagation();
                     } else {
-                        event.preventDefault();
-                        event.stopPropagation();
                         form.classList.add('was-validated');
                     }
                 } else {
-                    event.preventDefault();
-                    event.stopPropagation();
                     form.classList.add('was-validated');
                 }
+                event.preventDefault();
+                event.stopPropagation();
             }
         }
     }
