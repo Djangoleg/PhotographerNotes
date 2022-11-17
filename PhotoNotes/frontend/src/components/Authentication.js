@@ -1,13 +1,14 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import appPath from "./AppPath";
+import url from "./AppURL"
 
 const auth = {
     token: '',
     username: '',
     login: function (username, password) {
 
-        axios.post(`http://${window.location.hostname}:8080/api-token-auth/`, {username: username, password: password})
+        axios.post(`${url.get()}/api-token-auth/`, {username: username, password: password})
         .then(response => {
 
             this.setToken(response.data['token'], username);

@@ -20,6 +20,7 @@ import reg from "./components/Registration";
 import LoginForm from "./components/LoginForm";
 import RegForm from "./components/RegistrationForm";
 import VerifyPage from "./components/VerifyPage";
+import url from "./components/AppURL"
 
 
 class PhotoNotes extends React.Component {
@@ -36,7 +37,7 @@ class PhotoNotes extends React.Component {
 
         this.state.mainAuth.getTokenFromStorage();
 
-        axios.get(`http://${window.location.hostname}:8080/api/notes/`)
+        axios.get(`${url.get()}/api/notes/`)
             .then(response => {
                 const notes = response.data
                 this.setState(

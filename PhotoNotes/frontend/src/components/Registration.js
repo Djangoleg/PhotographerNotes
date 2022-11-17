@@ -1,10 +1,11 @@
 import appPath from "./AppPath";
 import axios from "axios";
 import $ from "jquery";
+import url from "./AppURL"
 
 const reg = {
     sendRegData: function (username, password, email, firstname, lastname) {
-        axios.post(`http://${window.location.hostname}:8080/api/users/`,
+        axios.post(`${url.get()}/api/users/`,
                 {username: username, password: password, email: email, first_name: firstname, last_name: lastname})
         .then(response => {
             if (response.data) {

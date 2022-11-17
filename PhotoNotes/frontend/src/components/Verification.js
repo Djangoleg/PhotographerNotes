@@ -1,11 +1,12 @@
 import axios from "axios";
 import $ from "jquery";
 import appPath from "./AppPath";
+import url from "./AppURL";
 
 const verify = {
     email: function (username, email, activation_key) {
 
-        axios.get(`http://${window.location.hostname}:8080/verify/${username}/${email}/${activation_key}/`)
+        axios.get(`${url.get()}/verify/${username}/${email}/${activation_key}/`)
         .then(response => {
             if (response.data) {
                 if (response.data.status !== 'ok') {
