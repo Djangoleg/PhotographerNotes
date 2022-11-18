@@ -91,7 +91,7 @@ class PhotoNotes extends React.Component {
                         </div>
                     }/>
 
-                    <Route path="/verify/:username/:email/:activation_key" element={
+                    <Route path="/verify/:username/:activation_key" element={
                         <div className="content">
                             <VerifyPage/>
                         </div>

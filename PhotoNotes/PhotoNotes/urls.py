@@ -35,7 +35,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
     path('api-token-auth/', views.obtain_auth_token),
-    path('verify/<str:username>/<str:email>/<str:activation_key>/', UserViewSet.verify, name='verify'),
+    path('verify/<str:username>/<str:activation_key>/', UserViewSet.verify, name='verify'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

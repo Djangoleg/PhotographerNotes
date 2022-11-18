@@ -6,7 +6,7 @@ import url from "./AppURL";
 const verify = {
     email: function (username, email, activation_key) {
 
-        axios.get(`${url.get()}/verify/${username}/${email}/${activation_key}/`)
+        axios.get(`${url.get()}/verify/${username}/${activation_key}/`)
         .then(response => {
             if (response.data) {
                 if (response.data.status !== 'ok') {
