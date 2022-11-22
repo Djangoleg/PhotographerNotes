@@ -1,63 +1,53 @@
-import React, {useState} from 'react';
 import {useParams} from "react-router-dom";
+import React from "@types/react";
 
-var state = {
-
-    // Initially, no file is selected
+var NoteFormValues = {
+    title: '',
+    comment: '',
+    image: '',
     selectedFile: null
 };
 
 const handleChange = (event) => {
-    this.setState({value: event.target.value});
+    NoteFormValues[event.target.name] = event.target.value;
 }
 
 const handleSubmit = (event) => {
     let noteId = document.getElementById('noteId').innerText;
-    // let title = event.target.elements.title.value;
-    // let comment = event.target.elements.comment.value;
-
 }
 
-// On file select (from the pop up)
-const onFileChange = event => {
-    // Update the state
-    state.selectedFile = event.target.files[0]
-
+const onFileChange = (event) => {
+    NoteFormValues.selectedFile = event.target.files[0];
 };
 
-// On file upload (click the upload button)
 const onFileUpload = () => {
     // Create an object of formData
     const formData = new FormData();
 
-    // Update the formData object
     formData.append(
         "myFile",
-        state.selectedFile,
-        state.selectedFile.name
+        NoteFormValues.selectedFile,
+        NoteFormValues.selectedFile.name
     );
 
-    // Details of the uploaded file
-    console.log(state.selectedFile);
+    console.log(NoteFormValues.selectedFile);
 
     // Request made to the backend api
     // Send formData object
     // axios.post("api/uploadfile", formData);
 };
 
-// File content to be displayed after
-// file upload is complete
 const fileData = () => {
-    if (state.selectedFile) {
+    if (NoteFormValues.selectedFile) {
 
         return (
             <div>
                 <h2>File Details:</h2>
-                <p>File Name: {state.selectedFile.name}</p>
-                <p>File Type: {state.selectedFile.type}</p>
+                <p>File Name: {NoteFormValues.selectedFile.name}</p>
+                <p>File Type: {NoteFormValues.selectedFile.type}</p>
                 <p>
                     Last Modified:{" "}
-                    {state.selectedFile.lastModifiedDate.toDateString()}
+                    {NoteFormValues.selectedFile.lastModifiedDate.toDateString()}
                 </p>
             </div>
         );
@@ -71,14 +61,17 @@ const fileData = () => {
     }
 };
 
-const Note = ({notes}) => {
+const NoteForm = ({notes}) => {
 
     let {id} = useParams();
-
-    let note;
-
     if (id) {
-        note = notes.find((n) => n.id === parseInt(id));
+        if (notes) {
+            let note = notes.find((n) => n.id === parseInt(id));
+            if (note) {
+                NoteFormValues.title = note.title;
+                NoteFormValues.comment = note.photo_comment;
+            }
+        }
     }
 
     return (
@@ -87,12 +80,12 @@ const Note = ({notes}) => {
                 <div id="noteId" className="d-none">{id}</div>
                 <label>
                     Title:
-                    <input id="title" type="text" value={note ? note.title : ''} onChange={handleChange}/>
+                    <input id="title" type="text" value={NoteFormValues.title} onChange={handleChange}/>
                 </label>
                 <br/>
                 <div className="profile-photo text-center mb30">
                     <img className="rounded mx-auto d-block blog-img"
-                         src={note ? note.image : ''} alt=''/>
+                         src={NoteFormValues.image} alt=''/>
                 </div>
                 <br/>
 
@@ -109,7 +102,7 @@ const Note = ({notes}) => {
                 <br/>
                 <label>
                     Comment:
-                    <input id="comment" type="text" value={note ? note.photo_comment : ''} onChange={handleChange}/>
+                    <input id="comment" type="text" value={NoteFormValues.comment} onChange={handleChange}/>
                 </label>
                 <br/>
                 <button onClick={handleSubmit}>
@@ -121,4 +114,4 @@ const Note = ({notes}) => {
     );
 }
 
-export default Note
+export default NoteForm
