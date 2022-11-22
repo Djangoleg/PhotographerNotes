@@ -1,6 +1,8 @@
 import React from 'react'
 import {useParams} from "react-router-dom";
 import $ from "jquery";
+import axios from "axios";
+import url from "./AppURL";
 
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()}/>;
@@ -14,13 +16,59 @@ class NoteForm extends React.Component {
             comment: '',
             image: null,
             selectedFile: null,
-            isLoadprops: false
+            isLoadProps: false
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
+    onFileChange = (event) => {
+        this.setState({selectedFile: event.target.files[0]});
+    };
 
-        if (props.params.id && !state.isLoadprops) {
+    onFileUpload = () => {
+        // Create an object of formData
+        const formData = new FormData();
+
+        formData.append(
+            "myFile",
+            this.state.selectedFile,
+            this.state.selectedFile.name
+        );
+
+        console.log(this.state.selectedFile);
+
+        // Request made to the backend api
+        // Send formData object
+        // axios.post("api/uploadfile", formData);
+    };
+
+    fileData = () => {
+        if (this.state.selectedFile) {
+
+            return (
+                <div>
+                    <h2>File Details:</h2>
+                    <p>File Name: {this.state.selectedFile.name}</p>
+                    <p>File Type: {this.state.selectedFile.type}</p>
+                    <p>
+                        Last Modified:{" "}
+                        {this.state.selectedFile.lastModifiedDate.toDateString()}
+                    </p>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <br/>
+                    <h4>Choose before Pressing the Upload button</h4>
+                </div>
+            );
+        }
+    };
+
+
+    static getDerivedStateFromProps = (props, state) => {
+
+        if (props.params.id && !state.isLoadProps) {
             const notes = props.notes;
             let id = props.params.id;
             if (id) {
@@ -31,7 +79,7 @@ class NoteForm extends React.Component {
                             title: note.title,
                             comment: note.photo_comment,
                             image: note.image,
-                            isLoadprops: true
+                            isLoadProps: true
                         };
                     }
                 }
@@ -41,27 +89,7 @@ class NoteForm extends React.Component {
         return null;
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.notes !== this.props.notes) {
-    //         const notes = nextProps.notes;
-    //         let id = nextProps.params.id;
-    //         if (id) {
-    //             if (notes) {
-    //                 let note = notes.find((n) => n.id === parseInt(id));
-    //                 if (note) {
-    //                     this.setState({
-    //                         note: note,
-    //                         title: note.title,
-    //                         comment: note.photo_comment,
-    //                         image: note.image
-    //                     })
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
-
-    handleChange(event) {
+    handleChange = (event) => {
         this.setState(
             {
                 [event.target.name]: event.target.value
@@ -69,28 +97,25 @@ class NoteForm extends React.Component {
         );
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
 
-        console.log(this.state.title, this.state.comment, this.state.image);
+        console.log(this.state.title, this.state.comment, this.state.image, this.state.selectedFile);
 
-        return;
+        let data = new FormData();
+        //data.append('title', event.target.elements.title.value);
+        data.append('title', this.state.title);
+        data.append('photo_comment', this.state.comment);
+        data.append('use_on_index', false);
+        data.append('image', this.state.selectedFile || this.state.image);
 
-        let forms = document.querySelectorAll('.requires-validation');
-        if (forms) {
-            if (forms.length > 0) {
-                const form = forms[0];
-                if (form.checkValidity()) {
 
-                    // TODO: Send new note to front.
-                    // this.props.authData(this.state.username, this.state.password);
-
-                } else {
-                    form.classList.add('was-validated');
-                }
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        }
+        axios.post(`${url.get()}/api/notes/`, data)
+            .then(response => {
+                console.log(response);
+            }).catch(error => {
+            console.log(error);
+            alert('Error change or create note!');
+        });
     }
 
 
@@ -111,15 +136,12 @@ class NoteForm extends React.Component {
                     </div>
                     <br/>
 
-                    {/*<div>*/}
-                    {/*    <div>*/}
-                    {/*        <input type="file" onChange={onFileChange}/>*/}
-                    {/*        <button onClick={onFileUpload}>*/}
-                    {/*            Upload!*/}
-                    {/*        </button>*/}
-                    {/*    </div>*/}
-                    {/*    {fileData()}*/}
-                    {/*</div>*/}
+                    <div>
+                        <div>
+                            <input type="file" onChange={(event) => this.onFileChange(event)}/>
+                        </div>
+                        {this.fileData()}
+                    </div>
 
                     <br/>
                     <label>
@@ -128,7 +150,7 @@ class NoteForm extends React.Component {
                                onChange={(event) => this.handleChange(event)}/>
                     </label>
                     <br/>
-                    <button onClick={(event) => this.handleSubmit()}>
+                    <button onClick={(event) => this.handleSubmit(event)}>
                         Save
                     </button>
                     <br/>
