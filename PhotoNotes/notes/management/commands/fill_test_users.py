@@ -3,6 +3,7 @@ from django.core.management import BaseCommand
 from PhotoNotes.settings import UserRole
 from notes.management.commands.fill_db import load_from_json
 from users.models import User, Role
+from rest_framework.authtoken.models import Token
 
 JSON_PATH_USERS = 'users/fixtures/'
 
@@ -21,6 +22,7 @@ class Command(BaseCommand):
                                         email=f'{self.user_pk}@mail.ru', password=f'{self.user_pk}',
                                         first_name=f'first_name_{self.user_pk}', last_name=f'last_name_{self.user_pk}',
                                         role_id=self.ROLES_MAP[role])
+        Token.objects.create(user=user)
 
         user.save()
         return self.user_pk
@@ -30,6 +32,7 @@ class Command(BaseCommand):
         Role.objects.all().delete()
 
         superuser = User.objects.create_superuser('ok', 'test@gmail.com', 'KJH1212sdfg', pk=1)
+        Token.objects.create(user=superuser)
         superuser.save()
         self.user_pk = 1
 
@@ -44,4 +47,3 @@ class Command(BaseCommand):
 
         self.create_user('owner')
         self.create_user('reader')
-

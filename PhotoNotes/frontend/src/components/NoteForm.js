@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import $ from "jquery";
 import axios from "axios";
 import url from "./AppURL";
+import auth from "./Authentication";
 
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()}/>;
@@ -82,25 +83,44 @@ class NoteForm extends React.Component {
 
     handleSubmit = (event) => {
 
-        console.log(this.state.title, this.state.comment, this.state.image, this.state.selectedFile);
+        let headers = auth.getHeaders();
 
         let data = new FormData();
-        //data.append('title', event.target.elements.title.value);
         data.append('title', this.state.title);
         data.append('photo_comment', this.state.comment);
         data.append('use_on_index', false);
         data.append('image', this.state.selectedFile || this.state.image);
 
-
-        axios.post(`${url.get()}/api/notes/`, data)
-            .then(response => {
-                console.log(response);
+        if (this.props.params.id) {
+            // Edit note.
+            data.append('id', this.props.params.id);
+            axios.put(`${url.get()}/api/notes/${this.props.params.id}/`,
+                data,
+                {
+                    headers: headers,
+                }).then(response => {
+                console.log(response)
             }).catch(error => {
-            console.log(error);
-            alert('Error change or create note!');
-        });
+                this.noteError(error)
+            });
+        } else {
+            // Create note.
+            axios.post(`${url.get()}/api/notes/`,
+                data,
+                {
+                    headers: headers,
+                }).then(response => {
+                console.log(response)
+            }).catch(error => {
+                this.noteError(error)
+            });
+        }
     }
 
+    noteError = (error) => {
+        console.log(error);
+        alert('Error change or create note!');
+    }
 
     render() {
         return (

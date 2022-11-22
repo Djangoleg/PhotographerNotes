@@ -14,6 +14,7 @@ from rest_framework.viewsets import ModelViewSet
 from PhotoNotes import settings
 from users.models import User
 from users.serializers import UserModelSerializer
+from rest_framework.authtoken.models import Token
 
 
 class UserViewSet(ModelViewSet):
@@ -26,6 +27,8 @@ class UserViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = self.perform_create(serializer)
+
+        Token.objects.create(user=user)
 
         self.added_activation_key(user)
 

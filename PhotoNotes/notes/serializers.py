@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from rest_framework.serializers import HyperlinkedModelSerializer
+from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
 
 from notes.models import PhotoNotes
 
 
-class PhotoNoteModelSerializer(HyperlinkedModelSerializer):
+class PhotoNoteModelSerializer(ModelSerializer):
 
     image_url = serializers.SerializerMethodField('get_image_url')
 
