@@ -1,117 +1,141 @@
+import React from 'react'
 import {useParams} from "react-router-dom";
-import React from "@types/react";
+import $ from "jquery";
 
-var NoteFormValues = {
-    title: '',
-    comment: '',
-    image: '',
-    selectedFile: null
-};
-
-const handleChange = (event) => {
-    NoteFormValues[event.target.name] = event.target.value;
+const withParams = (Component) => {
+    return props => <Component {...props} params={useParams()}/>;
 }
 
-const handleSubmit = (event) => {
-    let noteId = document.getElementById('noteId').innerText;
-}
+class NoteForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            title: '',
+            comment: '',
+            image: null,
+            selectedFile: null,
+            isLoadprops: false
+        };
+    }
 
-const onFileChange = (event) => {
-    NoteFormValues.selectedFile = event.target.files[0];
-};
+    static getDerivedStateFromProps(props, state) {
 
-const onFileUpload = () => {
-    // Create an object of formData
-    const formData = new FormData();
+        if (props.params.id && !state.isLoadprops) {
+            const notes = props.notes;
+            let id = props.params.id;
+            if (id) {
+                if (notes) {
+                    let note = notes.find((n) => n.id === parseInt(id));
+                    if (note) {
+                        return {
+                            title: note.title,
+                            comment: note.photo_comment,
+                            image: note.image,
+                            isLoadprops: true
+                        };
+                    }
+                }
+            }
+        }
+        // Return null to indicate no change to state.
+        return null;
+    }
 
-    formData.append(
-        "myFile",
-        NoteFormValues.selectedFile,
-        NoteFormValues.selectedFile.name
-    );
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.notes !== this.props.notes) {
+    //         const notes = nextProps.notes;
+    //         let id = nextProps.params.id;
+    //         if (id) {
+    //             if (notes) {
+    //                 let note = notes.find((n) => n.id === parseInt(id));
+    //                 if (note) {
+    //                     this.setState({
+    //                         note: note,
+    //                         title: note.title,
+    //                         comment: note.photo_comment,
+    //                         image: note.image
+    //                     })
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
-    console.log(NoteFormValues.selectedFile);
-
-    // Request made to the backend api
-    // Send formData object
-    // axios.post("api/uploadfile", formData);
-};
-
-const fileData = () => {
-    if (NoteFormValues.selectedFile) {
-
-        return (
-            <div>
-                <h2>File Details:</h2>
-                <p>File Name: {NoteFormValues.selectedFile.name}</p>
-                <p>File Type: {NoteFormValues.selectedFile.type}</p>
-                <p>
-                    Last Modified:{" "}
-                    {NoteFormValues.selectedFile.lastModifiedDate.toDateString()}
-                </p>
-            </div>
-        );
-    } else {
-        return (
-            <div>
-                <br/>
-                <h4>Choose before Pressing the Upload button</h4>
-            </div>
+    handleChange(event) {
+        this.setState(
+            {
+                [event.target.name]: event.target.value
+            }
         );
     }
-};
 
-const NoteForm = ({notes}) => {
+    handleSubmit(event) {
 
-    let {id} = useParams();
-    if (id) {
-        if (notes) {
-            let note = notes.find((n) => n.id === parseInt(id));
-            if (note) {
-                NoteFormValues.title = note.title;
-                NoteFormValues.comment = note.photo_comment;
+        console.log(this.state.title, this.state.comment, this.state.image);
+
+        return;
+
+        let forms = document.querySelectorAll('.requires-validation');
+        if (forms) {
+            if (forms.length > 0) {
+                const form = forms[0];
+                if (form.checkValidity()) {
+
+                    // TODO: Send new note to front.
+                    // this.props.authData(this.state.username, this.state.password);
+
+                } else {
+                    form.classList.add('was-validated');
+                }
+                event.preventDefault();
+                event.stopPropagation();
             }
         }
     }
 
-    return (
-        <div className="row">
-            <div className="col-md-12">
-                <div id="noteId" className="d-none">{id}</div>
-                <label>
-                    Title:
-                    <input id="title" type="text" value={NoteFormValues.title} onChange={handleChange}/>
-                </label>
-                <br/>
-                <div className="profile-photo text-center mb30">
-                    <img className="rounded mx-auto d-block blog-img"
-                         src={NoteFormValues.image} alt=''/>
-                </div>
-                <br/>
 
-                <div>
-                    <div>
-                        <input type="file" onChange={onFileChange}/>
-                        <button onClick={onFileUpload}>
-                            Upload!
-                        </button>
+    render() {
+        return (
+            <div className="row">
+                <div className="col-md-12">
+                    {/*<div id="noteId" className="d-none">{id}</div>*/}
+                    <label>
+                        Title:
+                        <input id="title" name="title" type="text" value={this.state.title}
+                               onChange={(event) => this.handleChange(event)}/>
+                    </label>
+                    <br/>
+                    <div className="profile-photo text-center mb30">
+                        <img className="rounded mx-auto d-block blog-img"
+                             src={this.state.image} alt=''/>
                     </div>
-                    {fileData()}
-                </div>
+                    <br/>
 
-                <br/>
-                <label>
-                    Comment:
-                    <input id="comment" type="text" value={NoteFormValues.comment} onChange={handleChange}/>
-                </label>
-                <br/>
-                <button onClick={handleSubmit}>
-                    Save
-                </button>
-                <br/>
+                    {/*<div>*/}
+                    {/*    <div>*/}
+                    {/*        <input type="file" onChange={onFileChange}/>*/}
+                    {/*        <button onClick={onFileUpload}>*/}
+                    {/*            Upload!*/}
+                    {/*        </button>*/}
+                    {/*    </div>*/}
+                    {/*    {fileData()}*/}
+                    {/*</div>*/}
+
+                    <br/>
+                    <label>
+                        Comment:
+                        <input id="comment" name="comment" type="text" value={this.state.comment}
+                               onChange={(event) => this.handleChange(event)}/>
+                    </label>
+                    <br/>
+                    <button onClick={(event) => this.handleSubmit()}>
+                        Save
+                    </button>
+                    <br/>
+                </div>
             </div>
-        </div>
-    );
+        )
+    }
 }
 
-export default NoteForm
+export default withParams(NoteForm)

@@ -14,7 +14,7 @@ const PhotoNotesItem = ({note}) => {
                     <img className="rounded mx-auto d-block blog-img" src={note.image} alt=''/>
                     <p className="text-left">{note.photo_comment}</p>
                     <div className="button-tar">
-                        <Button href={`/notes/${note.id}/`} variant="info" size="lg">
+                        <Button href={`/note/${note.id}/`} variant="info" size="lg">
                             Edit
                         </Button>
                     </div>

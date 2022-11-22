@@ -62,7 +62,7 @@
     color: #336666;
 }
 
-.form-content input[type=text], .form-content input[type=username], .form-content input[type=firstname], .form-content input[type=lastname], .form-content input[type=password], .form-content input[type=email], .form-content select {
+.form-content input[type=text], .form-content input[type=title], .form-content input[type=username], .form-content input[type=firstname], .form-content input[type=lastname], .form-content input[type=password], .form-content input[type=email], .form-content select {
     width: 100%;
     padding: 9px 20px;
     text-align: left;
