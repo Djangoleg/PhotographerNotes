@@ -24,23 +24,6 @@ class NoteForm extends React.Component {
         this.setState({selectedFile: event.target.files[0]});
     };
 
-    onFileUpload = () => {
-        // Create an object of formData
-        const formData = new FormData();
-
-        formData.append(
-            "myFile",
-            this.state.selectedFile,
-            this.state.selectedFile.name
-        );
-
-        console.log(this.state.selectedFile);
-
-        // Request made to the backend api
-        // Send formData object
-        // axios.post("api/uploadfile", formData);
-    };
-
     fileData = () => {
         if (this.state.selectedFile) {
 
