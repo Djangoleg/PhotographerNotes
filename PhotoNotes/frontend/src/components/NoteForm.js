@@ -4,6 +4,7 @@ import $ from "jquery";
 import axios from "axios";
 import url from "./AppURL";
 import auth from "./Authentication";
+import '../editNote.css';
 
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()}/>;
@@ -22,30 +23,15 @@ class NoteForm extends React.Component {
     }
 
     onFileChange = (event) => {
+
         this.setState({selectedFile: event.target.files[0]});
-    };
 
-    fileData = () => {
-        if (this.state.selectedFile) {
-
-            return (
-                <div>
-                    <h2>File Details:</h2>
-                    <p>File Name: {this.state.selectedFile.name}</p>
-                    <p>File Type: {this.state.selectedFile.type}</p>
-                    <p>
-                        Last Modified:{" "}
-                        {this.state.selectedFile.lastModifiedDate.toDateString()}
-                    </p>
-                </div>
-            );
+        if (event.target.files[0]) {
+            $(".file-upload").addClass('active');
+            $("#noFile").text(event.target.files[0].name);
         } else {
-            return (
-                <div>
-                    <br/>
-                    <h4>Choose before Pressing the Upload button</h4>
-                </div>
-            );
+            $(".file-upload").removeClass('active');
+            $("#noFile").text("No file chosen...");
         }
     };
 
@@ -137,13 +123,14 @@ class NoteForm extends React.Component {
                         <img className="rounded mx-auto d-block blog-img"
                              src={this.state.image} alt=''/>
                     </div>
-                    <br/>
 
-                    <div>
-                        <div>
-                            <input type="file" onChange={(event) => this.onFileChange(event)}/>
+                    <div className="file-upload">
+                        <div className="file-select">
+                            <div className="file-select-button" id="fileName">Choose File</div>
+                            <div className="file-select-name" id="noFile">No file chosen...</div>
+                            <input type="file" name="chooseFile" id="chooseFile"
+                                   onChange={(event) => this.onFileChange(event)}/>
                         </div>
-                        {this.fileData()}
                     </div>
 
                     <br/>

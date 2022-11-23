@@ -4,6 +4,8 @@
     text-align: center;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 12px;
+    margin-top: 20px;
+    width: 400px;
 }
 
 .file-upload .file-select {
