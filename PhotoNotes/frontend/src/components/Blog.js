@@ -1,8 +1,10 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Moment from 'moment';
+import auth from "./Authentication";
 
 const PhotoNotesItem = ({note}) => {
+    const isAuthenticated = auth.isAuthenticated();
     return (
         <div className="row">
             <div className="container-sm">
@@ -13,22 +15,28 @@ const PhotoNotesItem = ({note}) => {
                     </div>
                     <img className="rounded mx-auto d-block blog-img" src={note.image} alt=''/>
                     <p className="text-left">{note.photo_comment}</p>
-                    <div className="button-tar">
-                        <Button href={`/note/${note.id}/`} variant="info" size="lg">
-                            Edit
-                        </Button>
-                    </div>
+                    { isAuthenticated ? <EditButton noteId={note.id} /> : null }
                 </div>
             </div>
         </div>
     )
 }
 
-const PhotoNotesList = ({notes}) => {
+const EditButton = ({noteId}) => {
+    return (
+         <div className="button-tar">
+            <Button href={`/note/${noteId}/`} variant="info" size="lg">
+                Edit
+            </Button>
+        </div>
+    )
+}
+
+const Blog = ({notes}) => {
     return (
         <div>
             {notes.map((note) => <PhotoNotesItem key={note.id} note={note}/>)}
         </div>
     )
 }
-export default PhotoNotesList
+export default Blog
