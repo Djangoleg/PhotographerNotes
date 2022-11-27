@@ -2,6 +2,7 @@ import React from 'react'
 import Button from 'react-bootstrap/Button';
 import Moment from 'moment';
 import auth from "./Authentication";
+import appPath from "./AppPath";
 
 const PhotoNotesItem = ({note}) => {
     const isAuthenticated = auth.isAuthenticated();
@@ -32,9 +33,23 @@ const EditButton = ({noteId}) => {
     )
 }
 
+const CreateButton = () => {
+    return (
+         <div className="button-tar">
+            <br/>
+             <Button href={appPath.createNote} variant="info" size="lg">
+                Create note
+            </Button>
+            <br/>
+        </div>
+    )
+}
+
 const Blog = ({notes}) => {
+    const isAuthenticated = auth.isAuthenticated();
     return (
         <div>
+            { isAuthenticated ? <CreateButton /> : null }
             {notes.map((note) => <PhotoNotesItem key={note.id} note={note}/>)}
         </div>
     )
