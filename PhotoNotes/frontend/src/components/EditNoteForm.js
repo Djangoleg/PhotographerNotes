@@ -11,7 +11,7 @@ const withParams = (Component) => {
     return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
 }
 
-class NoteForm extends React.Component {
+class EditNoteForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -203,4 +203,4 @@ class NoteForm extends React.Component {
     }
 }
 
-export default withParams(NoteForm)
+export default withParams(EditNoteForm)

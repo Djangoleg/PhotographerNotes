@@ -16,6 +16,7 @@ const PhotoNotesItem = ({note}) => {
                     </div>
                     <img className="rounded mx-auto d-block blog-img" src={note.image} alt=''/>
                     <p className="text-left">{note.photo_comment}</p>
+                    { isAuthenticated ? <DeleteButton noteId={note.id} /> : null }
                     { isAuthenticated ? <EditButton noteId={note.id} /> : null }
                 </div>
             </div>
@@ -28,6 +29,16 @@ const EditButton = ({noteId}) => {
          <div className="button-tar">
             <Button href={`/note/${noteId}/`} variant="info" size="lg">
                 Edit
+            </Button>
+        </div>
+    )
+}
+
+const DeleteButton = ({noteId}) => {
+    return (
+         <div className="button-tar">
+            <Button href={`/note/delete/${noteId}/`} variant="info" size="lg">
+                delete
             </Button>
         </div>
     )

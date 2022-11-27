@@ -20,7 +20,7 @@ import LoginForm from "./components/LoginForm";
 import RegForm from "./components/RegistrationForm";
 import VerifyPage from "./components/VerifyPage";
 import url from "./components/AppURL"
-import NoteForm from "./components/NoteForm";
+import EditNoteForm from "./components/EditNoteForm";
 
 
 class PhotoNotes extends React.Component {
@@ -87,12 +87,12 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route exact path={appPath.editNote} element={
                         <div className="content">
-                            <NoteForm notes={this.state.notes}/>
+                            <EditNoteForm notes={this.state.notes}/>
                         </div>
                     }/>
                     <Route exact path={appPath.createNote} element={
                         <div className="content">
-                            <NoteForm notes={this.state.notes}/>
+                            <EditNoteForm notes={this.state.notes}/>
                         </div>
                     }/>
                     <Route path={appPath.verify} element={
