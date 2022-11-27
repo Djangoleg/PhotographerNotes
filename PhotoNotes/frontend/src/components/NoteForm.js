@@ -1,13 +1,14 @@
 import React from 'react'
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import $ from "jquery";
 import axios from "axios";
 import url from "./AppURL";
 import auth from "./Authentication";
 import '../editNote.css';
+import appPath from "./AppPath";
 
 const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()}/>;
+    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
 }
 
 class NoteForm extends React.Component {
@@ -29,6 +30,8 @@ class NoteForm extends React.Component {
         if (event.target.files[0]) {
             $(".file-upload").addClass('active');
             $("#noFile").text(event.target.files[0].name);
+            let uploadedFile = URL.createObjectURL(event.target.files[0]);
+            $("#note_image").attr("src", uploadedFile);
         } else {
             $(".file-upload").removeClass('active');
             $("#noFile").text("No file chosen...");
@@ -75,7 +78,11 @@ class NoteForm extends React.Component {
         data.append('title', this.state.title);
         data.append('photo_comment', this.state.comment);
         data.append('use_on_index', false);
-        data.append('image', this.state.selectedFile || this.state.image);
+
+        // data.append('image', this.state.selectedFile || this.state.image);
+        if (this.state.selectedFile) {
+            data.append('image', this.state.selectedFile);
+        }
 
         if (this.props.params.id) {
             // Edit note.
@@ -85,7 +92,7 @@ class NoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                console.log(response)
+                this.props.navigate(appPath.blog);
             }).catch(error => {
                 this.noteError(error)
             });
@@ -96,11 +103,15 @@ class NoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                console.log(response)
+                this.props.navigate(appPath.blog);
             }).catch(error => {
                 this.noteError(error)
             });
         }
+    }
+
+    backSubmit = (event) => {
+        this.props.navigate(appPath.blog);
     }
 
     noteError = (error) => {
@@ -110,40 +121,66 @@ class NoteForm extends React.Component {
 
     render() {
         return (
-            <div className="row">
-                <div className="col-md-12">
-                    {/*<div id="noteId" className="d-none">{id}</div>*/}
-                    <label>
-                        Title:
-                        <input id="title" name="title" type="text" value={this.state.title}
-                               onChange={(event) => this.handleChange(event)}/>
-                    </label>
-                    <br/>
-                    <div className="profile-photo text-center mb30">
-                        <img className="rounded mx-auto d-block blog-img"
-                             src={this.state.image} alt=''/>
-                    </div>
+            <div className="container">
+                <div className="col-lg-12 text-lg-center">
+                    <h2>Edit Note</h2>
+                    <br/><br/>
+                </div>
+                <div className="col-lg-8 push-lg-4 personal-info">
+                    <form role="form">
 
-                    <div className="file-upload">
-                        <div className="file-select">
-                            <div className="file-select-button" id="fileName">Choose File</div>
-                            <div className="file-select-name" id="noFile">No file chosen...</div>
-                            <input type="file" name="chooseFile" id="chooseFile"
-                                   onChange={(event) => this.onFileChange(event)}/>
+                        <div className="form-group row">
+                            <label className="col-lg-3 col-form-label form-control-label">Title</label>
+                            <div className="col-lg-9">
+                                <input className="form-control" id="title" name="title" type="text"
+                                       placeholder="Enter title"
+                                       value={this.state.title}
+                                       onChange={(event) => this.handleChange(event)}/>
+                            </div>
                         </div>
-                    </div>
+                        <br/>
+                        <div className="form-group row">
+                            <div className="text-center mb30">
+                                <img id="note_image" className="rounded mx-auto d-block blog-img"
+                                     src={this.state.image} alt=''/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div className="form-group row">
+                            <label className="col-lg-3 col-form-label form-control-label">Img File</label>
+                            <div className="col-lg-9">
+                                <div className="file-upload">
+                                    <div className="file-select">
+                                        <div className="file-select-button" id="fileName">Choose File</div>
+                                        <div className="file-select-name" id="noFile">No file chosen...</div>
+                                        <input type="file" name="chooseFile" id="chooseFile"
+                                               onChange={(event) => this.onFileChange(event)}/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div className="form-group row">
+                            <label className="col-lg-3 col-form-label form-control-label">Comment</label>
+                            <div className="col-lg-9">
+                                <textarea  className="form-control" id="comment" name="comment"
+                                           rows="4" placeholder="Comment, please.."
+                                       value={this.state.comment}
+                                       onChange={(event) => this.handleChange(event)}/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div className="form-group row">
+                            <label className="col-lg-3 col-form-label form-control-label"></label>
+                            <div className="col-lg-9">
+                                <input type="reset" className="btn btn-secondary" value="Cancel"
+                                       onClick={(event) => this.backSubmit(event)}/>
+                                <input type="button" className="btn btn-primary ms-2" value="Save Changes"
+                                       onClick={(event) => this.handleSubmit(event)}/>
+                            </div>
+                        </div>
 
-                    <br/>
-                    <label>
-                        Comment:
-                        <input id="comment" name="comment" type="text" value={this.state.comment}
-                               onChange={(event) => this.handleChange(event)}/>
-                    </label>
-                    <br/>
-                    <button onClick={(event) => this.handleSubmit(event)}>
-                        Save
-                    </button>
-                    <br/>
+                    </form>
                 </div>
             </div>
         )

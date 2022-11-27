@@ -85,13 +85,12 @@ class PhotoNotes extends React.Component {
                             </div>
                         </div>
                     }/>
-                    <Route exact path={appPath.editNotes} element={
+                    <Route exact path={appPath.editNote} element={
                         <div className="content">
-                            {/*<Note notes={this.state.notes}/>*/}
                             <NoteForm notes={this.state.notes}/>
                         </div>
                     }/>
-                    <Route exact path={appPath.createNotes} element={
+                    <Route exact path={appPath.createNote} element={
                         <div className="content">
                             <NoteForm notes={this.state.notes}/>
                         </div>

@@ -4,13 +4,13 @@
     text-align: center;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 12px;
-    margin-top: 20px;
-    width: 400px;
+    /*margin-top: 20px;*/
 }
 
 .file-upload .file-select {
     display: block;
-    border: 2px solid #C4D8D8FF;
+    border: 1px solid #C4D8D8FF;
+    border-radius: 5px;
     color: #336666FF;
     cursor: pointer;
     height: 40px;
