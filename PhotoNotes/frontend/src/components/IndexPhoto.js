@@ -9,9 +9,10 @@ const IndexPhotoItem = ({note}) => {
 }
 
 const IndexPhotoList = ({notes}) => {
+    let indexNote = notes.filter((n) => n.use_on_index === true);
     return (
         <div className="row">
-            {notes.map((note) => <IndexPhotoItem key={note.id} note={note}/>)}
+            {indexNote.map((note) => <IndexPhotoItem key={note.id} note={note}/>)}
         </div>
     )
 }

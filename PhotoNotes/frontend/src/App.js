@@ -9,7 +9,7 @@ import logo from './logo.svg';
 import {BrowserRouter, HashRouter, Routes, Router, Route} from 'react-router-dom';
 import './App.css';
 import appPath from "./components/AppPath";
-import PhotoNotesList from "./components/PhotoNotes";
+import Blog from "./components/Blog";
 import IndexPhotoList from "./components/IndexPhoto";
 import NotFound from "./components/NotFound";
 import Menu from "./components/Menu";
@@ -81,7 +81,7 @@ class PhotoNotes extends React.Component {
                         <div className="content">
                             <div
                                 className="justify-content-center align-items-center">
-                                <PhotoNotesList notes={this.state.notes}/>
+                                <Blog notes={this.state.notes}/>
                             </div>
                         </div>
                     }/>
