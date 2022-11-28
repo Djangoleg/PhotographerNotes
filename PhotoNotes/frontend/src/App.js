@@ -1,11 +1,8 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './auth.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap';
 import React from 'react';
 import axios from 'axios';
-import $ from 'jquery';
-import Popper from 'popper.js';
-import logo from './logo.svg';
 import {BrowserRouter, HashRouter, Routes, Router, Route} from 'react-router-dom';
 import './App.css';
 import appPath from "./components/AppPath";
