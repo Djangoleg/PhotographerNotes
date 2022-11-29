@@ -67,7 +67,7 @@ const DeleteButton = ({note}) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Deleting a note</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Note "${note.title}" will be deleted!</Modal.Body>
+                <Modal.Body>Note "{note.title}" will be deleted!</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close

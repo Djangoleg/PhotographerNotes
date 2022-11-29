@@ -34,7 +34,7 @@ const auth = {
         this.username = username;
     },
     isAuthenticated: function () {
-        return this.token !== '';
+        return this.token !== '' && this.token !== undefined;
     },
     getHeaders: function () {
         let headers = {
