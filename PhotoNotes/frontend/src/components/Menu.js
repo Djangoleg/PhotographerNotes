@@ -31,9 +31,23 @@ const Menu = ({auth: mainAuth}) => {
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
-                                        {mainAuth.isAuthenticated() ? <li><NavLink className="dropdown-item" to={appPath.index} onClick={() => mainAuth.logout()}><b>{mainAuth.username}</b> Logout</NavLink></li> :
+
+                                        {mainAuth.isAuthenticated() ?
+                                            <li><NavLink className="dropdown-item" to={appPath.index}
+                                                         onClick={() => mainAuth.logout()}><b>{mainAuth.username}</b> Logout</NavLink>
+                                            </li> :
                                             <li><a className="dropdown-item" href={appPath.login}>Login</a></li>}
-                                        <li><a className="dropdown-item" href={appPath.registration}>Registration</a></li>
+
+                                        {!mainAuth.isAuthenticated() ?
+                                            <li><a className="dropdown-item"
+                                                   href={appPath.registration}>Registration</a>
+                                            </li> : null}
+
+                                        {mainAuth.isAuthenticated() ?
+                                            <li><a className="dropdown-item"
+                                                   href={appPath.createNote}>Create note</a>
+                                            </li> : null}
+
                                     </ul>
                                 </li>
                             </ul>

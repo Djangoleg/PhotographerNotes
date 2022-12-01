@@ -11,3 +11,50 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Button style */
+.btn {
+  font-family: "Work Sans", sans-serif;
+  font-weight: 500;
+  text-transform: capitalize;
+  padding: 10px 25px;
+  border-radius: 0;
+  border: 1px solid;
+  position: relative;
+  z-index: 1;
+  transition: 0.2s ease;
+}
+
+.btn:hover, .btn:active, .btn.active .btn:focus, .btn.focus {
+  outline: 0;
+  box-shadow: none !important;
+}
+
+.btn-primary {
+  background: #6bb2b2;
+  color: #fff;
+  border-color: #6bb2b2;
+  /*bs-btn-bg: #336666;*/
+  background: #336666 !important;
+}
+.btn-primary:hover, .btn-primary:active, .btn-primary.active .btn-primary:focus, .btn-primary.focus {
+  background: #6bb2b2 !important;
+  border-color: #6bb2b2 !important;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  color: #6bb2b2;
+  border-color: #6bb2b2;
+}
+.btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary.active .btn-outline-primary:focus, .btn-outline-primary.focus {
+  background: #6bb2b2 !important;
+  border-color: #6bb2b2 !important;
+  color: #fff;
+}
+
+.btn-sm {
+  font-size: 14px;
+  padding: 10px 25px;
+}
+

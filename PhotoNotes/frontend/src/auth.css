@@ -82,20 +82,6 @@
     font-size: 14px;
 }
 
-.btn-primary{
-    background-color: #336666;
-    outline: none;
-    border: 0px;
-    box-shadow: none;
-}
-
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active{
-    background-color: #6bb2b2;
-    outline: none !important;
-    border: none !important;
-    box-shadow: none;
-}
-
 .form-content textarea {
     position: static !important;
     width: 100%;

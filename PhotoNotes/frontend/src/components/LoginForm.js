@@ -62,7 +62,7 @@ class LoginForm extends React.Component {
                                     </div>
 
                                     <div className="form-button mt-3">
-                                        <button type="submit" className="btn btn-primary">Login</button>
+                                        <button type="submit" className="btn btn-primary" variant="info" size="lg">Login</button>
                                     </div>
                                 </form>
                             </div>
