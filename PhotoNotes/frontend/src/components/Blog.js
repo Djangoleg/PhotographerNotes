@@ -27,11 +27,11 @@ const PhotoNotesItem = ({note, startId}) => {
                                      alt="Post Image" className="w-100"/>
                             </div>
                             <div className="card-body px-0 pb-1">
-                                {/*<ul className="post-meta mb-2">*/}
-                                {/*    <li><a href="#!">travel</a>*/}
-                                {/*        <a href="#!">news</a>*/}
-                                {/*    </li>*/}
-                                {/*</ul>*/}
+                                <ul className="post-meta mb-2">
+                                    <li><a href="#!">portrait</a>
+                                        <a href="#!">live</a>
+                                    </li>
+                                </ul>
 
                                 <p className="card-text m-3">{note.photo_comment}</p>
                             </div>
