@@ -8,7 +8,7 @@ from carousel.models import Carousel
 from carousel.serializers import CarouselModelSerializer
 
 
-class CarouselModelViewSet(ModelViewSet):
+class CarouselViewSet(ModelViewSet):
     queryset = Carousel.objects.filter(is_active=True)
 
     def get(self, request):

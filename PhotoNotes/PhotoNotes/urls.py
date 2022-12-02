@@ -21,6 +21,7 @@ from rest_framework.routers import DefaultRouter
 from django.views.static import serve
 
 from PhotoNotes import settings
+from carousel.views import CarouselViewSet
 from comments.views import CommentViewSet
 from notes.views import PhotoNoteViewSet
 from users.views import UserViewSet
@@ -29,6 +30,7 @@ router = DefaultRouter()
 router.register('users', UserViewSet)
 router.register('notes', PhotoNoteViewSet)
 router.register('comments', CommentViewSet)
+router.register('carousel', CarouselViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
