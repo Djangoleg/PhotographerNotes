@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
 
     render() {
         return (
-            <div className="form-body">
+            <div className="form-body background-white">
                 <div className="row">
                     <div className="form-holder">
                         <div className="form-content">

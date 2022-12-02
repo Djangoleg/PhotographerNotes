@@ -53,8 +53,7 @@ class PhotoNotes extends React.Component {
                     <Route path={appPath.index} element={
                         <div>
                             <div className="content">
-                                <div
-                                    className="h-100 d-flex justify-content-center align-items-center container-custom">
+                                <div className="h-100 d-flex justify-content-lg-center align-items-lg-start">
                                     <IndexPhotoList notes={this.state.notes}/>
                                 </div>
                             </div>

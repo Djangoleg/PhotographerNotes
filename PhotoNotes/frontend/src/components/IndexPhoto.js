@@ -1,19 +1,22 @@
-import React from 'react'
-
-const IndexPhotoItem = ({note}) => {
-    return (
-        <div className="col-sm">
-            <img className="img-fluid img-thumbnail" src={note.image}/>
-        </div>
-    )
-}
+import React, {useState} from 'react';
+import Carousel from 'react-bootstrap/Carousel';
 
 const IndexPhotoList = ({notes}) => {
-    let indexNote = notes.filter((n) => n.use_on_index === true);
+
+    let indexNotes = notes.filter((n) => n.use_on_index === true);
     return (
-        <div className="row">
-            {indexNote.map((note) => <IndexPhotoItem key={note.id} note={note}/>)}
-        </div>
+        <Carousel fade interval={3000}>
+            {indexNotes.map((note) => {
+                return (
+                    <Carousel.Item key={note.id}>
+                        <img className="d-block w-100" src={note.image} />
+                        <Carousel.Caption>
+                            {note.title}
+                        </Carousel.Caption>
+                    </Carousel.Item>
+                );
+            })}
+        </Carousel>
     )
 }
 export default IndexPhotoList

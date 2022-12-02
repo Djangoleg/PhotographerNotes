@@ -160,7 +160,7 @@ const Blog = ({notes}) => {
     return (
         <div>
             {/*{isAuthenticated ? <CreateButton/> : null}*/}
-            <main>
+            <main className="background-white">
                 <section className="section">
                     <div className="container">
                         {notes.map((note) => <PhotoNotesItem key={note.id} note={note} startId={startId}/>)}

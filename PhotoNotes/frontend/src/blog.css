@@ -651,4 +651,7 @@ a.post-title-sm:hover {
   border-color: #131313;
   box-shadow: none;
 }
-/*# sourceMappingURL=style.css.map */
+
+.background-white {
+  background-color: #FFFFFF;
+}
