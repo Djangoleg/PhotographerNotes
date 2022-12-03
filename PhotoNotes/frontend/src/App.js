@@ -6,7 +6,6 @@ import axios from 'axios';
 import {BrowserRouter, HashRouter, Routes, Router, Route} from 'react-router-dom';
 import './App.css';
 import appPath from "./components/AppPath";
-import Blog from "./components/Blog";
 import IndexPhoto from "./components/IndexPhoto";
 import NotFound from "./components/NotFound";
 import Menu from "./components/Menu";
@@ -18,6 +17,7 @@ import RegForm from "./components/RegistrationForm";
 import VerifyPage from "./components/VerifyPage";
 import url from "./components/AppURL"
 import EditNoteForm from "./components/EditNoteForm";
+import BlogPage from "./components/Blog";
 
 
 class PhotoNotes extends React.Component {
@@ -77,7 +77,7 @@ class PhotoNotes extends React.Component {
                         <div className="content">
                             <div
                                 className="justify-content-center align-items-center">
-                                <Blog notes={this.state.notes}/>
+                                <BlogPage/>
                             </div>
                         </div>
                     }/>

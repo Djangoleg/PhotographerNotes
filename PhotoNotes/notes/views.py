@@ -7,7 +7,7 @@ from notes.serializers import PhotoNoteModelSerializer
 
 
 class PhotoNoteViewSet(ModelViewSet):
-    queryset = PhotoNotes.objects.all()
+    queryset = PhotoNotes.objects.all().order_by('-modified')
 
     def get(self, request, format=None):
         serializer = PhotoNoteModelSerializer(self.queryset, context={"request": request}, many=True)
