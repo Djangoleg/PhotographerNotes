@@ -11,6 +11,5 @@ class PhotoNotes(models.Model):
     image = models.ImageField(upload_to='post_photo', blank=True)
     photo_comment = models.TextField(verbose_name='Комментарий к фото')
     user = models.ForeignKey(User, null=False, db_index=True, on_delete=models.CASCADE)
-    use_on_index = models.BooleanField(default=True, db_index=True)
 
 

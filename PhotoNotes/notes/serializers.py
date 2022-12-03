@@ -10,7 +10,7 @@ class PhotoNoteModelSerializer(ModelSerializer):
 
     class Meta:
         model = PhotoNotes
-        fields = ('id', 'created', 'title', 'image', 'image_url', 'photo_comment', 'use_on_index')
+        fields = ('id', 'created', 'title', 'image', 'image_url', 'photo_comment')
 
     def get_image_url(self, obj):
         request = self.context.get('request')

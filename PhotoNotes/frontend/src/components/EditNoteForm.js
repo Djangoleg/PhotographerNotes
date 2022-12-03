@@ -18,7 +18,6 @@ class EditNoteForm extends React.Component {
             title: '',
             comment: '',
             image: null,
-            use_on_index: false,
             selectedFile: null,
             isLoadProps: false
         };
@@ -53,7 +52,6 @@ class EditNoteForm extends React.Component {
                             title: note.title,
                             comment: note.photo_comment,
                             image: note.image,
-                            use_on_index: note.use_on_index,
                             isLoadProps: true
                         };
                     }
@@ -83,7 +81,6 @@ class EditNoteForm extends React.Component {
         let data = new FormData();
         data.append('title', this.state.title);
         data.append('photo_comment', this.state.comment);
-        data.append('use_on_index', this.state.use_on_index);
 
         // data.append('image', this.state.selectedFile || this.state.image);
         if (this.state.selectedFile) {
@@ -173,16 +170,6 @@ class EditNoteForm extends React.Component {
                                           rows="4" placeholder="Comment, please.."
                                           value={this.state.comment}
                                           onChange={(event) => this.handleChange(event)}/>
-                            </div>
-                        </div>
-                        <br/>
-                        <div className="form-group row">
-                            <label className="col-lg-3 col-form-label form-control-label">Use on index</label>
-                            <div className="col-lg-9">
-                                <input type="checkbox" className="form-check-input" id="use_on_index"
-                                       name="use_on_index"
-                                       checked={this.state.use_on_index}
-                                       onChange={(event) => this.handleChange(event)}/>
                             </div>
                         </div>
                         <br/>
