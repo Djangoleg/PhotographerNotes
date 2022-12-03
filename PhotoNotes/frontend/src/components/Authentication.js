@@ -21,8 +21,8 @@ const auth = {
     },
     setToken: function (token, username) {
         const cookies = new Cookies();
-        cookies.set('token', token);
-        cookies.set('username', username);
+        cookies.set('token', token, { path: '/' });
+        cookies.set('username', username, { path: '/' });
         this.token = token;
         this.username = username;
     },

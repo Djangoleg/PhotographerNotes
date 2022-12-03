@@ -10,7 +10,7 @@ const Menu = ({auth: mainAuth}) => {
         <div className="menu">
             <div>
                 <Navbar className="navbar navbar-expand-lg static-top my-navbar">
-                    <div className="container">
+                    <div className="container-nav">
                         <a className="navbar-brand" href="/">
                             <img src="/img/logo.png" alt="..."/>
                         </a>

@@ -208,6 +208,8 @@ a:hover {
 @media screen and (min-width: 1400px) {
   .container {
     max-width: 1320px;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
 }
 .rounded {
@@ -453,9 +455,6 @@ a.post-title-sm:hover {
 }
 
 /* content style */
-.content * {
-  margin-bottom: 5px;
-}
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6, .content .h1, .content .h2, .content .h3, .content .h4, .content .h5, .content .h6 {
   margin-bottom: 20px;
   /*margin-top: 30px;*/
@@ -650,8 +649,4 @@ a.post-title-sm:hover {
 .form-control:focus {
   border-color: #131313;
   box-shadow: none;
-}
-
-.background-white {
-  background-color: #FFFFFF;
 }

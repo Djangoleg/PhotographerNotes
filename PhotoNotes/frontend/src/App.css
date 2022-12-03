@@ -9,7 +9,8 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    background: #C5D9D9;
+    /*background: #C5D9D9;*/
+    background: #FFFFFF;
 }
 
 *, body {
@@ -55,4 +56,19 @@ html, body {
 .button-tar {
     text-align: right;
     margin-bottom: 10px;
+}
+
+.container-nav {
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1320px;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: auto;
+    margin-left: auto;
 }
