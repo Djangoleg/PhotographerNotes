@@ -10,6 +10,7 @@ from carousel.serializers import CarouselModelSerializer
 
 class CarouselViewSet(ModelViewSet):
     queryset = Carousel.objects.filter(is_active=True)
+    http_method_names = ['get', 'head']
 
     def get(self, request):
         serializer = CarouselModelSerializer(self.queryset, context={"request": request}, many=True)

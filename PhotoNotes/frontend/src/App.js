@@ -7,7 +7,7 @@ import {BrowserRouter, HashRouter, Routes, Router, Route} from 'react-router-dom
 import './App.css';
 import appPath from "./components/AppPath";
 import Blog from "./components/Blog";
-import IndexPhotoList from "./components/IndexPhoto";
+import IndexPhoto from "./components/IndexPhoto";
 import NotFound from "./components/NotFound";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
@@ -24,9 +24,9 @@ class PhotoNotes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            'mainAuth': auth,
-            'regData': reg,
-            'notes': []
+            mainAuth: auth,
+            regData: reg,
+            notes: []
         }
     }
 
@@ -39,7 +39,7 @@ class PhotoNotes extends React.Component {
                 const notes = response.data
                 this.setState(
                     {
-                        'notes': notes
+                        notes: notes
                     }
                 )
             }).catch(error => console.log(error))
@@ -54,7 +54,7 @@ class PhotoNotes extends React.Component {
                         <div>
                             <div className="content">
                                 <div className="h-100 d-flex justify-content-lg-center align-items-lg-start">
-                                    <IndexPhotoList notes={this.state.notes}/>
+                                    <IndexPhoto/>
                                 </div>
                             </div>
                             <Footer/>
