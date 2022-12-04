@@ -1,11 +1,12 @@
-import React from 'react'
+import '../editNote.css';
+import React, {useState} from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import $ from "jquery";
 import axios from "axios";
 import url from "./AppURL";
 import auth from "./Authentication";
-import '../editNote.css';
 import appPath from "./AppPath";
+import {TagsInput} from "react-tag-input-component";
 
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
@@ -19,7 +20,8 @@ class EditNoteForm extends React.Component {
             comment: '',
             image: null,
             selectedFile: null,
-            isLoadProps: false
+            isLoadProps: false,
+            tags: []
         };
     }
 
@@ -52,7 +54,8 @@ class EditNoteForm extends React.Component {
                             title: note.title,
                             comment: note.photo_comment,
                             image: note.image,
-                            isLoadProps: true
+                            isLoadProps: true,
+                            tags: note.tags
                         };
                     }
                 }
@@ -74,6 +77,14 @@ class EditNoteForm extends React.Component {
         );
     }
 
+    handleTagsChange = (event) => {
+        this.setState(
+            {
+                tags: event
+            }
+        );
+    }
+
     handleSubmit = (event) => {
 
         let headers = auth.getHeaders();
@@ -81,8 +92,8 @@ class EditNoteForm extends React.Component {
         let data = new FormData();
         data.append('title', this.state.title);
         data.append('photo_comment', this.state.comment);
+        data.append('tags', JSON.stringify(this.state.tags));
 
-        // data.append('image', this.state.selectedFile || this.state.image);
         if (this.state.selectedFile) {
             data.append('image', this.state.selectedFile);
         }
@@ -124,7 +135,7 @@ class EditNoteForm extends React.Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container mt-4 mb-4">
                 <div className="col-lg-12 text-lg-center">
                     <h2>Edit Note</h2>
                     <br/><br/>
@@ -143,14 +154,17 @@ class EditNoteForm extends React.Component {
                         </div>
                         <br/>
                         <div className="form-group row">
-                            <div className="text-center mb30">
-                                <img id="note_image" className="rounded mx-auto d-block blog-img"
-                                     src={this.state.image} alt=''/>
+                            <label className="col-lg-3 col-form-label form-control-label">Image</label>
+                            <div className="col-lg-9">
+                                <div className="text-center mb30">
+                                    <img id="note_image" className="rounded mx-auto d-block blog-img"
+                                         src={this.state.image} alt=''/>
+                                </div>
                             </div>
                         </div>
                         <br/>
                         <div className="form-group row">
-                            <label className="col-lg-3 col-form-label form-control-label">Img File</label>
+                            <label className="col-lg-3 col-form-label form-control-label">Image File</label>
                             <div className="col-lg-9">
                                 <div className="file-upload">
                                     <div className="file-select">
@@ -170,6 +184,18 @@ class EditNoteForm extends React.Component {
                                           rows="4" placeholder="Comment, please.."
                                           value={this.state.comment}
                                           onChange={(event) => this.handleChange(event)}/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div className="form-group row">
+                            <label className="col-lg-3 col-form-label form-control-label">Tags</label>
+                            <div className="col-lg-9">
+                                <TagsInput
+                                    value={this.state.tags}
+                                    onChange={(event) => this.handleTagsChange(event)}
+                                    name="tags"
+                                    placeHolder="enter tags"
+                                />
                             </div>
                         </div>
                         <br/>

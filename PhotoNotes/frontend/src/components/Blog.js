@@ -7,6 +7,7 @@ import appPath from "./AppPath";
 import axios from "axios";
 import url from "./AppURL";
 import '../blog.css';
+import Carousel from "react-bootstrap/Carousel";
 
 const PhotoNotesItem = ({note, startId}) => {
 
@@ -28,11 +29,14 @@ const PhotoNotesItem = ({note, startId}) => {
                             </div>
                             <div className="card-body px-0 pb-1">
                                 <ul className="post-meta mb-2">
-                                    <li><a href="#!">portrait</a>
-                                        <a href="#!">live</a>
+                                    <li>
+                                        {note.tags.map((tag) => {
+                                            return (
+                                                <a key={tag} href="#!">{tag}</a>
+                                            );
+                                        })}
                                     </li>
                                 </ul>
-
                                 <p className="card-text m-3">{note.photo_comment}</p>
                             </div>
                             <div className="d-flex justify-content-between">
@@ -124,7 +128,7 @@ const Categories = () => {
             <div className="widget-blocks">
                 <div className="col-lg-12 col-md-6">
                     <div className="widget">
-                        <h2 className="section-title mb-3">Categories</h2>
+                        <h2 className="section-title mb-3">Tags</h2>
                         <div className="widget-body">
                             <ul className="widget-list">
                                 <li><a href="#!">animals<span className="ml-auto">(3)</span></a>
@@ -178,7 +182,7 @@ class BlogPage extends React.Component {
                     <section className="section">
                         <div className="container">
                             {this.state.notes.map((note) => <PhotoNotesItem key={note.id} note={note}
-                                                                                 startId={firstNote.id}/>)}
+                                                                            startId={firstNote.id}/>)}
                         </div>
                     </section>
                 </main>
