@@ -9,6 +9,7 @@ const appPath = {
         'logout': '/logout',
         'registration': '/registration',
         'verify': '/verify/:username/:activation_key',
+        'feedback': '/feedback',
         'any': '*'
     };
 

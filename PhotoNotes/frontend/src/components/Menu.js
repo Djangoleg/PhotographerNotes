@@ -48,6 +48,7 @@ const Menu = ({auth: mainAuth}) => {
                                                    href={appPath.createNote}>Create note</a>
                                             </li> : null}
 
+                                        <li><a className="dropdown-item" href={appPath.feedback}>Feedback</a></li>
                                     </ul>
                                 </li>
                             </ul>

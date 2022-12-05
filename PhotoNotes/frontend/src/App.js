@@ -18,6 +18,7 @@ import VerifyPage from "./components/VerifyPage";
 import url from "./components/AppURL"
 import EditNoteForm from "./components/EditNoteForm";
 import BlogPage from "./components/Blog";
+import FeedbackForm from "./components/FeedbackForm";
 
 
 class PhotoNotes extends React.Component {
@@ -77,7 +78,7 @@ class PhotoNotes extends React.Component {
                         <div className="content">
                             <div
                                 className="justify-content-center align-items-center">
-                                <BlogPage />
+                                <BlogPage/>
                             </div>
                         </div>
                     }/>
@@ -85,7 +86,7 @@ class PhotoNotes extends React.Component {
                         <div className="content">
                             <div
                                 className="justify-content-center align-items-center">
-                                <BlogPage />
+                                <BlogPage/>
                             </div>
                         </div>
                     }/>
@@ -102,6 +103,14 @@ class PhotoNotes extends React.Component {
                     <Route path={appPath.verify} element={
                         <div className="content">
                             <VerifyPage/>
+                        </div>
+                    }/>
+                    <Route path={appPath.feedback} element={
+                        <div>
+                            <div className="content">
+                                <FeedbackForm/>
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
 
