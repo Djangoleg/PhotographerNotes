@@ -77,7 +77,15 @@ class PhotoNotes extends React.Component {
                         <div className="content">
                             <div
                                 className="justify-content-center align-items-center">
-                                <BlogPage/>
+                                <BlogPage />
+                            </div>
+                        </div>
+                    }/>
+                    <Route exact path={appPath.filterBlog} element={
+                        <div className="content">
+                            <div
+                                className="justify-content-center align-items-center">
+                                <BlogPage />
                             </div>
                         </div>
                     }/>

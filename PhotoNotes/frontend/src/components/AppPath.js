@@ -1,6 +1,7 @@
 const appPath = {
         'index': '/',
         'blog': '/blog',
+        'filterBlog': '/blog/:tag',
         'editNote': '/note/:id',
         'createNote': '/note/create',
         'deleteNote': '/note/delete/:id',

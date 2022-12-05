@@ -7,7 +7,7 @@ import appPath from "./AppPath";
 import axios from "axios";
 import url from "./AppURL";
 import '../blog.css';
-import Carousel from "react-bootstrap/Carousel";
+import {useNavigate, useParams} from "react-router-dom";
 
 const PhotoNotesItem = ({note, startId, groupTags}) => {
 
@@ -32,7 +32,7 @@ const PhotoNotesItem = ({note, startId, groupTags}) => {
                                     <li>
                                         {note.tags.map((tag) => {
                                             return (
-                                                <a key={tag} href="#!">{tag}</a>
+                                                <a key={tag} href={`/blog/${tag}`}>{tag} </a>
                                             );
                                         })}
                                     </li>
@@ -130,9 +130,10 @@ const Tags = ({groupTags}) => {
                         <h2 className="section-title mb-3">Tags</h2>
                         <div className="widget-body">
                             <ul className="widget-list">
+                                <li><a href={appPath.blog}>All </a></li>
                                 {groupTags.map((t) => {
                                     return (
-                                        <li key={t.tag}><a href="#!">{t.tag} <span
+                                        <li key={t.tag}><a href={`/blog/${t.tag}`}>{t.tag} <span
                                             className="ml-auto">({t.value})</span></a>
                                         </li>
                                     );
@@ -144,6 +145,10 @@ const Tags = ({groupTags}) => {
             </div>
         </div>
     );
+}
+
+const withParams = (Component) => {
+    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
 }
 
 class BlogPage extends React.Component {
@@ -158,7 +163,14 @@ class BlogPage extends React.Component {
 
         auth.getTokenFromStorage();
 
-        axios.get(`${url.get()}/api/notes/`)
+        let blogUrl;
+        if (this.props.params.tag) {
+            blogUrl = `${url.get()}/api/notes/?tags=${this.props.params.tag}`;
+        } else {
+            blogUrl = `${url.get()}/api/notes/`;
+        }
+
+        axios.get(blogUrl)
             .then(response => {
                 const notes = response.data
                 this.setState(
@@ -209,4 +221,4 @@ class BlogPage extends React.Component {
 }
 
 
-export default BlogPage;
+export default withParams(BlogPage);
