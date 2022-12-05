@@ -3,7 +3,7 @@ import json
 from django.core.management import BaseCommand
 
 from carousel.models import Carousel
-from notes.models import PhotoNotes
+from notes.models import PhotoNotes, PhotoNotesTags
 from users.models import User
 
 JSON_PATH_NOTES = 'notes/fixtures/'
@@ -14,6 +14,7 @@ JSON_PATH_CAROUSEL = 'carousel/fixtures/'
 def load_from_json(file_name):
     with open(file_name, mode='r', encoding='utf-8') as infile:
         return json.load(infile)
+
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -40,4 +41,15 @@ class Command(BaseCommand):
             car_n['is_active'] = car.get('is_active')
             new_photo_carousel = Carousel(**car_n)
             new_photo_carousel.save()
+
+        tags = load_from_json(JSON_PATH_NOTES + 'tags.json')
+        PhotoNotesTags.objects.all().delete()
+
+        for tag in tags:
+            tag_n = {}
+            tag_n['note'] = PhotoNotes.objects.order_by('?').first()
+            tag_n['value'] = tag.get('value')
+            new_tag = PhotoNotesTags(**tag_n)
+            new_tag.save()
+
 
