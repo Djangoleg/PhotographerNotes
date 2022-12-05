@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'notes',
     'comments',
     'carousel',
+    'feedback',
 ]
 
 MIDDLEWARE = [

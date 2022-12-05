@@ -41,14 +41,15 @@ class FeedbackForm extends React.Component {
         data.append('communication', this.state.communication);
 
         // Send feedback.
-        axios.post(`${url.get()}/api/notes/`,
+        axios.post(`${url.get()}/api/feedback/`,
             data,
             {
                 headers: headers,
             }).then(response => {
             this.props.navigate(appPath.index);
         }).catch(error => {
-            this.noteError(error)
+            console.log(error);
+            alert('Error change or create note!');
         });
     }
 
@@ -58,7 +59,7 @@ class FeedbackForm extends React.Component {
                 <div className="col-lg-12 text-lg-center">
                     <h2>Feedback</h2>
                 </div>
-                <div className="col-lg-8 push-lg-4 personal-info">
+                <div className="col-lg-12">
                     <form role="form">
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Title</label>
@@ -83,7 +84,7 @@ class FeedbackForm extends React.Component {
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Body</label>
                             <div className="col-lg-9">
-                                <textarea className="form-control" id="comment" name="comment"
+                                <textarea className="form-control" id="body" name="body"
                                           rows="8" placeholder="Enter message.."
                                           value={this.state.body}
                                           onChange={(event) => this.handleChange(event)}/>

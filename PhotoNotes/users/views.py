@@ -62,7 +62,7 @@ class UserViewSet(ModelViewSet):
             users = User.objects.filter(username=username, activation_key=activation_key)
             if len(users) > 0:
                 user = users.first()
-                if user and not user.is_activation_key_expired() and user.is_active == False:
+                if user and not user.is_activation_key_expired() and not user.is_active:
                     # user.activation_key = ''
                     # user.activation_key_created = None
                     user.is_active = True
@@ -76,4 +76,3 @@ class UserViewSet(ModelViewSet):
             description = 'activation key is not valid'
         finally:
             return JsonResponse({'status': status, 'description': description})
-
