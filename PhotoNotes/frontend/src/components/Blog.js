@@ -9,7 +9,7 @@ import url from "./AppURL";
 import '../blog.css';
 import Carousel from "react-bootstrap/Carousel";
 
-const PhotoNotesItem = ({note, startId}) => {
+const PhotoNotesItem = ({note, startId, groupTags}) => {
 
     const isAuthenticated = auth.isAuthenticated();
 
@@ -48,7 +48,7 @@ const PhotoNotesItem = ({note, startId}) => {
                 </div>
 
             </div>
-            {(note.id === startId) ? <Categories/> : null}
+            {(note.id === startId) ? <Tags groupTags={groupTags}/> : null}
         </div>
     );
 }
@@ -120,9 +120,8 @@ const CreateButton = () => {
  * Categories
  * @returns {JSX.Element}
  * @constructor
- * TODO: complete the categories.
  */
-const Categories = () => {
+const Tags = ({groupTags}) => {
     return (
         <div className="col-lg-4">
             <div className="widget-blocks">
@@ -131,14 +130,13 @@ const Categories = () => {
                         <h2 className="section-title mb-3">Tags</h2>
                         <div className="widget-body">
                             <ul className="widget-list">
-                                <li><a href="#!">animals<span className="ml-auto">(3)</span></a>
-                                </li>
-                                <li><a href="#!">flower<span className="ml-auto">(2)</span></a>
-                                </li>
-                                <li><a href="#!">portrait<span className="ml-auto">(1)</span></a>
-                                </li>
-                                <li><a href="#!">life<span className="ml-auto">(10)</span></a>
-                                </li>
+                                {groupTags.map((t) => {
+                                    return (
+                                        <li key={t.tag}><a href="#!">{t.tag} <span
+                                            className="ml-auto">({t.value})</span></a>
+                                        </li>
+                                    );
+                                })}
                             </ul>
                         </div>
                     </div>
@@ -171,10 +169,28 @@ class BlogPage extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    getTagsSummary() {
+        let allTags = Array();
+        let groupTags = Array();
+
+        this.state.notes.map((note) => {
+            allTags.push(...note.tags);
+        });
+
+        let tagsReduce = allTags.reduce((accumulator, currentValue) => {
+            accumulator[currentValue] = accumulator[currentValue] ? ++accumulator[currentValue] : 1;
+            return accumulator;
+        }, {});
+
+        for (const [key, value] of Object.entries(tagsReduce)) {
+            groupTags.push({tag: key, value: value});
+        }
+        return groupTags
+    }
+
     render() {
-
         const firstNote = this.state.notes[0];
-
+        const groupTags = this.getTagsSummary();
         return (
             <div>
                 {/*{isAuthenticated ? <CreateButton/> : null}*/}
@@ -182,7 +198,8 @@ class BlogPage extends React.Component {
                     <section className="section">
                         <div className="container">
                             {this.state.notes.map((note) => <PhotoNotesItem key={note.id} note={note}
-                                                                            startId={firstNote.id}/>)}
+                                                                            startId={firstNote.id}
+                                                                            groupTags={groupTags}/>)}
                         </div>
                     </section>
                 </main>
