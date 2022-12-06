@@ -9,46 +9,41 @@ import url from "./AppURL";
 import '../blog.css';
 import {useNavigate, useParams} from "react-router-dom";
 
-const PhotoNotesItem = ({note, startId, groupTags}) => {
+const PhotoNotesItem = ({note}) => {
 
     const isAuthenticated = auth.isAuthenticated();
 
     return (
-        <div className="row no-gutters-lg">
-            <div className="col-lg-8 mb-5 mb-lg-0">
-                <div className="row">
-                    <div className="col-12 mb-4">
-                        <article className="card article-card">
-                            <h2 className="h1">{note.title}</h2>
-                            <div className="card-image">
-                                <div className="post-info">
-                                    <span className="text-uppercase">{Moment(note.created).format('LLL')}</span>
-                                </div>
-                                <img loading="lazy" decoding="async" src={note.image}
-                                     alt="Post Image" className="w-100"/>
-                            </div>
-                            <div className="card-body px-0 pb-1">
-                                <ul className="post-meta mb-2">
-                                    <li>
-                                        {note.tags.map((tag) => {
-                                            return (
-                                                <a key={tag} href={`/blog/${tag}`}>{tag} </a>
-                                            );
-                                        })}
-                                    </li>
-                                </ul>
-                                <p className="card-text m-3">{note.photo_comment}</p>
-                            </div>
-                            <div className="d-flex justify-content-between">
-                                {isAuthenticated ? <DeleteButton note={note}/> : null}
-                                {isAuthenticated ? <EditButton noteId={note.id}/> : null}
-                            </div>
-                        </article>
-                    </div>
-                </div>
 
+        <div className="row">
+            <div className="col-12 mb-4">
+                <article className="card article-card">
+                    <h2 className="h1">{note.title}</h2>
+                    <div className="card-image">
+                        <div className="post-info">
+                            <span className="text-uppercase">{Moment(note.modified).format('LLL')}</span>
+                        </div>
+                        <img loading="lazy" decoding="async" src={note.image}
+                             alt="Post Image" className="w-100"/>
+                    </div>
+                    <div className="card-body px-0 pb-1">
+                        <ul className="post-meta mb-2">
+                            <li>
+                                {note.tags.map((tag) => {
+                                    return (
+                                        <a key={tag} href={`/blog/${tag}`}>{tag} </a>
+                                    );
+                                })}
+                            </li>
+                        </ul>
+                        <p className="card-text m-3">{note.photo_comment}</p>
+                    </div>
+                    <div className="d-flex justify-content-between">
+                        {isAuthenticated ? <DeleteButton note={note}/> : null}
+                        {isAuthenticated ? <EditButton noteId={note.id}/> : null}
+                    </div>
+                </article>
             </div>
-            {(note.id === startId) ? <Tags groupTags={groupTags}/> : null}
         </div>
     );
 }
@@ -182,9 +177,8 @@ class BlogPage extends React.Component {
     }
 
     getTagsSummary() {
-        let allTags = Array();
-        let groupTags = Array();
 
+        let allTags = Array();
         this.state.notes.map((note) => {
             allTags.push(...note.tags);
         });
@@ -194,6 +188,7 @@ class BlogPage extends React.Component {
             return accumulator;
         }, {});
 
+        let groupTags = Array();
         for (const [key, value] of Object.entries(tagsReduce)) {
             groupTags.push({tag: key, value: value});
         }
@@ -201,7 +196,6 @@ class BlogPage extends React.Component {
     }
 
     render() {
-        const firstNote = this.state.notes[0];
         const groupTags = this.getTagsSummary();
         return (
             <div>
@@ -209,9 +203,13 @@ class BlogPage extends React.Component {
                 <main>
                     <section className="section">
                         <div className="container">
-                            {this.state.notes.map((note) => <PhotoNotesItem key={note.id} note={note}
-                                                                            startId={firstNote.id}
-                                                                            groupTags={groupTags}/>)}
+                            <div className="row no-gutters-lg">
+                                <div className="col-lg-8 mb-5 mb-lg-0">
+
+                                    {this.state.notes.map((note) => <PhotoNotesItem key={note.id} note={note}/>)}
+                                </div>
+                                <Tags groupTags={groupTags}/>
+                            </div>
                         </div>
                     </section>
                 </main>

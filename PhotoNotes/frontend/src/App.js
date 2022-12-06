@@ -53,7 +53,7 @@ class PhotoNotes extends React.Component {
                 <Routes>
                     <Route path={appPath.index} element={
                         <div>
-                            <div className="content">
+                            <div className="content bg position-fixed">
                                 <div className="h-100 justify-content-lg-center align-items-lg-start">
                                     <IndexPhoto/>
                                 </div>
@@ -75,7 +75,7 @@ class PhotoNotes extends React.Component {
                         </div>
                     }/>
                     <Route exact path={appPath.blog} element={
-                        <div className="content">
+                        <div className="content bg-blog">
                             <div
                                 className="justify-content-center align-items-center">
                                 <BlogPage/>
@@ -83,7 +83,7 @@ class PhotoNotes extends React.Component {
                         </div>
                     }/>
                     <Route exact path={appPath.filterBlog} element={
-                        <div className="content">
+                        <div className="content bg-blog">
                             <div
                                 className="justify-content-center align-items-center">
                                 <BlogPage/>
@@ -123,7 +123,6 @@ class PhotoNotes extends React.Component {
                         </div>
                     }/>
                 </Routes>
-
 
             </BrowserRouter>
         )
