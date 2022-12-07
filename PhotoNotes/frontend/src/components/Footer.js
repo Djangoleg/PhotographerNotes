@@ -4,12 +4,12 @@ import appPath from "./AppPath";
 const Footer = () => {
 
     return (
-        <div className="footer mt-5 fixed-bottom">
-            <div className="container section">
+        <div className="footer fixed-bottom">
+            <div className="mt-2 mb-2">
                 <div className="row">
                     <div className="col-lg-10 mx-auto text-center">
-                        <a className="d-inline-block mb-4 pb-2" href={appPath.index}>
-                            <img loading="prelaod" decoding="async" className="img-fluid" src="img/logo.png"/>
+                        <a className="d-inline-block pb-2" href={appPath.index}>
+                            <img className="img-fluid" src="/img/logo.png"/>
                         </a>
                         <ul className="p-0 d-flex navbar-footer mb-0 list-unstyled">
                             <li className="nav-item my-0"><a className="nav-link m-lg-1" href={appPath.blog}>Blog</a></li>

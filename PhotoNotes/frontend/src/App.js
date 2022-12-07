@@ -76,28 +76,32 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route exact path={appPath.blog} element={
                         <div className="content bg-blog">
-                            <div
-                                className="justify-content-center align-items-center">
+                            <div className="justify-content-center align-items-center">
                                 <BlogPage/>
                             </div>
                         </div>
                     }/>
                     <Route exact path={appPath.filterBlog} element={
                         <div className="content bg-blog">
-                            <div
-                                className="justify-content-center align-items-center">
+                            <div className="justify-content-center align-items-center">
                                 <BlogPage/>
                             </div>
                         </div>
                     }/>
                     <Route exact path={appPath.editNote} element={
-                        <div className="content">
-                            <EditNoteForm notes={this.state.notes}/>
+                        <div>
+                            <div className="content">
+                                <EditNoteForm notes={this.state.notes}/>
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
                     <Route exact path={appPath.createNote} element={
-                        <div className="content">
-                            <EditNoteForm notes={this.state.notes}/>
+                        <div>
+                            <div className="content">
+                                <EditNoteForm notes={this.state.notes}/>
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
                     <Route path={appPath.verify} element={

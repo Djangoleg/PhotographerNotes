@@ -204,7 +204,7 @@ class BlogPage extends React.Component {
                     <section className="section">
                         <div className="container">
                             <div className="row no-gutters-lg">
-                                <div className="col-lg-8 mb-5 mb-lg-0">
+                                <div className="col-lg-8 mb-lg-5">
 
                                     {this.state.notes.map((note) => <PhotoNotesItem key={note.id} note={note}/>)}
                                 </div>
