@@ -1,7 +1,7 @@
 import React from "react";
 import appPath from "./AppPath";
 import {useNavigate, useParams} from "react-router-dom";
-import auth from "./Authentication";
+import Auth from "./Authentication";
 import axios from "axios";
 import url from "./AppURL";
 
@@ -33,7 +33,7 @@ class FeedbackForm extends React.Component {
 
     handleSubmit = (event) => {
 
-        let headers = auth.getHeaders();
+        let headers = Auth.getHeaders();
 
         let data = new FormData();
         data.append('title', this.state.title);

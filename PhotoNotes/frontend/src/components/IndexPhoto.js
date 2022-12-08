@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Carousel from 'react-bootstrap/Carousel';
-import auth from "./Authentication";
+import Auth from "./Authentication";
 import reg from "./Registration";
 import axios from "axios";
 import url from "./AppURL";

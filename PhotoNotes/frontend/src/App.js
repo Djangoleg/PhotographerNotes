@@ -10,7 +10,7 @@ import IndexPhoto from "./components/IndexPhoto";
 import NotFound from "./components/NotFound";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
-import auth from "./components/Authentication";
+import Auth from "./components/Authentication";
 import reg from "./components/Registration";
 import LoginForm from "./components/LoginForm";
 import RegForm from "./components/RegistrationForm";
@@ -25,7 +25,7 @@ class PhotoNotes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            mainAuth: auth,
+            mainAuth: Auth,
             regData: reg,
             notes: []
         }

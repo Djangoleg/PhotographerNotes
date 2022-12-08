@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Moment from 'moment';
-import auth from "./Authentication";
+import Auth from "./Authentication";
 import appPath from "./AppPath";
 import axios from "axios";
 import url from "./AppURL";
@@ -11,7 +11,7 @@ import {useNavigate, useParams} from "react-router-dom";
 
 const PhotoNotesItem = ({note}) => {
 
-    const isAuthenticated = auth.isAuthenticated();
+    const isAuthenticated = Auth.isAuthenticated();
 
     return (
 
@@ -63,7 +63,7 @@ const DeleteButton = ({note}) => {
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
     const handleDelete = () => {
-        let headers = auth.getHeaders();
+        let headers = Auth.getHeaders();
         axios.delete(`${url.get()}/api/notes/${note.id}/`, {
             headers: headers,
         }).then(() => {
@@ -156,7 +156,7 @@ class BlogPage extends React.Component {
 
     componentDidMount() {
 
-        auth.getTokenFromStorage();
+        Auth.getTokenFromStorage();
 
         let blogUrl;
         if (this.props.params.tag) {

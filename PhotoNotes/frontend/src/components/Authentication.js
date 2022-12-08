@@ -2,8 +2,9 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import appPath from "./AppPath";
 import url from "./AppURL"
+import React from "react";
 
-const auth = {
+const Auth = {
     token: '',
     username: '',
     login: function (username, password) {
@@ -11,7 +12,7 @@ const auth = {
         .then(response => {
 
             this.setToken(response.data['token'], username);
-            document.location.pathname = appPath.index;
+            document.location.pathname = appPath.blog;
 
         }).catch(error => alert('Wrong login or password'));
     },
@@ -47,6 +48,6 @@ const auth = {
     }
 }
 
-export default auth
+export default Auth
 
 
