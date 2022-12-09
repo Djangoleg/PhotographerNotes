@@ -1,5 +1,5 @@
 import '../editNote.css';
-import React, {useState} from "react";
+import React from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import $ from "jquery";
 import axios from "axios";

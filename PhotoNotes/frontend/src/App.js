@@ -2,8 +2,7 @@ import './auth.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 import React from 'react';
-import axios from 'axios';
-import {BrowserRouter, HashRouter, Routes, Router, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import './App.css';
 import appPath from "./components/AppPath";
 import IndexPhoto from "./components/IndexPhoto";
@@ -15,7 +14,6 @@ import reg from "./components/Registration";
 import LoginForm from "./components/LoginForm";
 import RegForm from "./components/RegistrationForm";
 import VerifyPage from "./components/VerifyPage";
-import url from "./components/AppURL"
 import EditNoteForm from "./components/EditNoteForm";
 import BlogPage from "./components/Blog";
 import FeedbackForm from "./components/FeedbackForm";

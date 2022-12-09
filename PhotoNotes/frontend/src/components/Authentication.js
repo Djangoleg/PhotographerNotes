@@ -1,8 +1,6 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import appPath from "./AppPath";
 import url from "./AppURL"
-import React from "react";
 import Constants from "./AppConstants";
 
 const Auth = {

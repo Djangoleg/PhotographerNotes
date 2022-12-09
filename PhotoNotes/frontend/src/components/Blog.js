@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Moment from 'moment';
 import Auth from "./Authentication";
-import appPath from "./AppPath";
 import Constants from "./AppConstants";
 import axios from "axios";
 import url from "./AppURL";
@@ -25,8 +24,7 @@ const PhotoNotesItem = ({note, tag}) => {
                         <div className="post-info">
                             <span className="text-uppercase">{Moment(note.modified).format('LLL')}</span>
                         </div>
-                        <img loading="lazy" decoding="async" src={note.image}
-                             alt="Post Image" className="w-100"/>
+                        <img loading="lazy" decoding="async" src={note.image} className="w-100"/>
                     </div>
                     <div className="card-body px-0 pb-1">
                         <ul className="post-meta mb-2">
@@ -101,18 +99,6 @@ const DeleteButton = ({note}) => {
     );
 }
 
-const CreateButton = () => {
-    return (
-        <div className="button-tar">
-            <br/>
-            <Button type="submit" className="btn btn-primary" href={appPath.createNote}>
-                Create note
-            </Button>
-            <br/>
-        </div>
-    );
-}
-
 /**
  * Categories
  * @returns {JSX.Element}
@@ -148,7 +134,7 @@ function BlogPagination({paginator, tag}) {
 
     let pageCount = Math.ceil(paginator.count/Constants.pageSize);
 
-    let items = Array();
+    let items = [];
     for (let number = 1; number <= pageCount; number++) {
         items.push(
             <Pagination.Item key={number} active={number === paginator.active_page} href={`/blog/${tag}/${number}`}>
@@ -158,7 +144,7 @@ function BlogPagination({paginator, tag}) {
     }
 
     let prev;
-    if (paginator.active_page == 1) {
+    if (paginator.active_page === 1) {
         prev = pageCount;
     } else {
         prev = paginator.active_page - 1;
