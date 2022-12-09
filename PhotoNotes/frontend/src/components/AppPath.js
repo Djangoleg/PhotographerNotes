@@ -1,8 +1,7 @@
 const appPath = {
         'index': '/',
-        'blog': '/blog',
-        'filterBlog': '/blog/:tag',
-        'editNote': '/note/:id',
+        'blog': '/blog/:tag/:p',
+        'editNote': '/note/:id/:tag',
         'createNote': '/note/create',
         'deleteNote': '/note/delete/:id',
         'login': '/login',
@@ -13,4 +12,4 @@ const appPath = {
         'any': '*'
     };
 
-export default appPath
+export default appPath;

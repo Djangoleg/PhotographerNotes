@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie';
 import appPath from "./AppPath";
 import url from "./AppURL"
 import React from "react";
+import Constants from "./AppConstants";
 
 const Auth = {
     token: '',
@@ -12,7 +13,7 @@ const Auth = {
         .then(response => {
 
             this.setToken(response.data['token'], username);
-            document.location.pathname = appPath.blog;
+            document.location.pathname = `/blog/${Constants.allTags}/${Constants.firstPage}`;
 
         }).catch(error => alert('Wrong login or password'));
     },

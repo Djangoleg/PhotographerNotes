@@ -363,16 +363,16 @@ a.post-title-sm:hover {
 }
 .pagination .page-item .page-link:focus, .pagination .page-item .page-link:hover {
   box-shadow: none;
-  background: #13AE6F;
+  background: #336666;
   color: #fff;
 }
 .pagination .page-item:first-child .page-link, .pagination .page-item:last-child .page-link {
   border-radius: 0;
 }
 .pagination .page-item.active .page-link {
-  background: #13AE6F;
-  color: #fff;
-  border-color: #13AE6F;
+    background: #336666;
+    color: #fff;
+    border-color: #336666;
 }
 
 .post-meta {
@@ -396,7 +396,7 @@ a.post-title-sm:hover {
   border-radius: 0;
 }
 .post-meta li a:hover {
-  background-color: rgba(61, 234, 164, 0.25);
+  background-color: #336666;
 }
 .post-meta li svg {
   display: inline-block;

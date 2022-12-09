@@ -4,13 +4,14 @@ import Modal from 'react-bootstrap/Modal';
 import Moment from 'moment';
 import Auth from "./Authentication";
 import appPath from "./AppPath";
+import Constants from "./AppConstants";
 import axios from "axios";
 import url from "./AppURL";
 import '../blog.css';
 import {useNavigate, useParams} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 
-const PhotoNotesItem = ({note}) => {
+const PhotoNotesItem = ({note, tag}) => {
 
     const isAuthenticated = Auth.isAuthenticated();
 
@@ -32,7 +33,7 @@ const PhotoNotesItem = ({note}) => {
                             <li>
                                 {note.tags.map((tag) => {
                                     return (
-                                        <a key={tag} href={`/blog/${tag}`}>{tag} </a>
+                                        <a key={tag} href={`/blog/${tag}/${Constants.firstPage}`}>{tag} </a>
                                     );
                                 })}
                             </li>
@@ -40,8 +41,8 @@ const PhotoNotesItem = ({note}) => {
                         <p className="card-text m-3">{note.photo_comment}</p>
                     </div>
                     <div className="d-flex justify-content-between">
-                        {isAuthenticated ? <DeleteButton note={note}/> : null}
-                        {isAuthenticated ? <EditButton noteId={note.id}/> : null}
+                        {isAuthenticated ? <DeleteButton note={note} /> : null}
+                        {isAuthenticated ? <EditButton noteId={note.id} tag={tag} /> : null}
                     </div>
                 </article>
             </div>
@@ -49,10 +50,10 @@ const PhotoNotesItem = ({note}) => {
     );
 }
 
-const EditButton = ({noteId}) => {
+const EditButton = ({noteId, tag}) => {
     return (
         <div className="d-inline-block">
-            <Button type="submit" className="btn btn-primary" href={`/note/${noteId}/`}>
+            <Button type="submit" className="btn btn-primary" href={`/note/${noteId}/${tag}`}>
                 Edit
             </Button>
         </div>
@@ -126,10 +127,10 @@ const Tags = ({groupTags}) => {
                         <h2 className="section-title mb-3">Tags</h2>
                         <div className="widget-body">
                             <ul className="widget-list">
-                                <li><a href={appPath.blog}>All </a></li>
+                                <li><a href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>All </a></li>
                                 {groupTags.map((t) => {
                                     return (
-                                        <li key={t.value}><a href={`/blog/${t.value}`}>{t.value} <span
+                                        <li key={t.value}><a href={`/blog/${t.value}/${Constants.firstPage}`}>{t.value} <span
                                             className="ml-auto">({t.total})</span></a>
                                         </li>
                                     );
@@ -143,26 +144,59 @@ const Tags = ({groupTags}) => {
     );
 }
 
-function BlogPagination() {
-  return (
-    <Pagination>
-      <Pagination.First />
-      <Pagination.Prev />
-      <Pagination.Item>{1}</Pagination.Item>
-      <Pagination.Ellipsis />
+function BlogPagination({paginator, tag}) {
 
-      <Pagination.Item>{10}</Pagination.Item>
-      <Pagination.Item>{11}</Pagination.Item>
-      <Pagination.Item active>{12}</Pagination.Item>
-      <Pagination.Item>{13}</Pagination.Item>
-      <Pagination.Item disabled>{14}</Pagination.Item>
+    let pageCount = Math.ceil(paginator.count/Constants.pageSize);
 
-      <Pagination.Ellipsis />
-      <Pagination.Item>{20}</Pagination.Item>
-      <Pagination.Next />
-      <Pagination.Last />
-    </Pagination>
-  );
+    let items = Array();
+    for (let number = 1; number <= pageCount; number++) {
+        items.push(
+            <Pagination.Item key={number} active={number === paginator.active_page} href={`/blog/${tag}/${number}`}>
+                {number}
+            </Pagination.Item>,
+        );
+    }
+
+    let prev;
+    if (paginator.active_page == 1) {
+        prev = pageCount;
+    } else {
+        prev = paginator.active_page - 1;
+    }
+
+    let next;
+    if (paginator.active_page === pageCount) {
+        next = Constants.firstPage;
+    } else {
+        next = paginator.active_page + 1;
+    }
+
+    return (
+        <Pagination>
+            <Pagination.First href={`/blog/${tag}/1`}/>
+            <Pagination.Prev href={`/blog/${tag}/${prev}`}/>
+            {items}
+            <Pagination.Next href={`/blog/${tag}/${next}`}/>
+            <Pagination.Last href={`/blog/${tag}/${pageCount}`}/>
+        </Pagination>
+        // <Pagination>
+        //     <Pagination.First/>
+        //     <Pagination.Prev/>
+        //     <Pagination.Item>{1}</Pagination.Item>
+        //     <Pagination.Ellipsis/>
+        //
+        //     <Pagination.Item>{10}</Pagination.Item>
+        //     <Pagination.Item>{11}</Pagination.Item>
+        //     <Pagination.Item active>{12}</Pagination.Item>
+        //     <Pagination.Item>{13}</Pagination.Item>
+        //     <Pagination.Item disabled>{14}</Pagination.Item>
+        //
+        //     <Pagination.Ellipsis/>
+        //     <Pagination.Item>{20}</Pagination.Item>
+        //     <Pagination.Next/>
+        //     <Pagination.Last/>
+        // </Pagination>
+    );
 }
 
 const withParams = (Component) => {
@@ -174,7 +208,8 @@ class BlogPage extends React.Component {
         super(props)
         this.state = {
             notes: [],
-            tags: []
+            tags: [],
+            paginator: {}
         }
     }
 
@@ -182,12 +217,10 @@ class BlogPage extends React.Component {
 
         Auth.getTokenFromStorage();
 
-        let blogUrl;
-        if (this.props.params.tag) {
-            blogUrl = `${url.get()}/api/notes/?tags=${this.props.params.tag}`;
-        } else {
-            blogUrl = `${url.get()}/api/notes/`;
-        }
+        let tag = this.props.params.tag ? this.props.params.tag : Constants.allTags;
+        let p = parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage;
+
+        let blogUrl = `${url.get()}/api/notes/?tags=${tag}&p=${p}`;
 
         axios.get(blogUrl)
             .then(response => {
@@ -195,8 +228,8 @@ class BlogPage extends React.Component {
                 this.setState(
                     {
                         notes: notes.results,
-                        tags: notes.tags
-
+                        tags: notes.tags,
+                        paginator: notes.paginator
                     }
                 )
             }).catch(error => console.log(error))
@@ -211,12 +244,16 @@ class BlogPage extends React.Component {
                         <div className="container">
                             <div className="row no-gutters-lg">
                                 <div className="col-lg-8 mb-lg-5">
-                                    {this.state.notes.map((note) => <PhotoNotesItem key={note.id} note={note}/>)}
+                                    {this.state.notes.map((note) =>
+                                        <PhotoNotesItem key={note.id} note={note}
+                                            tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
+                                        />)}
+                                    <BlogPagination paginator={this.state.paginator}
+                                                    tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
+                                    />
                                 </div>
                                 <Tags groupTags={this.state.tags}/>
-
                             </div>
-                            <BlogPagination/>
                         </div>
                     </section>
                 </main>

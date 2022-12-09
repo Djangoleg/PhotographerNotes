@@ -2,10 +2,13 @@ import React from "react";
 import {Navbar,} from "react-bootstrap";
 import appPath from "./AppPath";
 import {NavLink} from "react-router-dom";
+import Constants from "./AppConstants";
+import Auth from "./Authentication";
 
 
-const Menu = ({auth: mainAuth}) => {
-
+const Menu = () => {
+    let myAuth = Auth;
+    myAuth.getTokenFromStorage();
     return (
         <div className="menu">
             <div>
@@ -27,23 +30,23 @@ const Menu = ({auth: mainAuth}) => {
                                         <img src="/img/menu.png"/>
                                     </a>
                                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <li><a className="dropdown-item" href={appPath.blog}>Blog</a></li>
+                                        <li><a className="dropdown-item" href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>Blog</a></li>
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
 
-                                        {mainAuth.isAuthenticated() ?
+                                        {myAuth.isAuthenticated() ?
                                             <li><NavLink className="dropdown-item" to={appPath.index}
-                                                         onClick={() => mainAuth.logout()}><b>{mainAuth.username}</b> Logout</NavLink>
+                                                         onClick={() => Auth.logout()}><b>{Auth.username}</b> Logout</NavLink>
                                             </li> :
                                             <li><a className="dropdown-item" href={appPath.login}>Login</a></li>}
 
-                                        {!mainAuth.isAuthenticated() ?
+                                        {!myAuth.isAuthenticated() ?
                                             <li><a className="dropdown-item"
                                                    href={appPath.registration}>Registration</a>
                                             </li> : null}
 
-                                        {mainAuth.isAuthenticated() ?
+                                        {myAuth.isAuthenticated() ?
                                             <li><a className="dropdown-item"
                                                    href={appPath.createNote}>Create note</a>
                                             </li> : null}

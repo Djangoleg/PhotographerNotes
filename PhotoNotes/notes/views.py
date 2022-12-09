@@ -29,7 +29,14 @@ class PhotoNoteViewSet(ModelViewSet):
         :return: queryset
         """
         queryset = PhotoNotes.objects.all().order_by('-modified')
+
+        note_id = self.request.query_params.get('note_id')
+        if note_id is not None:
+            return queryset.filter(pk=note_id)
+
         tag = self.request.query_params.get('tags')
         if tag is not None:
-            queryset = queryset.filter(tags__value=tag)
+            if tag != 'alltgs':
+                return queryset.filter(tags__value=tag)
+
         return queryset

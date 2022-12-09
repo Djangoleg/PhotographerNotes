@@ -25,31 +25,14 @@ class PhotoNotes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            mainAuth: Auth,
-            regData: reg,
-            notes: []
+            regData: reg
         }
-    }
-
-    componentDidMount() {
-
-        this.state.mainAuth.getTokenFromStorage();
-
-        axios.get(`${url.get()}/api/notes/`)
-            .then(response => {
-                const notes = response.data
-                this.setState(
-                    {
-                        notes: notes
-                    }
-                )
-            }).catch(error => console.log(error))
     }
 
     render() {
         return (
             <BrowserRouter>
-                <Menu auth={this.state.mainAuth}/>
+                <Menu />
                 <Routes>
                     <Route path={appPath.index} element={
                         <div>
@@ -64,7 +47,7 @@ class PhotoNotes extends React.Component {
                     <Route exact path={appPath.login} element={
                         <div>
                             <LoginForm
-                                authData={(username, password) => this.state.mainAuth.login(username, password)}/>
+                                authData={(username, password) => Auth.login(username, password)}/>
                         </div>
                     }/>
                     <Route exact path={appPath.registration} element={
@@ -81,21 +64,14 @@ class PhotoNotes extends React.Component {
                             </div>
                         </div>
                     }/>
-                    <Route exact path={appPath.filterBlog} element={
-                        <div className="content bg-blog">
-                            <div className="justify-content-center align-items-center">
-                                <BlogPage/>
-                            </div>
-                        </div>
-                    }/>
                     <Route exact path={appPath.editNote} element={
                         <div className="content">
-                            <EditNoteForm notes={this.state.notes}/>
+                            <EditNoteForm />
                         </div>
                     }/>
                     <Route exact path={appPath.createNote} element={
                         <div className="content">
-                            <EditNoteForm notes={this.state.notes}/>
+                            <EditNoteForm />
                         </div>
                     }/>
                     <Route path={appPath.verify} element={

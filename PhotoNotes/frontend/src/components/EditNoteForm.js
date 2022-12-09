@@ -7,6 +7,7 @@ import url from "./AppURL";
 import Auth from "./Authentication";
 import appPath from "./AppPath";
 import {TagsInput} from "react-tag-input-component";
+import Constants from "./AppConstants";
 
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
@@ -20,9 +21,30 @@ class EditNoteForm extends React.Component {
             comment: '',
             image: null,
             selectedFile: null,
-            isLoadProps: false,
             tags: []
         };
+    }
+
+    componentDidMount() {
+
+        let noteId = this.props.params.id;
+
+        if (noteId) {
+            Auth.getTokenFromStorage();
+            let notesUrl = `${url.get()}/api/notes/?note_id=${noteId}`;
+            axios.get(`${notesUrl}`)
+                .then(response => {
+                    const note = response.data.results[0];
+                    this.setState(
+                        {
+                            title: note.title,
+                            comment: note.photo_comment,
+                            image: note.image,
+                            tags: note.tags
+                        }
+                    )
+                }).catch(error => console.log(error))
+        }
     }
 
     onFileChange = (event) => {
@@ -39,31 +61,6 @@ class EditNoteForm extends React.Component {
             $("#noFile").text("No file chosen...");
         }
     };
-
-
-    static getDerivedStateFromProps = (props, state) => {
-
-        if (props.params.id && !state.isLoadProps) {
-            const notes = props.notes;
-            let id = props.params.id;
-            if (id) {
-                if (notes) {
-                    let note = notes.find((n) => n.id === parseInt(id));
-                    if (note) {
-                        return {
-                            title: note.title,
-                            comment: note.photo_comment,
-                            image: note.image,
-                            isLoadProps: true,
-                            tags: note.tags
-                        };
-                    }
-                }
-            }
-        }
-        // Return null to indicate no change to state.
-        return null;
-    }
 
     handleChange = (event) => {
         let value = event.target.value;
@@ -106,7 +103,7 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                this.props.navigate(appPath.blog);
+                this.props.navigate(`/blog/${this.props.params.tag ? this.props.params.tag : Constants.allTags}/${Constants.firstPage}`);
             }).catch(error => {
                 this.noteError(error)
             });
@@ -117,7 +114,7 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                this.props.navigate(appPath.blog);
+                this.props.navigate(`/blog/${this.props.params.tag ? this.props.params.tag : Constants.allTags}/${Constants.firstPage}`);
             }).catch(error => {
                 this.noteError(error)
             });
