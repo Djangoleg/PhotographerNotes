@@ -8,6 +8,7 @@ import axios from "axios";
 import url from "./AppURL";
 import '../blog.css';
 import {useNavigate, useParams} from "react-router-dom";
+import Pagination from 'react-bootstrap/Pagination';
 
 const PhotoNotesItem = ({note}) => {
 
@@ -128,8 +129,8 @@ const Tags = ({groupTags}) => {
                                 <li><a href={appPath.blog}>All </a></li>
                                 {groupTags.map((t) => {
                                     return (
-                                        <li key={t.tag}><a href={`/blog/${t.tag}`}>{t.tag} <span
-                                            className="ml-auto">({t.value})</span></a>
+                                        <li key={t.value}><a href={`/blog/${t.value}`}>{t.value} <span
+                                            className="ml-auto">({t.total})</span></a>
                                         </li>
                                     );
                                 })}
@@ -142,6 +143,28 @@ const Tags = ({groupTags}) => {
     );
 }
 
+function BlogPagination() {
+  return (
+    <Pagination>
+      <Pagination.First />
+      <Pagination.Prev />
+      <Pagination.Item>{1}</Pagination.Item>
+      <Pagination.Ellipsis />
+
+      <Pagination.Item>{10}</Pagination.Item>
+      <Pagination.Item>{11}</Pagination.Item>
+      <Pagination.Item active>{12}</Pagination.Item>
+      <Pagination.Item>{13}</Pagination.Item>
+      <Pagination.Item disabled>{14}</Pagination.Item>
+
+      <Pagination.Ellipsis />
+      <Pagination.Item>{20}</Pagination.Item>
+      <Pagination.Next />
+      <Pagination.Last />
+    </Pagination>
+  );
+}
+
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
 }
@@ -150,7 +173,8 @@ class BlogPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            notes: []
+            notes: [],
+            tags: []
         }
     }
 
@@ -170,33 +194,15 @@ class BlogPage extends React.Component {
                 const notes = response.data
                 this.setState(
                     {
-                        notes: notes
+                        notes: notes.results,
+                        tags: notes.tags
+
                     }
                 )
             }).catch(error => console.log(error))
     }
 
-    getTagsSummary() {
-
-        let allTags = Array();
-        this.state.notes.map((note) => {
-            allTags.push(...note.tags);
-        });
-
-        let tagsReduce = allTags.reduce((accumulator, currentValue) => {
-            accumulator[currentValue] = accumulator[currentValue] ? ++accumulator[currentValue] : 1;
-            return accumulator;
-        }, {});
-
-        let groupTags = Array();
-        for (const [key, value] of Object.entries(tagsReduce)) {
-            groupTags.push({tag: key, value: value});
-        }
-        return groupTags
-    }
-
     render() {
-        const groupTags = this.getTagsSummary();
         return (
             <div>
                 {/*{isAuthenticated ? <CreateButton/> : null}*/}
@@ -205,11 +211,12 @@ class BlogPage extends React.Component {
                         <div className="container">
                             <div className="row no-gutters-lg">
                                 <div className="col-lg-8 mb-lg-5">
-
                                     {this.state.notes.map((note) => <PhotoNotesItem key={note.id} note={note}/>)}
                                 </div>
-                                <Tags groupTags={groupTags}/>
+                                <Tags groupTags={this.state.tags}/>
+
                             </div>
+                            <BlogPagination/>
                         </div>
                     </section>
                 </main>
