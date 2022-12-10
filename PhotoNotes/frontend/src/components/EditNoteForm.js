@@ -122,7 +122,7 @@ class EditNoteForm extends React.Component {
     }
 
     backSubmit = (event) => {
-        this.props.navigate(appPath.blog);
+        this.props.navigate(`/blog/${this.props.params.tag ? this.props.params.tag : Constants.allTags}/${parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}`);
     }
 
     noteError = (error) => {

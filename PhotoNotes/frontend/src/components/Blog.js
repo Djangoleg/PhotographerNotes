@@ -10,7 +10,7 @@ import '../blog.css';
 import {useNavigate, useParams} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 
-const PhotoNotesItem = ({note, tag}) => {
+const PhotoNotesItem = ({note, tag, page}) => {
 
     const isAuthenticated = Auth.isAuthenticated();
 
@@ -40,7 +40,7 @@ const PhotoNotesItem = ({note, tag}) => {
                     </div>
                     <div className="d-flex justify-content-between">
                         {isAuthenticated ? <DeleteButton note={note} /> : null}
-                        {isAuthenticated ? <EditButton noteId={note.id} tag={tag} /> : null}
+                        {isAuthenticated ? <EditButton noteId={note.id} tag={tag} page={page} /> : null}
                     </div>
                 </article>
             </div>
@@ -48,10 +48,10 @@ const PhotoNotesItem = ({note, tag}) => {
     );
 }
 
-const EditButton = ({noteId, tag}) => {
+const EditButton = ({noteId, tag, page}) => {
     return (
         <div className="d-inline-block">
-            <Button type="submit" className="btn btn-primary" href={`/note/${noteId}/${tag}`}>
+            <Button type="submit" className="btn btn-primary" href={`/note/${noteId}/${tag}/${page}`}>
                 Edit
             </Button>
         </div>
@@ -233,6 +233,7 @@ class BlogPage extends React.Component {
                                     {this.state.notes.map((note) =>
                                         <PhotoNotesItem key={note.id} note={note}
                                             tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
+                                            page={parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}
                                         />)}
                                     <BlogPagination paginator={this.state.paginator}
                                                     tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
