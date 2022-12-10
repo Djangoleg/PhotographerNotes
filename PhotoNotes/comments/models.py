@@ -6,9 +6,9 @@ from users.models import User
 
 
 class Comments(models.Model):
-    """Комментарий к фото"""
-    created = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True, db_index=True)
-    body = models.TextField(verbose_name='Комментарий')
-    user = models.ForeignKey(User, null=False, db_index=True, on_delete=models.CASCADE)
-    photonotes = models.ForeignKey(PhotoNotes, on_delete=models.CASCADE)
-    parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
+    """Comment to post"""
+    created = models.DateTimeField(verbose_name='Сreated', auto_now_add=True, db_index=True)
+    body = models.TextField(verbose_name='Comment')
+    user = models.ForeignKey(User, verbose_name='User', null=False, db_index=True, on_delete=models.CASCADE)
+    photonotes = models.ForeignKey(PhotoNotes, verbose_name='PhotoNote', on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', verbose_name='Parent', blank=True, null=True, on_delete=models.CASCADE)
