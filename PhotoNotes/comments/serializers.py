@@ -6,14 +6,6 @@ from rest_framework.serializers import ModelSerializer
 
 from comments.models import Comments
 
-# class UserRelatedField(StringRelatedField):
-#
-#     def to_internal_value(self, value):
-#         user = User.objects.filter(username=value)
-#         if user and (len(user)) == 1:
-#             return user.get().id
-#         else:
-#             raise ValidationError(f"User with name: {value} not found")
 
 class RecursiveField(serializers.Serializer):
 
@@ -23,7 +15,6 @@ class RecursiveField(serializers.Serializer):
 
 class CommentModelSerializer(ModelSerializer):
     children = RecursiveField(many=True)
-    # user = UserRelatedField(many=False)
 
     def create(self, validated_data):
         validated_data.pop('children')
@@ -33,5 +24,3 @@ class CommentModelSerializer(ModelSerializer):
     class Meta:
         model = Comments
         fields = ('id', 'created', 'body', 'note', 'user', 'parent', 'children')
-
-
