@@ -26,6 +26,7 @@ def send_feedback(feedback):
 
 class FeedbackViewSet(ModelViewSet):
     queryset = Feedback.objects.all().order_by('-created')
+    serializer_class = FeedbackModelSerializer
     http_method_names = ['post', 'head']
 
     def perform_create(self, serializer):
@@ -33,9 +34,6 @@ class FeedbackViewSet(ModelViewSet):
             return serializer.save()
         else:
             return serializer.save(user=self.request.user)
-
-    def get_serializer_class(self):
-        return FeedbackModelSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

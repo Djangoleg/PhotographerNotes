@@ -3,6 +3,8 @@ import json
 from django.core.management import BaseCommand
 
 from carousel.models import Carousel
+from comments.models import Comments
+
 from notes.models import PhotoNotes, PhotoNotesTags
 from users.models import User
 
@@ -52,4 +54,18 @@ class Command(BaseCommand):
             new_tag = PhotoNotesTags(**tag_n)
             new_tag.save()
 
+        Comments.objects.all().delete()
 
+        note = PhotoNotes.objects.order_by('pk').first()
+
+        get_comments = lambda comments_id: Comments.objects.get(pk=comments_id)
+        get_user = lambda user_id: User.objects.get(pk=user_id)
+
+        root = Comments.objects.create(body='root 1', user=get_user(3), note=note)
+        node1 = Comments.objects.create(body='child 1', user=get_user(2), note=note, parent=root)
+        node2 = Comments.objects.create(body='child 2', user=get_user(3), note=note, parent=root)
+        node3 = Comments.objects.create(body='child 3', user=get_user(2), note=note, parent=node2)
+
+        root2 = Comments.objects.create(body='root 2', user=get_user(2), note=note)
+        node1 = Comments.objects.create(body='child 1', user=get_user(2), note=note, parent=root2)
+        node2 = Comments.objects.create(body='child 2', user=get_user(2), note=note, parent=node1)

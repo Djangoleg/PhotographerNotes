@@ -9,6 +9,7 @@ VENV_EXCLUDE_PATH = os.environ['VIRTUAL_ENV']
 MIGRATION_PART_FILE_NAME = '_initial.py'
 DB_PATH = Path(os.path.join(BASE_DIR, 'db.sqlite3'))
 
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
