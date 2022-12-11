@@ -224,7 +224,6 @@ class BlogPage extends React.Component {
     render() {
         return (
             <div>
-                {/*{isAuthenticated ? <CreateButton/> : null}*/}
                 <main>
                     <section className="section">
                         <div className="container">

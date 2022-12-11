@@ -4,6 +4,7 @@ const appPath = {
         'editNote': '/note/:id/:tag/:p',
         'createNote': '/note/create',
         'deleteNote': '/note/delete/:id',
+        'viewNote': '/note/view/:id',
         'login': '/login',
         'logout': '/logout',
         'registration': '/registration',

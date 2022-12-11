@@ -17,6 +17,7 @@ import VerifyPage from "./components/VerifyPage";
 import EditNoteForm from "./components/EditNoteForm";
 import BlogPage from "./components/Blog";
 import FeedbackForm from "./components/FeedbackForm";
+import NotePage from "./components/NotePage";
 
 
 class PhotoNotes extends React.Component {
@@ -65,6 +66,11 @@ class PhotoNotes extends React.Component {
                     <Route exact path={appPath.editNote} element={
                         <div className="content">
                             <EditNoteForm />
+                        </div>
+                    }/>
+                    <Route exact path={appPath.viewNote} element={
+                        <div className="content bg-blog">
+                            <NotePage />
                         </div>
                     }/>
                     <Route exact path={appPath.createNote} element={
