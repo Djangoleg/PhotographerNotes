@@ -4,7 +4,7 @@ from django.db.models import Count
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
-from notes.models import PhotoNotesTags, PhotoNotes
+from notes.models import PhotoNotesTags
 
 
 class CustomPagination(PageNumberPagination):

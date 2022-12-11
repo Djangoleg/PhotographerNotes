@@ -34,11 +34,11 @@ class CommentModelSerializer(ModelSerializer):
     children = RecursiveField(many=True)
     user = UserNameRelatedField()
 
+    class Meta:
+        model = Comments
+        fields = ('id', 'created', 'body', 'note', 'user', 'parent', 'children')
+
     def create(self, validated_data):
         validated_data.pop('children')
         instance = Comments.objects.create(**validated_data)
         return instance
-
-    class Meta:
-        model = Comments
-        fields = ('id', 'created', 'body', 'note', 'user', 'parent', 'children')
