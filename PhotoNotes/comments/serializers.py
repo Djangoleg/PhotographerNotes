@@ -1,10 +1,27 @@
-from abc import ABC
-
 from rest_framework import serializers
-from rest_framework.fields import SerializerMethodField
+from rest_framework.relations import SlugRelatedField
 from rest_framework.serializers import ModelSerializer
 
 from comments.models import Comments
+from users.models import User
+
+
+class UserNameRelatedField(SlugRelatedField):
+    slug_field = 'username'
+
+    def __init__(self, **kwargs):
+        kwargs['read_only'] = False
+        kwargs['queryset'] = User.objects.all()
+        super().__init__(self.slug_field, **kwargs)
+
+    def to_internal_value(self, value):
+        user = User.objects.filter(username=value)
+        if user and (len(user)) == 1:
+            return user.first()
+        else:
+            # raise ValidationError(f"User with name: {value} not found")
+            user = User.objects.create_user(username=value)
+            return user
 
 
 class RecursiveField(serializers.Serializer):
@@ -15,6 +32,7 @@ class RecursiveField(serializers.Serializer):
 
 class CommentModelSerializer(ModelSerializer):
     children = RecursiveField(many=True)
+    user = UserNameRelatedField()
 
     def create(self, validated_data):
         validated_data.pop('children')

@@ -14,11 +14,11 @@ class CommentViewSet(ModelViewSet):
     queryset = Comments.objects.all()
     serializer_class = CommentModelSerializer
 
-    def perform_create(self, serializer):
-        if self.request.user.is_anonymous:
-            return serializer.save()
-        else:
-            return serializer.save(user=self.request.user)
+    # def perform_create(self, serializer):
+    #     if self.request.user.is_anonymous:
+    #         return serializer.save()
+    #     else:
+    #         return serializer.save(user=self.request.user)
 
     def list(self, request):
         note_id = self.request.query_params.get('note_id')
