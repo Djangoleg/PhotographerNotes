@@ -21,6 +21,10 @@ class CommentViewSet(ModelViewSet):
             return serializer.save(user=self.request.user)
 
     def list(self, request):
-        tree = cache_tree_children(Comments.objects.filter(level=0))
+        note_id = self.request.query_params.get('note_id')
+        if note_id:
+            tree = cache_tree_children(Comments.objects.filter(level=0, note_id=note_id))
+        else:
+            tree = cache_tree_children(Comments.objects.filter(level=0))
         serializer = CommentModelSerializer(tree, many=True)
         return Response(serializer.data)
