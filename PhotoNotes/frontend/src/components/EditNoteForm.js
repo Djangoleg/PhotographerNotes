@@ -130,6 +130,10 @@ class EditNoteForm extends React.Component {
         alert('Error change or create note!');
     }
 
+    onlyUnique = (value, index, self) => {
+        return self.indexOf(value) === index;
+    }
+
     render() {
         return (
             <div className="container mt-4 mb-4">
@@ -188,7 +192,7 @@ class EditNoteForm extends React.Component {
                             <label className="col-lg-3 col-form-label form-control-label">Tags</label>
                             <div className="col-lg-9">
                                 <TagsInput
-                                    value={this.state.tags}
+                                    value={this.state.tags.filter(this.onlyUnique)}
                                     onChange={(event) => this.handleTagsChange(event)}
                                     name="tags"
                                     placeHolder="enter tags"

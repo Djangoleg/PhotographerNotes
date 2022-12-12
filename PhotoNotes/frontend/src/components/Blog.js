@@ -29,9 +29,9 @@ const PhotoNotesItem = ({note, tag, page}) => {
                     <div className="card-body px-0 pb-1">
                         <ul className="post-meta mb-2">
                             <li>
-                                {note.tags.map((tag) => {
+                                {note.tags.map((tag, i) => {
                                     return (
-                                        <a key={tag} href={`/blog/${tag}/${Constants.firstPage}`}>{tag} </a>
+                                        <a key={i} href={`/blog/${tag}/${Constants.firstPage}`}>{tag} </a>
                                     );
                                 })}
                             </li>
@@ -114,9 +114,9 @@ const Tags = ({groupTags}) => {
                         <div className="widget-body">
                             <ul className="widget-list">
                                 <li><a href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>All </a></li>
-                                {groupTags.map((t) => {
+                                {groupTags.map((t, i) => {
                                     return (
-                                        <li key={t.value}><a href={`/blog/${t.value}/${Constants.firstPage}`}>{t.value} <span
+                                        <li key={i}><a href={`/blog/${t.value}/${Constants.firstPage}`}>{t.value} <span
                                             className="ml-auto">({t.total})</span></a>
                                         </li>
                                     );
