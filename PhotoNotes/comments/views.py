@@ -19,10 +19,10 @@ class CommentViewSet(ModelViewSet):
     def list(self, request):
         note_id = self.request.query_params.get('note_id')
         if note_id:
-            tree = cache_tree_children(Comments.objects.filter(level=0, note_id=note_id))
+            tree = cache_tree_children(Comments.objects.filter(level=0, note_id=note_id).order_by('-created'))
             count = Comments.objects.filter(note_id=note_id).count()
         else:
-            tree = cache_tree_children(Comments.objects.filter(level=0))
+            tree = cache_tree_children(Comments.objects.filter(level=0).order_by('-created'))
             count = Comments.objects.all().count()
 
         serializer = CommentModelSerializer(tree, many=True)
