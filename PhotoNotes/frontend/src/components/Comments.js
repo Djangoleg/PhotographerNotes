@@ -35,7 +35,7 @@ function Reply(props) {
             body: text,
             note: parseInt(routeParams.id),
             user: getCurrentUserName(),
-            parent: props.parent_id,
+            parent: props.parent_id === undefined ? null : props.parent_id,
             children: []
         };
         console.log(data);
