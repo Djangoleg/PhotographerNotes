@@ -9,19 +9,19 @@ import Markdown from 'markdown-to-jsx';
 import Auth from './Authentication'
 import styled from "styled-components";
 import $ from "jquery";
+import Constants from "./AppConstants";
 
 const CommentContext = createContext({});
 const ThemeContext = createContext([]);
-
+const Authentication = Auth;
 
 const compare = (a1, a2) => {
     return JSON.stringify(a1) === JSON.stringify(a2);
 }
 
 const getCurrentUserName = () => {
-    let auth = Auth;
-    auth.getTokenFromStorage();
-    return auth.username;
+    Authentication.getTokenFromStorage();
+    return Authentication.username;
 }
 
 function Reply(props) {
@@ -30,22 +30,40 @@ function Reply(props) {
     const [username, setUsername] = useState("");
 
     const routeParams = useParams();
+    const navigate = useNavigate();
 
     const handleSubmit = (event, props) => {
+
+        let headers = Authentication.getHeaders();
+
         let data = {
             body: text,
             note: parseInt(routeParams.id),
-            user: username,
+            user: username ? username : getCurrentUserName(),
             parent: props.parent_id === undefined ? null : props.parent_id,
             children: []
         };
         console.log(data);
+
+        let commentsUrl = `${url.get()}/api/comments/?note_id=${routeParams.id}/`;
+        axios.post(commentsUrl,
+            data,
+            {
+                headers: headers,
+            }).then(response => {
+            // navigate(`/note/view/${routeParams.id}`);
+            window.location.reload();
+        }).catch(error => {
+            console.log(error);
+            alert('Added comment error!');
+        });
     }
 
     return (
 
         <div {...props}>
-            <TextArea className="form-control mb-2" id={`username_${props.parent_id ? props.parent_id : 0}`} name="username"
+            <TextArea className="form-control mb-2" id={`username_${props.parent_id ? props.parent_id : 0}`}
+                      name="username"
                       rows="1"
                       placeholder="Username.."
                       defaultValue={getCurrentUserName()}
@@ -53,12 +71,12 @@ function Reply(props) {
                           setUsername(value.target.value);
                       }}/>
             <TextArea className="form-control"
-                placeholder="What are your thoughts?"
-                minRows={2}
-                defaultValue={text}
-                onChange={value => {
-                    setText(value.target.value);
-                }}
+                      placeholder="What are your thoughts?"
+                      minRows={2}
+                      defaultValue={text}
+                      onChange={value => {
+                          setText(value.target.value);
+                      }}
             />
             <div className="panel">
                 <div className="comment_as">
