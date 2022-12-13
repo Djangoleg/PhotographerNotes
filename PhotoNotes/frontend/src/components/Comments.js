@@ -1,35 +1,336 @@
-import '../note.css';
-import React from "react";
+import '../comments.css';
+import React, {createContext, useContext, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import url from "./AppURL";
 import axios from "axios";
 import Moment from "moment";
+import TextArea from "react-textarea-autosize";
+import Markdown from 'markdown-to-jsx';
+import Auth from './Authentication'
 
-const CommentItem = ({comment}) => {
+import styled from "styled-components";
+
+const CommentContext = createContext({});
+const ThemeContext = createContext([]);
+
+
+const compare = (a1, a2) => {
+    return JSON.stringify(a1) === JSON.stringify(a2);
+}
+
+const getCurrentUserName = () => {
+    let auth = Auth;
+    auth.getTokenFromStorage();
+    return auth.username;
+}
+
+function Reply(props) {
+
+    const [text, setText] = useState("");
+
+    const routeParams = useParams();
+
+    const handleSubmit = (event, props) => {
+        let data = {
+            body: text,
+            note: parseInt(routeParams.id),
+            user: getCurrentUserName(),
+            parent: props.parent_id,
+            children: []
+        };
+        console.log(data);
+    }
+
     return (
-        <div className="card article-card mb-3">
-            <div className="comment-area-box media d-flex mb-4">
-                <img alt="" src="/img/cat_100.png" className="img-fluid float-left m-lg-3 mt-2 d-inline-block"/>
-
-                <div className="media-body ml-4 d-inline-block">
-                    <h4 className="mb-0">{comment.user} </h4>
-                    <span
-                        className="date-icon font-secondary text-capitalize">{Moment(comment.created).format('LLL')}</span>
-
-                    <div className="comment-content mt-3">
-                        <p>{comment.body}</p>
-                    </div>
-                    <div className="comment-meta mt-4 mt-lg-0 mt-md-0">
-                        <a href="#" className="text-underline ">Reply</a>
-                    </div>
+        <div {...props}>
+            <TextArea
+                placeholder="What are your thoughts?"
+                minRows={2}
+                defaultValue={text}
+                onChange={value => {
+                    setText(value.target.value);
+                }}
+            />
+            <div className="panel">
+                <div className="comment_as">
+                    Comment as{" "}
+                    <a href="" className="username">
+                        {getCurrentUserName()}
+                    </a>
                 </div>
+                <input type="button" className="btn btn-primary ms-2" value="COMMENT"
+                                       onClick={(event) => handleSubmit(event, props)}/>
             </div>
         </div>
     );
 }
 
+Reply = styled(Reply)`
+  border-radius: 8px;
+  border: solid 1px #3d4953;
+  overflow: hidden;
+
+  &.hidden {
+    display: none;
+  }
+
+  textarea {
+    font-family: inherit;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    resize: none;
+
+    background: #cdcdcd;
+    padding: 12px;
+    color: #13181d;
+    border: none;
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  .panel {
+    display: flex;
+    align-items: center;
+    background: #3d4953;
+    padding: 8px;
+
+    .comment_as {
+      font-size: 14px;
+      color: #cccccc;
+      margin-right: 8px;
+
+      .username {
+        display: inline-block;
+        color: #4f9eed;
+      }
+    }
+  }
+`;
+
+const gen_comments = (comments, colorindex, path) => {
+    return comments.map((comment, i) => {
+        return (
+            <Comment
+                id={comment.id}
+                parent={comment.parent}
+                username={comment.user}
+                date={comment.created}
+                text={comment.body}
+                comments={comment.children}
+                colorindex={colorindex}
+                key={i}
+                path={[...path, i]}
+            />
+        );
+    });
+}
+
+function Comment(props) {
+    const [replying, setReplying] = useContext(CommentContext);
+    const [minimized, setMinimized] = useState(false);
+    const [hidden, setHidden] = useState(false);
+
+    useEffect(() => {
+        const calcHidden = async () => {
+            if (props.path.length > 2 && props.path.length % 2 === 0) {
+                setHidden(true);
+            }
+            if (props.path[props.path.length - 1] > 3) {
+                setHidden(true);
+            }
+        };
+
+        calcHidden().then(r => {});
+    }, [props.path]);
+
+    return (
+        <div {...props}>
+            {hidden ? (
+                <button
+                    id="showMore"
+                    onClick={() => {
+                        setHidden(false);
+                    }}
+                >
+                    Show More Replies
+                </button>
+            ) : (
+                <>
+                    <div id="right">
+                        <div id="top">
+              <span
+                  className="minimize"
+                  onClick={() => {
+                      setMinimized(!minimized);
+                  }}
+              >
+                [{minimized ? "+" : "-"}]
+              </span>
+                            <span id="username">{props.username}</span>
+                            <span id="date">{Moment(props.date).format('LLL')}</span>
+                        </div>
+                        <div id="content" className={minimized ? "hidden" : ""}>
+                            <Markdown className="comment-body" options={{forceBlock: true}}>{props.text}</Markdown>
+                        </div>
+                        <div id="actions" className={minimized ? "hidden" : ""}>
+              <span
+                  className={`${compare(replying, props.path) ? "selected" : ""}`}
+                  onClick={() => {
+                      if (compare(replying, props.path)) {
+                          setReplying([]);
+                      } else {
+                          setReplying(props.path);
+                      }
+                  }}
+              >
+                reply
+              </span>
+                        </div>
+                        <Reply
+                            className={
+                                compare(replying, props.path) && !minimized ? "" : "hidden"
+                            }
+                            parent_id={props.id}
+                        />
+                        <div className={`comments ${minimized ? "hidden" : ""}`}>
+                            {gen_comments(props.comments, props.colorindex + 1, [
+                                ...props.path
+                            ])}
+                        </div>
+                    </div>
+                </>
+            )}
+        </div>
+    );
+}
+
+Comment = styled(Comment)`
+  display: flex;
+  text-align: left;
+  background: ${props => (props.colorindex % 2 === 0 ? "#161C21" : "#13181D")};
+  padding: 16px 16px 16px 12px;
+  border: 0.1px solid #3d4953;
+  border-radius: 8px;
+
+  #showMore {
+    background: none;
+    border: none;
+    color: #53626f;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: left;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .comments {
+    > * {
+      margin-bottom: 16px;
+
+      &:last-child {
+        margin-bottom: 0px;
+      }
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  #left {
+    text-align: center;
+    &.hidden {
+      visibility: hidden;
+      height: 0;
+    }
+  }
+
+  #right {
+    flex-grow: 1;
+
+    #top {
+      .minimize {
+        cursor: pointer;
+        color: #53626f;
+
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+      }
+
+      #username {
+        color: #4f9eed;
+      }
+
+      #date {
+        display: inline-block;
+        color: #53626f;
+      }
+
+      > * {
+        margin-right: 8px;
+      }
+    }
+
+    #content {
+      color: #FFFFFF;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    #actions {
+      color: #53626f;
+      margin-bottom: 12px;
+
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+
+      &.hidden {
+        display: none;
+      }
+
+      > .selected {
+        font-weight: bold;
+      }
+
+      > * {
+        cursor: pointer;
+        margin-right: 8px;
+      }
+    }
+  }
+
+  ${Reply} {
+    margin-bottom: 12px;
+  }
+`;
+
+const Card = (props) => {
+    const theme = useContext(ThemeContext);
+    return (
+        <div {...props} className={`${props.className} ${theme}`}>
+            {props.children}
+        </div>
+    );
+}
+
 const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
+    return props => <Component {...props} params={useParams()}/>;
 }
 
 class Comments extends React.Component {
@@ -37,7 +338,8 @@ class Comments extends React.Component {
         super(props)
         this.state = {
             comments: [],
-            count: ''
+            count: '',
+            replying: '',
         }
     }
 
@@ -63,38 +365,26 @@ class Comments extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    setReplying(replying) {
+        this.setState(
+            {
+                replying: replying
+            }
+        )
+    }
+
     render() {
+
         return (
-            <div className="row">
-                <div className="comment-area">
-                    <h3 className="mb-4 text-center">{this.state.count} Comments</h3>
-
-                    {this.state.comments.map((comment) =>
-                        <CommentItem key={comment.id} comment={comment}/>)}
-
-                </div>
-                <form className="comment-form mb-5 p-4 bg-light" id="comment-form">
-                    <h3 className="mb-4 text-center">Leave a comment</h3>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="form-group">
-                                <input className="form-control" type="text" name="name" id="name" placeholder="Name:"/>
-                            </div>
-                        </div>
-                        <div className="col-md-6">
-                            <div className="form-group">
-                                <input className="form-control" type="text" name="mail" id="mail" placeholder="Email:"/>
-                            </div>
-                        </div>
-                        <div className="col-lg-12">
-                            <textarea className="form-control mb-3" name="comment" id="comment" cols="30" rows="5"
-                                      placeholder="Comment"></textarea>
-                        </div>
-                    </div>
-
-                    <input className="btn btn-primary mt-3" type="submit" name="submit-contact" id="submit_contact"
-                           value="Submit Message"/>
-                </form>
+            <div>
+                <Card className="comment-card" {...this.props}>
+                    <span id="comments">Comments </span>
+                    <span id="comments_count">{this.state.count}</span>
+                    <Reply/>
+                    <CommentContext.Provider value={[this.state.replying, this.setReplying.bind(this)]}>
+                        {gen_comments(this.state.comments, 0, [])}
+                    </CommentContext.Provider>
+                </Card>
             </div>
         )
     }

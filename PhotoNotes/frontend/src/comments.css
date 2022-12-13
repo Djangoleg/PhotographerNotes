@@ -1,7 +1,35 @@
-.comment-area-box .media-body h4 {
-  font-size: 18px;
+.comment-card {
+    text-align: left;
+    padding: 24px;
+    background: #1d252c;
 }
 
-.comment-form .form-control {
-  background: #FFFFFF;
+.code {
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #576877;
+    border-radius: 4px;
+}
+
+.blockquote {
+    margin: 0px;
+    padding-left: 8px;
+    border-left: 4px solid #576877;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.comment-body {
+    color: #d9d4d4;
+}
+
+#comments {
+    color: #d9d4d4;
+}
+#comments_count {
+    color: #d9d4d4;
+}
+
+.button {
+  font-size: 14px;
+  margin-left: auto;
 }
