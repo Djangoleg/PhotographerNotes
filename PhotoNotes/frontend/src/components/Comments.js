@@ -7,8 +7,8 @@ import Moment from "moment";
 import TextArea from "react-textarea-autosize";
 import Markdown from 'markdown-to-jsx';
 import Auth from './Authentication'
-
 import styled from "styled-components";
+import $ from "jquery";
 
 const CommentContext = createContext({});
 const ThemeContext = createContext([]);
@@ -27,6 +27,7 @@ const getCurrentUserName = () => {
 function Reply(props) {
 
     const [text, setText] = useState("");
+    const [username, setUsername] = useState("");
 
     const routeParams = useParams();
 
@@ -34,7 +35,7 @@ function Reply(props) {
         let data = {
             body: text,
             note: parseInt(routeParams.id),
-            user: getCurrentUserName(),
+            user: username,
             parent: props.parent_id === undefined ? null : props.parent_id,
             children: []
         };
@@ -42,8 +43,16 @@ function Reply(props) {
     }
 
     return (
+
         <div {...props}>
-            <TextArea
+            <TextArea className="form-control mb-2" id={`username_${props.parent_id ? props.parent_id : 0}`} name="username"
+                      rows="1"
+                      placeholder="Username.."
+                      defaultValue={getCurrentUserName()}
+                      onChange={value => {
+                          setUsername(value.target.value);
+                      }}/>
+            <TextArea className="form-control"
                 placeholder="What are your thoughts?"
                 minRows={2}
                 defaultValue={text}
@@ -53,13 +62,13 @@ function Reply(props) {
             />
             <div className="panel">
                 <div className="comment_as">
-                    Comment as{" "}
+                    {$(`#username_${props.parent_id ? props.parent_id : 0}`).val() ? 'Comment as ' : ''}
                     <a href="" className="username">
-                        {getCurrentUserName()}
+                        {$(`#username_${props.parent_id ? props.parent_id : 0}`).val()}
                     </a>
                 </div>
                 <input type="button" className="btn btn-primary ms-2" value="COMMENT"
-                                       onClick={(event) => handleSubmit(event, props)}/>
+                       onClick={(event) => handleSubmit(event, props)}/>
             </div>
         </div>
     );
@@ -142,7 +151,8 @@ function Comment(props) {
             }
         };
 
-        calcHidden().then(r => {});
+        calcHidden().then(r => {
+        });
     }, [props.path]);
 
     return (
