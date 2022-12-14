@@ -31,6 +31,11 @@ function Reply(props) {
     const routeParams = useParams();
 
     const handleSubmit = (event, props) => {
+        let form = $(`#form_${props.parent_id ? props.parent_id : 0}`)[0];
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;
+        }
 
         let headers = Authentication.getHeaders();
 
@@ -59,34 +64,47 @@ function Reply(props) {
 
     return (
 
-        <div {...props}>
-            <TextArea className="form-control mb-1" id={`username_${props.parent_id ? props.parent_id : 0}`}
-                      name="username"
-                      rows="1"
-                      placeholder="Username.."
-                      defaultValue={getCurrentUserName()}
-                      onChange={value => {
-                          setUsername(value.target.value);
-                      }}/>
-            <TextArea className="form-control mb-1"
-                      placeholder="What are your thoughts?"
-                      minRows={2}
-                      defaultValue={text}
-                      onChange={value => {
-                          setText(value.target.value);
-                      }}
-            />
-            <div className="panel">
-                <div className="comment_as">
-                    {$(`#username_${props.parent_id ? props.parent_id : 0}`).val() ? 'Comment as ' : ''}
-                    <a href="" className="username">
-                        {$(`#username_${props.parent_id ? props.parent_id : 0}`).val()}
-                    </a>
+        <form id={`form_${props.parent_id ? props.parent_id : 0}`} noValidate className="requires-validation">
+            <div {...props}>
+                <div>
+                    <TextArea className="form-control mb-1" id={`username_${props.parent_id ? props.parent_id : 0}`}
+                              name="username"
+                              rows="1"
+                              placeholder="Username.."
+                              defaultValue={getCurrentUserName()}
+                              onChange={value => {
+                                  setUsername(value.target.value);
+                              }}
+                              required
+                    />
                 </div>
-                <input type="button" className="btn btn-primary ms-2 border-0" value="Comment"
-                       onClick={(event) => handleSubmit(event, props)}/>
+
+                <div>
+                    <TextArea name="comment"
+                              className="form-control mb-1"
+                              placeholder="What are your thoughts?"
+                              minRows={2}
+                              defaultValue={text}
+                              onChange={value => {
+                                  setText(value.target.value);
+                              }}
+                              required
+                    />
+                </div>
+
+                <div className="panel">
+                    <div className="comment_as">
+                        {$(`#username_${props.parent_id ? props.parent_id : 0}`).val() ? 'Comment as ' : ''}
+                        <a href="" className="username">
+                            {$(`#username_${props.parent_id ? props.parent_id : 0}`).val()}
+                        </a>
+                    </div>
+                    <input type="button" className="btn btn-primary ms-2 border-0" value="Comment"
+                           onClick={(event) => handleSubmit(event, props)}/>
+                </div>
             </div>
-        </div>
+        </form>
+
     );
 }
 
@@ -161,7 +179,7 @@ function Comment(props) {
     useEffect(() => {
         const calcHidden = async () => {
             if (((props.path.length > 2 && props.path.length % 2 === 0) ||
-                    (props.path[props.path.length - 1] > 3)) && (hiddenCommentId !== props.id)) {
+                (props.path[props.path.length - 1] > 3)) && (hiddenCommentId !== props.id)) {
                 setHidden(true);
             }
         };
