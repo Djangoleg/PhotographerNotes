@@ -9,6 +9,7 @@ import url from "./AppURL";
 import '../blog.css';
 import {useNavigate, useParams} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
+import appPath from "./AppPath";
 
 const PhotoNotesItem = ({note, tag, page}) => {
 
@@ -223,6 +224,9 @@ class BlogPage extends React.Component {
     }
 
     render() {
+
+        const isAuthenticated = Auth.isAuthenticated();
+
         return (
             <div>
                 <main>
@@ -235,11 +239,19 @@ class BlogPage extends React.Component {
                                                         tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
                                                         page={parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}
                                         />)}
-                                    <BlogPagination paginator={this.state.paginator}
-                                                    tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
-                                    />
+                                    { this.state.notes.length > 0 ?
+                                        <BlogPagination paginator={this.state.paginator}
+                                                        tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
+                                        /> :
+                                        <div className="text-light">
+                                            There are no posts.
+                                            {isAuthenticated ? <> Create the <a href={appPath.createNote}>first</a> one.</> :
+                                                <> Log in <a href={appPath.login}>here</a>.</>
+                                            }
+                                        </div>
+                                    }
                                 </div>
-                                <Tags groupTags={this.state.tags}/>
+                                {this.state.tags.length > 0 ? <Tags groupTags={this.state.tags}/> : null }
                             </div>
                         </div>
                     </section>
