@@ -95,9 +95,9 @@ function Reply(props) {
                 <div className="panel">
                     <div className="comment_as">
                         {$(`#username_${props.parent_id ? props.parent_id : 0}`).val() ? 'Comment as ' : ''}
-                        <a href="" className="username">
+                        <div href="" className="username">
                             {$(`#username_${props.parent_id ? props.parent_id : 0}`).val()}
-                        </a>
+                        </div>
                     </div>
                     <input type="button" className="btn btn-primary ms-2 border-0" value="Comment"
                            onClick={(event) => handleSubmit(event, props)}/>
