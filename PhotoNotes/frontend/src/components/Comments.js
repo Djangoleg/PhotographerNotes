@@ -9,7 +9,6 @@ import Markdown from 'markdown-to-jsx';
 import Auth from './Authentication'
 import styled from "styled-components";
 import $ from "jquery";
-import Constants from "./AppConstants";
 
 const CommentContext = createContext({});
 const ThemeContext = createContext([]);
