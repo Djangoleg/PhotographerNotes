@@ -41,6 +41,7 @@ const PhotoNotesItem = ({note, tag, page}) => {
                     <div className="d-flex justify-content-between">
                         {isAuthenticated ? <DeleteButton note={note} /> : null}
                         {isAuthenticated ? <EditButton noteId={note.id} tag={tag} page={page} /> : null}
+                        <DetailButton noteId={note.id} />
                     </div>
                 </article>
             </div>
@@ -53,6 +54,17 @@ const EditButton = ({noteId, tag, page}) => {
         <div className="d-inline-block">
             <Button type="submit" className="btn btn-primary" href={`/note/${noteId}/${tag}/${page}`}>
                 Edit
+            </Button>
+        </div>
+    )
+}
+
+
+const DetailButton = ({noteId}) => {
+    return (
+        <div className="d-inline-block">
+            <Button type="submit" className="btn btn-primary" href={`/note/view/${noteId}`}>
+                Detail
             </Button>
         </div>
     )
