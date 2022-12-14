@@ -1,6 +1,6 @@
 import '../comments.css';
 import React, {createContext, useContext, useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import url from "./AppURL";
 import axios from "axios";
 import Moment from "moment";
@@ -25,12 +25,10 @@ const getCurrentUserName = () => {
 }
 
 function Reply(props) {
-
     const [text, setText] = useState("");
     const [username, setUsername] = useState("");
 
     const routeParams = useParams();
-    const navigate = useNavigate();
 
     const handleSubmit = (event, props) => {
 
@@ -51,7 +49,7 @@ function Reply(props) {
             {
                 headers: headers,
             }).then(response => {
-            // navigate(`/note/view/${routeParams.id}`);
+
             window.location.reload();
         }).catch(error => {
             console.log(error);
@@ -62,7 +60,7 @@ function Reply(props) {
     return (
 
         <div {...props}>
-            <TextArea className="form-control mb-2" id={`username_${props.parent_id ? props.parent_id : 0}`}
+            <TextArea className="form-control mb-1" id={`username_${props.parent_id ? props.parent_id : 0}`}
                       name="username"
                       rows="1"
                       placeholder="Username.."
@@ -70,7 +68,7 @@ function Reply(props) {
                       onChange={value => {
                           setUsername(value.target.value);
                       }}/>
-            <TextArea className="form-control"
+            <TextArea className="form-control mb-1"
                       placeholder="What are your thoughts?"
                       minRows={2}
                       defaultValue={text}
@@ -85,7 +83,7 @@ function Reply(props) {
                         {$(`#username_${props.parent_id ? props.parent_id : 0}`).val()}
                     </a>
                 </div>
-                <input type="button" className="btn btn-primary ms-2" value="COMMENT"
+                <input type="button" className="btn btn-primary ms-2 border-0" value="Comment"
                        onClick={(event) => handleSubmit(event, props)}/>
             </div>
         </div>
@@ -94,7 +92,7 @@ function Reply(props) {
 
 Reply = styled(Reply)`
   border-radius: 8px;
-  border: solid 1px #3d4953;
+  border: solid 1px #d3dbe1;
   overflow: hidden;
 
   &.hidden {
@@ -109,7 +107,7 @@ Reply = styled(Reply)`
 
     resize: none;
 
-    background: #cdcdcd;
+    background: #f9f9f9;
     padding: 12px;
     color: #13181d;
     border: none;
@@ -120,12 +118,12 @@ Reply = styled(Reply)`
   .panel {
     display: flex;
     align-items: center;
-    background: #3d4953;
+    background: #e1e1e1;
     padding: 8px;
 
     .comment_as {
       font-size: 14px;
-      color: #cccccc;
+      color: #ffffff;
       margin-right: 8px;
 
       .username {
@@ -158,20 +156,19 @@ function Comment(props) {
     const [replying, setReplying] = useContext(CommentContext);
     const [minimized, setMinimized] = useState(false);
     const [hidden, setHidden] = useState(false);
+    const [hiddenCommentId, setHiddenCommentId] = useState(-1);
 
     useEffect(() => {
         const calcHidden = async () => {
-            if (props.path.length > 2 && props.path.length % 2 === 0) {
-                setHidden(true);
-            }
-            if (props.path[props.path.length - 1] > 3) {
+            if (((props.path.length > 2 && props.path.length % 2 === 0) ||
+                    (props.path[props.path.length - 1] > 3)) && (hiddenCommentId !== props.id)) {
                 setHidden(true);
             }
         };
 
         calcHidden().then(r => {
         });
-    }, [props.path]);
+    }, [props]);
 
     return (
         <div {...props}>
@@ -180,6 +177,7 @@ function Comment(props) {
                     id="showMore"
                     onClick={() => {
                         setHidden(false);
+                        setHiddenCommentId(props.id);
                     }}
                 >
                     Show More Replies
@@ -237,9 +235,9 @@ function Comment(props) {
 Comment = styled(Comment)`
   display: flex;
   text-align: left;
-  background: ${props => (props.colorindex % 2 === 0 ? "#161C21" : "#13181D")};
+  background: ${props => (props.colorindex % 2 === 0 ? "#FFFFFF" : "#f5f5f5")};
   padding: 16px 16px 16px 12px;
-  border: 0.1px solid #3d4953;
+  border: 0.1px solid #d3dbe1;
   border-radius: 8px;
 
   #showMore {
@@ -317,7 +315,7 @@ Comment = styled(Comment)`
     }
 
     #actions {
-      color: #53626f;
+      color: #5da5ee;
       margin-bottom: 12px;
 
       -webkit-touch-callout: none; /* iOS Safari */

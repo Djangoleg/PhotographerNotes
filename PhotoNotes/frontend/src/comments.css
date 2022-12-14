@@ -1,7 +1,7 @@
 .comment-card {
     text-align: left;
     padding: 24px;
-    background: #1d252c;
+    background: #ffffff;
 }
 
 .code {
@@ -19,17 +19,22 @@
 }
 
 .comment-body {
-    color: #d9d4d4;
+    color: #000000;
 }
 
 #comments {
-    color: #d9d4d4;
+    color: #000000;
 }
+
 #comments_count {
-    color: #d9d4d4;
+    color: #000000;
 }
 
 .button {
-  font-size: 14px;
-  margin-left: auto;
+    font-size: 14px;
+    margin-left: auto;
+}
+
+.form-control::placeholder {
+    color: #dedede;
 }
