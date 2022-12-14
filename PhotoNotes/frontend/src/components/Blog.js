@@ -37,11 +37,11 @@ const PhotoNotesItem = ({note, tag, page}) => {
                             </li>
                         </ul>
                         <p className="card-text m-3">{note.photo_comment}</p>
+                        <div><a href={`/note/view/${note.id}`}>Comments {note.comments_number}</a></div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        {isAuthenticated ? <DeleteButton note={note} /> : null}
-                        {isAuthenticated ? <EditButton noteId={note.id} tag={tag} page={page} /> : null}
-                        <DetailButton noteId={note.id} />
+                        {isAuthenticated ? <DeleteButton note={note}/> : null}
+                        {isAuthenticated ? <EditButton noteId={note.id} tag={tag} page={page}/> : null}
                     </div>
                 </article>
             </div>
@@ -54,17 +54,6 @@ const EditButton = ({noteId, tag, page}) => {
         <div className="d-inline-block">
             <Button type="submit" className="btn btn-primary ms-1" href={`/note/${noteId}/${tag}/${page}`}>
                 Edit
-            </Button>
-        </div>
-    )
-}
-
-
-const DetailButton = ({noteId}) => {
-    return (
-        <div className="d-inline-block">
-            <Button type="submit" className="btn btn-primary ms-1" href={`/note/view/${noteId}`}>
-                Detail
             </Button>
         </div>
     )
@@ -144,7 +133,7 @@ const Tags = ({groupTags}) => {
 
 function BlogPagination({paginator, tag}) {
 
-    let pageCount = Math.ceil(paginator.count/Constants.pageSize);
+    let pageCount = Math.ceil(paginator.count / Constants.pageSize);
 
     let items = [];
     for (let number = 1; number <= pageCount; number++) {
@@ -243,8 +232,8 @@ class BlogPage extends React.Component {
                                 <div className="col-lg-8 mb-lg-5">
                                     {this.state.notes.map((note) =>
                                         <PhotoNotesItem key={note.id} note={note}
-                                            tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
-                                            page={parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}
+                                                        tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
+                                                        page={parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}
                                         />)}
                                     <BlogPagination paginator={this.state.paginator}
                                                     tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}

@@ -3,16 +3,21 @@ from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
 from rest_framework.utils import json
 
+from comments.models import Comments
 from notes.models import PhotoNotes, PhotoNotesTags
 
 
 class PhotoNoteModelSerializer(ModelSerializer):
     image_url = serializers.SerializerMethodField('get_image_url')
     tags = StringRelatedField(many=True, read_only=True)
+    comments_number = serializers.SerializerMethodField(source='get_comments_number')
 
     class Meta:
         model = PhotoNotes
-        fields = ('id', 'modified', 'title', 'image', 'image_url', 'photo_comment', 'tags')
+        fields = ('id', 'modified', 'title', 'image', 'image_url', 'photo_comment', 'tags', 'comments_number')
+
+    def get_comments_number(self, obj):
+        return Comments.objects.filter(note=obj).count()
 
     def get_image_url(self, obj):
         request = self.context.get('request')
