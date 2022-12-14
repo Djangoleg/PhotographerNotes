@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
     def create_user(self, role):
         self.user_pk += 1
-        print(f'Создан пользователь {role}_{self.user_pk}\tПароль {self.user_pk}')
+        print(f'Created user: {role}_{self.user_pk}\tPass: {self.user_pk}')
         user = User.objects.create_user(pk=self.user_pk, username=f'{role}_{self.user_pk}',
                                         email=f'{self.user_pk}@mail.ru', password=f'{self.user_pk}',
                                         first_name=f'first_name_{self.user_pk}', last_name=f'last_name_{self.user_pk}',
@@ -36,14 +36,14 @@ class Command(BaseCommand):
         superuser.save()
         self.user_pk = 1
 
-        # Добавление ролей пользователей
+        # Users role.
         roles = load_from_json(JSON_PATH_USERS + 'roles.json')
 
         for role in roles:
             new_role = Role(pk=role['pk'],
                             role_name=role['role_name'])
             new_role.save()
-            print(f'роль "{new_role}" была добавлена')
+            print(f'Role "{new_role}" was add')
 
         self.create_user('owner')
         self.create_user('reader')

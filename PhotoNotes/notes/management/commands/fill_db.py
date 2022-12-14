@@ -26,6 +26,7 @@ class Command(BaseCommand):
 
         for p in photo_notes:
             ph_n = {}
+            ph_n['id'] = p.get('id')
             ph_n['title'] = p.get('title')
             ph_n['image'] = p.get('image')
             ph_n['photo_comment'] = p.get('photo_comment')
@@ -49,23 +50,24 @@ class Command(BaseCommand):
 
         for tag in tags:
             tag_n = {}
-            tag_n['note'] = PhotoNotes.objects.order_by('?').first()
+            tag_n['note'] = PhotoNotes.objects.get(pk=tag.get('note_id'))
             tag_n['value'] = tag.get('value')
             new_tag = PhotoNotesTags(**tag_n)
             new_tag.save()
 
         Comments.objects.all().delete()
 
-        note = PhotoNotes.objects.order_by('pk').first()
+        note = PhotoNotes.objects.get(pk=1)
 
-        get_comments = lambda comments_id: Comments.objects.get(pk=comments_id)
         get_user = lambda user_id: User.objects.get(pk=user_id)
 
-        root = Comments.objects.create(body='root 1', user=get_user(3), note=note)
-        node1 = Comments.objects.create(body='child 1', user=get_user(2), note=note, parent=root)
-        node2 = Comments.objects.create(body='child 2', user=get_user(3), note=note, parent=root)
-        node3 = Comments.objects.create(body='child 3', user=get_user(2), note=note, parent=node2)
+        root = Comments.objects.create(body='Hi! Good photo!', user=get_user(3), note=note)
+        node1 = Comments.objects.create(body='Thanks!', user=get_user(2), note=note, parent=root)
+        node2 = Comments.objects.create(body='How are you?', user=get_user(3), note=note, parent=node1)
+        node3 = Comments.objects.create(body='Everything is fine', user=get_user(2), note=note, parent=node2)
+        Comments.objects.create(body='Whats up dude?', user=get_user(3), note=note, parent=node3)
 
-        root2 = Comments.objects.create(body='root 2', user=get_user(2), note=note)
-        node1 = Comments.objects.create(body='child 1', user=get_user(2), note=note, parent=root2)
-        node2 = Comments.objects.create(body='child 2', user=get_user(2), note=note, parent=node1)
+        Comments.objects.create(body='Good!', user=get_user(2), note=note)
+        Comments.objects.create(body='This is wonderful', user=get_user(3), note=note)
+        Comments.objects.create(body='Incredible', user=get_user(2), note=note)
+        Comments.objects.create(body='Shit', user=get_user(3), note=note)
