@@ -77,7 +77,7 @@ class NotePage extends React.Component {
                 <main>
                     <section className="section">
                         <div className="container">
-                            <div className="row no-gutters-lg">
+                            <div className="row no-gutters-lg justify-content-center">
                                 <div className="col-lg-8 mb-lg-5">
                                     <Note note={this.state.note} />
                                     <Comments note={this.state.note.id} />
