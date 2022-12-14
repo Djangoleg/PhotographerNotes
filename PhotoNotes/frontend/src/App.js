@@ -37,7 +37,7 @@ class PhotoNotes extends React.Component {
                         <div>
                             <div className="content bg position-fixed">
                                 <div className="h-100 justify-content-lg-center align-items-lg-start">
-                                    <IndexPhoto/>
+                                    <IndexPhoto />
                                 </div>
                             </div>
                             <Footer/>

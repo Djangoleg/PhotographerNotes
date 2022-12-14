@@ -8,20 +8,15 @@ from notes.models import PhotoNotes, PhotoNotesTags
 
 
 class PhotoNoteModelSerializer(ModelSerializer):
-    image_url = serializers.SerializerMethodField('get_image_url')
     tags = StringRelatedField(many=True, read_only=True)
     comments_number = serializers.SerializerMethodField(source='get_comments_number')
 
     class Meta:
         model = PhotoNotes
-        fields = ('id', 'modified', 'title', 'image', 'image_url', 'photo_comment', 'tags', 'comments_number')
+        fields = ('id', 'modified', 'title', 'image', 'photo_comment', 'tags', 'comments_number')
 
     def get_comments_number(self, obj):
         return Comments.objects.filter(note=obj).count()
-
-    def get_image_url(self, obj):
-        request = self.context.get('request')
-        return request.build_absolute_uri(obj.image.url)
 
     def create(self, validated_data):
         request = self.context.get('request')
