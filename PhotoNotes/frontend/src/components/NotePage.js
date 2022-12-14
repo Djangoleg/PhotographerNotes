@@ -5,6 +5,7 @@ import axios from "axios";
 import Constants from "./AppConstants";
 import Moment from "moment/moment";
 import Comments from "./Comments";
+import BackButton from "./BackButton";
 
 const Note = ({note}) => {
 
@@ -31,6 +32,9 @@ const Note = ({note}) => {
                             </li>
                         </ul>
                         <p className="card-text m-3">{note.photo_comment}</p>
+                    </div>
+                    <div className="d-flex justify-content-end">
+                        <BackButton/>
                     </div>
                 </article>
             </div>

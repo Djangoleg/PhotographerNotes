@@ -35,7 +35,7 @@ code {
   color: #ffffff !important;
   /*border-color: #6bb2b2;*/
   /*bs-btn-bg: #336666;*/
-  background: #b08888 !important;
+  background: #366 !important;
 }
 .btn-primary:hover, .btn-primary:active, .btn-primary.active .btn-primary:focus, .btn-primary.focus {
   background: #6bb2b2 !important;

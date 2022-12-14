@@ -1,20 +1,24 @@
-import {Component} from "react";
+import React from "react";
+import {useNavigate} from "react-router-dom";
 
-class BackButton extends Component {
-    static contextTypes = {
-        router: () => true, // replace with PropTypes.object if you use them
+const BackButton = () => {
+
+    const navigate = useNavigate();
+
+    const goBack = () => {
+        navigate(-1);
     }
 
-    render() {
-        return (
-            <div className="d-inline-block">
-                <button
-                    type="submit"
-                    className="btn btn-primary"
-                    onClick={this.context.router.history.goBack}>
-                    Back
-                </button>
-            </div>
-        )
-    }
+    return (
+        <div className="d-inline-block">
+            <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={goBack}>
+                Back
+            </button>
+        </div>
+    )
 }
+
+export default BackButton;

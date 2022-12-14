@@ -38,7 +38,7 @@ const PhotoNotesItem = ({note, tag, page}) => {
                         </ul>
                         <p className="card-text m-3">{note.photo_comment}</p>
                     </div>
-                    <div className="d-flex justify-content-between">
+                    <div className="d-flex justify-content-end">
                         {isAuthenticated ? <DeleteButton note={note} /> : null}
                         {isAuthenticated ? <EditButton noteId={note.id} tag={tag} page={page} /> : null}
                         <DetailButton noteId={note.id} />
@@ -52,7 +52,7 @@ const PhotoNotesItem = ({note, tag, page}) => {
 const EditButton = ({noteId, tag, page}) => {
     return (
         <div className="d-inline-block">
-            <Button type="submit" className="btn btn-primary" href={`/note/${noteId}/${tag}/${page}`}>
+            <Button type="submit" className="btn btn-primary ms-1" href={`/note/${noteId}/${tag}/${page}`}>
                 Edit
             </Button>
         </div>
@@ -63,7 +63,7 @@ const EditButton = ({noteId, tag, page}) => {
 const DetailButton = ({noteId}) => {
     return (
         <div className="d-inline-block">
-            <Button type="submit" className="btn btn-primary" href={`/note/view/${noteId}`}>
+            <Button type="submit" className="btn btn-primary ms-1" href={`/note/view/${noteId}`}>
                 Detail
             </Button>
         </div>
@@ -90,7 +90,7 @@ const DeleteButton = ({note}) => {
 
     return (
         <div className="d-inline-block">
-            <Button type="submit" className="btn btn-primary" onClick={handleShow}>
+            <Button type="submit" className="btn btn-primary ms-1" onClick={handleShow}>
                 Delete
             </Button>
             <Modal show={show} onHide={handleClose}>
