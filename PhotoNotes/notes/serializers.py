@@ -7,7 +7,7 @@ from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
-from rest_framework.serializers import HyperlinkedModelSerializer, ModelSerializer
+from rest_framework.serializers import ModelSerializer
 from rest_framework.utils import json
 
 from comments.models import Comments

@@ -25,7 +25,9 @@ const Footer = () => {
             </div>
             <div className="copyright d-block bg-dark">
                 <div className="d-inline-block">Developed By &nbsp;</div>
-                <div className="d-inline-block text-blue">&copy;Kro &nbsp;</div>
+                <div className="d-inline-block text-blue">
+                    <a className="dropdown-item" href={appPath.feedback}>&copy;Kro &nbsp;</a>
+                </div>
                 <div className="d-inline-block">{moment().year()}</div>
             </div>
         </div>
