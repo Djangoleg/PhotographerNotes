@@ -8,7 +8,7 @@ import Moment from "moment/moment";
 const IndexMiniCardsItem = ({card}) => {
     return (
         <div className="col-lg-3 col-md-6 col-padding">
-            <article className="post-grid mb-5">
+            <article className="post-grid mb-3">
                 <a className="post-thumb mb-4 d-block" href={`/note/view/${card.id}`}>
                     <img src={card.imageminicard} alt="" className="img-fluid w-100"/>
                 </a>

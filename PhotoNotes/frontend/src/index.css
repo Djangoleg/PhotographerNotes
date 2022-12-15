@@ -74,8 +74,8 @@ code {
 }
 
 .section-padding {
-  padding: 70px 0;
-  position: relative;
+    padding: 30px 15px 70px;
+    position: relative;
 }
 
 .post-grid span {
