@@ -18,6 +18,7 @@ import EditNoteForm from "./components/EditNoteForm";
 import BlogPage from "./components/Blog";
 import FeedbackForm from "./components/FeedbackForm";
 import NotePage from "./components/NotePage";
+import IndexMiniCards from "./components/IndexMiniCard";
 
 
 class PhotoNotes extends React.Component {
@@ -35,9 +36,10 @@ class PhotoNotes extends React.Component {
                 <Routes>
                     <Route path={appPath.index} element={
                         <div>
-                            <div className="content bg position-fixed">
+                            <div className="content bg-blog">
                                 <div className="h-100 justify-content-lg-center align-items-lg-start">
                                     <IndexPhoto />
+                                    <IndexMiniCards />
                                 </div>
                             </div>
                             <Footer/>

@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'comments',
     'carousel',
     'feedback',
+    'minicards',
 ]
 
 MIDDLEWARE = [

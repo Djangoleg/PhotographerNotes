@@ -24,6 +24,7 @@ from PhotoNotes import settings
 from carousel.views import CarouselViewSet
 from comments.views import CommentViewSet
 from feedback.views import FeedbackViewSet
+from minicards.views import MiniCardsViewSet
 from notes.views import PhotoNoteViewSet
 from users.views import UserViewSet
 
@@ -33,6 +34,7 @@ router.register('notes', PhotoNoteViewSet)
 router.register('comments', CommentViewSet)
 router.register('carousel', CarouselViewSet)
 router.register('feedback', FeedbackViewSet)
+router.register('minicards', MiniCardsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
