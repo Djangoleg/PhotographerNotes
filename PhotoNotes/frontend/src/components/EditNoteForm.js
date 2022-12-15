@@ -8,6 +8,7 @@ import Auth from "./Authentication";
 import appPath from "./AppPath";
 import {TagsInput} from "react-tag-input-component";
 import Constants from "./AppConstants";
+import BackButton from "./BackButton";
 
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
@@ -103,7 +104,7 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                this.props.navigate(`/blog/${this.props.params.tag ? this.props.params.tag : Constants.allTags}/${Constants.firstPage}`);
+                this.props.navigate(`/blog/${this.props.params.tag !== 'undefined' ? this.props.params.tag : Constants.allTags}/${Constants.firstPage}`);
             }).catch(error => {
                 this.noteError(error)
             });
@@ -122,7 +123,8 @@ class EditNoteForm extends React.Component {
     }
 
     backSubmit = (event) => {
-        this.props.navigate(`/blog/${this.props.params.tag ? this.props.params.tag : Constants.allTags}/${parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}`);
+        // this.props.navigate(`/blog/${this.props.params.tag !== 'undefined' ? this.props.params.tag : Constants.allTags}/${parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}`);
+        this.props.navigate(-1);
     }
 
     noteError = (error) => {

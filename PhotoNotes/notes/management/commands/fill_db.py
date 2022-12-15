@@ -1,5 +1,8 @@
 import json
+import os
+from pathlib import Path
 
+from PIL import Image
 from django.core.management import BaseCommand
 
 from carousel.models import Carousel
@@ -18,6 +21,30 @@ def load_from_json(file_name):
         return json.load(infile)
 
 
+def crop_image(image_path):
+    area = (300, 300, 700, 700)
+    image_file = Path(image_path)
+    image = Image.open(image_file.absolute())
+
+    width, height = image.size  # Get dimensions
+    new_width = 600
+    new_height = 600
+
+    left = (width - new_width) / 2
+    top = (height - new_height) / 2
+    right = (width + new_width) / 2
+    bottom = (height + new_height) / 2
+
+    area = (left, top, right, bottom)
+
+    img = image.crop(area)
+    new_img = os.path.join(os.path.dirname(image_file), image_file.stem + '_crop' + image_file.suffix)
+    new_img_path = Path(new_img)
+    img.save(new_img_path.absolute())
+    print(new_img_path.parent.name + '/' + new_img_path.name)
+    return new_img_path.parent.name + '/' + new_img_path.name
+
+
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
@@ -29,6 +56,7 @@ class Command(BaseCommand):
             ph_n['id'] = p.get('id')
             ph_n['title'] = p.get('title')
             ph_n['image'] = p.get('image')
+            ph_n['imageminicard'] = crop_image(os.path.join('media', p.get('image')))
             ph_n['photo_comment'] = p.get('photo_comment')
             ph_n['user'] = User.objects.get(pk=p.get('user'))
             new_photo_notes = PhotoNotes(**ph_n)

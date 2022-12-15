@@ -6,8 +6,13 @@ import Constants from "./AppConstants";
 import Moment from "moment/moment";
 import Comments from "./Comments";
 import BackButton from "./BackButton";
+import Auth from "./Authentication";
+import DeleteButton from "./DeleteButton";
+import EditButton from "./EditButton";
 
 const Note = ({note}) => {
+
+    const isAuthenticated = Auth.isAuthenticated();
 
     return (
         <div className="row">
@@ -34,6 +39,8 @@ const Note = ({note}) => {
                         <p className="card-text m-3">{note.photo_comment}</p>
                     </div>
                     <div className="d-flex justify-content-end">
+                        {isAuthenticated ? <DeleteButton note={note}/> : null}
+                        {isAuthenticated ? <EditButton noteId={note.id} page={1}/> : null}
                         <BackButton/>
                     </div>
                 </article>

@@ -13,7 +13,7 @@ const BackButton = () => {
         <div className="d-inline-block">
             <button
                 type="submit"
-                className="btn btn-primary"
+                className="btn btn-primary ms-1"
                 onClick={goBack}>
                 Back
             </button>

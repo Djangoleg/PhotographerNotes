@@ -10,6 +10,7 @@ class PhotoNotes(models.Model):
     modified = models.DateTimeField(verbose_name='Modified', auto_now=True, db_index=True)
     title = models.TextField(verbose_name='Title', max_length=250, blank=True, null=True)
     image = models.ImageField(verbose_name='Image', upload_to='post_photo', blank=True)
+    imageminicard = models.ImageField(verbose_name='Image mini cards', upload_to='post_photo', blank=True)
     photo_comment = models.TextField(verbose_name='Comment')
     user = models.ForeignKey(User, verbose_name='User', null=False, db_index=True, on_delete=models.CASCADE)
 
