@@ -67,7 +67,7 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route exact path={appPath.editNote} element={
                         <div className="content">
-                            <EditNoteForm />
+                            <EditNoteForm pagetitle="Edit Note" />
                         </div>
                     }/>
                     <Route exact path={appPath.viewNote} element={
@@ -77,7 +77,7 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route exact path={appPath.createNote} element={
                         <div className="content">
-                            <EditNoteForm />
+                            <EditNoteForm pagetitle="Create Note" />
                         </div>
                     }/>
                     <Route path={appPath.verify} element={

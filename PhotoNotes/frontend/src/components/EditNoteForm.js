@@ -136,7 +136,7 @@ class EditNoteForm extends React.Component {
         return (
             <div className="container mt-4 mb-4">
                 <div className="col-lg-12 text-lg-center">
-                    <h2>Edit Note</h2>
+                    <h2>{this.props.pagetitle}</h2>
                     <br/><br/>
                 </div>
                 <div className="col-lg-8 push-lg-4 personal-info">
