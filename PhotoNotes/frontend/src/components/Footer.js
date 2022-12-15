@@ -1,6 +1,7 @@
 import React from 'react';
 import appPath from "./AppPath";
 import Constants from "./AppConstants";
+import moment from "moment";
 
 const Footer = () => {
 
@@ -13,14 +14,20 @@ const Footer = () => {
                             <img className="img-fluid" src="/img/logo.png"/>
                         </a>
                         <ul className="p-0 d-flex navbar-footer mb-0 list-unstyled">
-                            <li className="nav-item my-0"><a className="nav-link m-lg-1" href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>Blog</a></li>
-                            <li className="nav-item my-0"><a className="nav-link m-lg-1" href={appPath.feedback}>Feedback</a></li>
+                            <li className="nav-item my-0"><a className="nav-link m-lg-1"
+                                                             href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>Blog</a>
+                            </li>
+                            <li className="nav-item my-0"><a className="nav-link m-lg-1"
+                                                             href={appPath.feedback}>Feedback</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div className="copyright bg-dark">Developed By <a
-                href={appPath.index}>&copy; Kro</a></div>
+            <div className="copyright d-block bg-dark">
+                <div className="d-inline-block">Developed By &nbsp;</div>
+                <div className="d-inline-block text-blue">&copy;Kro &nbsp;</div>
+                <div className="d-inline-block">{moment().year()}</div>
+            </div>
         </div>
     )
 }

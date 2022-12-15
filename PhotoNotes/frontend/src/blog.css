@@ -62,7 +62,7 @@ h6, .h6 {
 }
 
 ::selection {
-  background: #13AE6F;
+  background: orange;
   color: #fff;
 }
 
