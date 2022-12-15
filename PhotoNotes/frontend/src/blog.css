@@ -57,7 +57,7 @@ h6, .h6 {
 }
 
 ::-moz-selection {
-  background: #13AE6F;
+  background: orange;
   color: #fff;
 }
 
