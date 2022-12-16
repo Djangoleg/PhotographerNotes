@@ -528,7 +528,7 @@ a.post-title-sm:hover {
 
 /* widget */
 .widget-blocks {
-  padding-left: 20px;
+  padding-right: 20px;
 }
 @media (max-width: 991px) {
   .widget-blocks {

@@ -59,7 +59,7 @@ const PhotoNotesItem = ({note, tag, page}) => {
  */
 const Tags = ({groupTags}) => {
     return (
-        <div className="col-lg-4">
+        <div className="col-lg-2">
             <div className="widget-blocks">
                 <div className="col-lg-12 col-md-6">
                     <div className="widget">
@@ -69,8 +69,8 @@ const Tags = ({groupTags}) => {
                                 <li><a href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>All </a></li>
                                 {groupTags.map((t, i) => {
                                     return (
-                                        <li key={i}><a href={`/blog/${t.value}/${Constants.firstPage}`}>{t.value} <span
-                                            className="ml-auto">({t.total})</span></a>
+                                        <li key={i}><a href={`/blog/${t.value}/${Constants.firstPage}`}>
+                                            {t.value} {t.total}</a>
                                         </li>
                                     );
                                 })}
@@ -184,25 +184,26 @@ class BlogPage extends React.Component {
                     <section className="section">
                         <div className="container">
                             <div className="row no-gutters-lg">
-                                <div className="col-lg-8 mb-lg-5">
+                                {this.state.tags.length > 0 ? <Tags groupTags={this.state.tags}/> : null}
+                                <div className="col-lg-9 mb-lg-5">
                                     {this.state.notes.map((note) =>
                                         <PhotoNotesItem key={note.id} note={note}
                                                         tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
                                                         page={parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}
                                         />)}
-                                    { this.state.notes.length > 0 ?
+                                    {this.state.notes.length > 0 ?
                                         <BlogPagination paginator={this.state.paginator}
                                                         tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
                                         /> :
                                         <div className="text-light">
                                             There are no posts.
-                                            {isAuthenticated ? <> Create the <a href={appPath.createNote}>first</a> one.</> :
+                                            {isAuthenticated ? <> Create the <a
+                                                    href={appPath.createNote}>first</a> one.</> :
                                                 <> Log in <a href={appPath.login}>here</a>.</>
                                             }
                                         </div>
                                     }
                                 </div>
-                                {this.state.tags.length > 0 ? <Tags groupTags={this.state.tags}/> : null }
                             </div>
                         </div>
                     </section>

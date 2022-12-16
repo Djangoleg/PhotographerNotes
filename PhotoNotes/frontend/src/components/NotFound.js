@@ -53,7 +53,7 @@ const NotFound = () => {
                         <div className="number">4</div>
                     </div>
                     <div className="subtitle">Oops. Looks like you took a wrong turn.</div>
-                    <button onClick={goBack}>Go back</button>
+                    <button className="button-not-found" onClick={goBack}>Go back</button>
                 </div>
             </div>
         </div>
