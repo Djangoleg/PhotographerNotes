@@ -163,7 +163,8 @@ REST_FRAMEWORK = {
 CORS_ALLOWED_ORIGINS = [
     'http://193.160.119.6',
     'http://localhost:3000',
-    'http://myphotonotes.tech'
+    'http://myphotonotes.tech',
+    'http://www.myphotonotes.tech',
 ]
 
 # Veryfi email
