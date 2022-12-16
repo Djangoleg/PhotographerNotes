@@ -4,6 +4,7 @@ import axios from "axios";
 import url from "./AppURL";
 import Constants from "./AppConstants";
 import Moment from "moment/moment";
+import Footer from "./Footer";
 
 const IndexMiniCardsItem = ({card}) => {
     return (
@@ -57,6 +58,7 @@ class IndexMiniCards extends React.Component {
                         </div>
                     </div>
                 </div>
+                <Footer />
             </section>
         )
     }

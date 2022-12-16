@@ -42,7 +42,6 @@ class PhotoNotes extends React.Component {
                                     <IndexMiniCards />
                                 </div>
                             </div>
-                            <Footer/>
                         </div>
                     }/>
                     <Route exact path={appPath.login} element={
@@ -87,7 +86,7 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route path={appPath.feedback} element={
                         <div>
-                            <div className="content">
+                            <div className="content pb-5">
                                 <FeedbackForm/>
                             </div>
                             <Footer/>

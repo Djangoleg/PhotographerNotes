@@ -28,7 +28,7 @@ class FeedbackForm extends React.Component {
     }
 
     backSubmit = (event) => {
-        this.props.navigate(appPath.index);
+        this.props.navigate(-1);
     }
 
     handleSubmit = (event) => {
@@ -55,7 +55,7 @@ class FeedbackForm extends React.Component {
 
     render() {
         return (
-            <div className="container mt-4 mb-4">
+            <div className="container mt-4 mb-4 pb-5">
                 <div className="col-lg-12 text-lg-center">
                     <h2>Feedback</h2>
                 </div>
@@ -91,7 +91,7 @@ class FeedbackForm extends React.Component {
                             </div>
                         </div>
                         <br/>
-                        <div className="form-group row">
+                        <div className="form-group row pb-5">
                             <label className="col-lg-3 col-form-label form-control-label"></label>
                             <div className="col-lg-9">
                                 <input type="reset" className="btn btn-secondary" value="Cancel"

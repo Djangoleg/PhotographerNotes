@@ -10,7 +10,7 @@ const Footer = () => {
             <div className="mt-2 mb-2">
                 <div className="row">
                     <div className="col-lg-10 mx-auto text-center">
-                        <a className="d-inline-block pb-2" href={appPath.index}>
+                        <a className="d-inline-block pb-2 pt-2" href={appPath.index}>
                             <img className="img-fluid" src="/img/logo.png"/>
                         </a>
                         <ul className="p-0 d-flex navbar-footer mb-0 list-unstyled">
