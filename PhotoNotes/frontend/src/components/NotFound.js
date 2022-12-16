@@ -10,131 +10,34 @@ const NotFound = () => {
         navigate(-1);
     }
 
+    let stars = [];
+    for (let i = 0; i < 60; i++) {
+        stars.push(<div key={i} className={i % 2 == 0 ? "star-" + 2 : "star-" + 1}></div>);
+    }
+
+    let birds = [];
+    for (let i = 0; i < 7; i++) {
+        birds.push(
+            <div key={i} className="bird bird-anim">
+                <div className="bird-container">
+                    <div className="wing wing-left">
+                        <div className="wing-left-top"></div>
+                    </div>
+                    <div className="wing wing-right">
+                        <div className="wing-right-top"></div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div>
             <div className="container-notfound container-star">
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-1"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
-                <div className="star-2"></div>
+                {stars}
             </div>
             <div className="container-notfound container-bird">
-                <div className="bird bird-anim">
-                    <div className="bird-container">
-                        <div className="wing wing-left">
-                            <div className="wing-left-top"></div>
-                        </div>
-                        <div className="wing wing-right">
-                            <div className="wing-right-top"></div>
-                        </div>
-                    </div>
-                </div>
-                <div className="bird bird-anim">
-                    <div className="bird-container">
-                        <div className="wing wing-left">
-                            <div className="wing-left-top"></div>
-                        </div>
-                        <div className="wing wing-right">
-                            <div className="wing-right-top"></div>
-                        </div>
-                    </div>
-                </div>
-                <div className="bird bird-anim">
-                    <div className="bird-container">
-                        <div className="wing wing-left">
-                            <div className="wing-left-top"></div>
-                        </div>
-                        <div className="wing wing-right">
-                            <div className="wing-right-top"></div>
-                        </div>
-                    </div>
-                </div>
-                <div className="bird bird-anim">
-                    <div className="bird-container">
-                        <div className="wing wing-left">
-                            <div className="wing-left-top"></div>
-                        </div>
-                        <div className="wing wing-right">
-                            <div className="wing-right-top"></div>
-                        </div>
-                    </div>
-                </div>
-                <div className="bird bird-anim">
-                    <div className="bird-container">
-                        <div className="wing wing-left">
-                            <div className="wing-left-top"></div>
-                        </div>
-                        <div className="wing wing-right">
-                            <div className="wing-right-top"></div>
-                        </div>
-                    </div>
-                </div>
-                <div className="bird bird-anim">
-                    <div className="bird-container">
-                        <div className="wing wing-left">
-                            <div className="wing-left-top"></div>
-                        </div>
-                        <div className="wing wing-right">
-                            <div className="wing-right-top"></div>
-                        </div>
-                    </div>
-                </div>
+                {birds}
                 <div className="container-title">
                     <div className="title">
                         <div className="number">4</div>
