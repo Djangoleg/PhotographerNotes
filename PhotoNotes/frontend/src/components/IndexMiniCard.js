@@ -33,8 +33,6 @@ class IndexMiniCards extends React.Component {
 
     componentDidMount() {
 
-        // TODO: Add new drf app for mini card.
-
         axios.get(`${url.get()}/api/minicards/`)
             .then(response => {
                 const cards = response.data
