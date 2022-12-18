@@ -19,7 +19,7 @@ class Command(BaseCommand):
         self.user_pk += 1
         print(f'Created user: {role}_{self.user_pk}\tPass: {self.user_pk}')
         user = User.objects.create_user(pk=self.user_pk, username=f'{role}_{self.user_pk}',
-                                        email=f'{self.user_pk}@mail.ru', password=f'{self.user_pk}',
+                                        email=f'{self.user_pk}@mail.ru', password=f'Ghjkhsd124{self.user_pk}',
                                         first_name=f'first_name_{self.user_pk}', last_name=f'last_name_{self.user_pk}',
                                         role_id=self.ROLES_MAP[role])
         Token.objects.create(user=user)
