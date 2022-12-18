@@ -20,6 +20,7 @@ from rest_framework.authtoken.models import Token
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
+    http_method_names = ['post', 'head']
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
