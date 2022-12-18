@@ -19,9 +19,7 @@ from rest_framework.authtoken.models import Token
 
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
-
-    def get_serializer_class(self):
-        return UserModelSerializer
+    serializer_class = UserModelSerializer
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

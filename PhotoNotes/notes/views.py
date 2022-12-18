@@ -15,7 +15,18 @@ class PhotoNoteViewSet(ModelViewSet):
         serializer.save(user=self.request.user)
 
     def perform_update(self, serializer):
-        serializer.save(user=self.request.user)
+        request_user = self.request.user
+        note = PhotoNotes.objects.get(pk=serializer.instance.pk)
+        if request_user.pk != note.user.pk:
+            raise Exception('Editing other notes is prohibited!')
+        serializer.save(user=request_user)
+
+    def perform_destroy(self, instance):
+        request_user = self.request.user
+        note = PhotoNotes.objects.get(pk=instance.pk)
+        if request_user.pk != note.user.pk:
+            raise Exception('Destroy other notes is prohibited!')
+        instance.delete()
 
     def get_queryset(self):
         """

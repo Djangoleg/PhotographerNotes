@@ -15,7 +15,13 @@ import EditButton from "./EditButton";
 
 const PhotoNotesItem = ({note, tag, page}) => {
 
-    const isAuthenticated = Auth.isAuthenticated();
+    const showControlButtons = () => {
+        const auth = Auth;
+        if (auth.username === note.user) {
+           return true;
+        }
+        return false;
+    }
 
     return (
 
@@ -43,8 +49,8 @@ const PhotoNotesItem = ({note, tag, page}) => {
                         <div><a href={`/note/view/${note.id}`}>Comments {note.comments_number}</a></div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        {isAuthenticated ? <DeleteButton note={note}/> : null}
-                        {isAuthenticated ? <EditButton noteId={note.id} tag={tag} page={page}/> : null}
+                        {showControlButtons() ? <DeleteButton note={note}/> : null}
+                        {showControlButtons() ? <EditButton noteId={note.id} tag={tag} page={page}/> : null}
                     </div>
                 </article>
             </div>
