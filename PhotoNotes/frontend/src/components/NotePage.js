@@ -12,7 +12,13 @@ import EditButton from "./EditButton";
 
 const Note = ({note}) => {
 
-    const isAuthenticated = Auth.isAuthenticated();
+    const showControlButtons = () => {
+        const auth = Auth;
+        if (auth.username === note.user) {
+           return true;
+        }
+        return false;
+    }
 
     return (
         <div className="row">
@@ -39,8 +45,8 @@ const Note = ({note}) => {
                         <p className="card-text m-3">{note.photo_comment}</p>
                     </div>
                     <div className="d-flex justify-content-end">
-                        {isAuthenticated ? <DeleteButton note={note}/> : null}
-                        {isAuthenticated ? <EditButton noteId={note.id} page={1}/> : null}
+                        {showControlButtons() ? <DeleteButton note={note}/> : null}
+                        {showControlButtons() ? <EditButton noteId={note.id} page={1}/> : null}
                         <BackButton/>
                     </div>
                 </article>
