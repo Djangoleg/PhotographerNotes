@@ -157,7 +157,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
-    ]
+    ],
 }
 
 CORS_ALLOWED_ORIGINS = [
@@ -188,4 +188,3 @@ else:
     EMAIL_PORT = 25
     EMAIL_USER_SSL = True if os.getenv('EMAIL_USER_SSL') == 'True' else False
     EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
-

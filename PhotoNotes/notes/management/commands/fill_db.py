@@ -22,7 +22,6 @@ def load_from_json(file_name):
 
 
 def crop_image(image_path):
-    area = (300, 300, 700, 700)
     image_file = Path(image_path)
     image = Image.open(image_file.absolute())
 
