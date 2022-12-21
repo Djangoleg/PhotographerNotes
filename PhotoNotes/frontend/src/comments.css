@@ -19,6 +19,7 @@
 }
 
 .comment-body {
+    margin-top: 10px;
     color: #000000;
 }
 
@@ -40,13 +41,6 @@
 }
 
 /* Reply */
-.comment-reply {
-    /*border-radius: 8px;*/
-    /*border: solid 1px #d3dbe1;*/
-    margin-bottom: 5px;
-    margin-top: 5px;
-    overflow: hidden;
-}
 .comment-reply .hidden {
     display: none;
 }
@@ -89,9 +83,8 @@
 .record-comment {
     display: flex;
     text-align: left;
-    padding: 16px 16px 16px 12px;
+    padding: 16px 16px 16px 16px;
     border: 1px solid #d3dbe1;
-    /*border-radius: 5px;*/
     margin-top: 5px;
 }
 
@@ -106,10 +99,6 @@
 
 #showMore:hover {
     text-decoration: underline;
-}
-
-.comments {
-    margin-bottom: 16px;
 }
 
 .comments.last-child {
@@ -147,8 +136,6 @@
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
-    /* Non-prefixed version, currently
-                                     supported by Chrome and Opera */
 }
 
 #actions.hidden {
@@ -180,8 +167,6 @@
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
-    /* Non-prefixed version, currently
-                                     supported by Chrome and Opera */
 }
 
 #right {

@@ -10,7 +10,8 @@ import Auth from './Authentication'
 import styled from "styled-components";
 import $ from "jquery";
 
-const CommentContext = createContext({});
+const ReplyingContext = createContext({});
+const CommentContext = createContext([]);
 const ThemeContext = createContext([]);
 const Authentication = Auth;
 
@@ -23,10 +24,10 @@ const getCurrentUserName = () => {
     return Authentication.username;
 }
 
-function Reply(props) {
+const Reply = (props) => {
+    const [addComment] = useContext(CommentContext);
     const [text, setText] = useState("");
     const [username, setUsername] = useState("");
-
     const routeParams = useParams();
 
     const handleSubmit = (event, props) => {
@@ -36,8 +37,6 @@ function Reply(props) {
             return;
         }
 
-        let headers = Authentication.getHeaders();
-
         let data = {
             body: text,
             note: parseInt(routeParams.id),
@@ -45,20 +44,9 @@ function Reply(props) {
             parent: props.parent_id === undefined ? null : props.parent_id,
             children: []
         };
-        console.log(data);
 
-        let commentsUrl = `${url.get()}/api/comments/?note_id=${routeParams.id}/`;
-        axios.post(commentsUrl,
-            data,
-            {
-                headers: headers,
-            }).then(response => {
-
-            window.location.reload();
-        }).catch(error => {
-            console.log(error);
-            alert('Added comment error!');
-        });
+        addComment(data);
+        $('textarea[name="comment"]').val('');
     }
 
     return (
@@ -101,7 +89,9 @@ function Reply(props) {
                             </div>
                         </div>
                         <input type="button" className="btn btn-primary ms-2 border-0" value="Comment"
-                               onClick={(event) => handleSubmit(event, props)}/>
+                               onClick={(event) =>
+                                   handleSubmit(event, props)
+                               }/>
                     </div>
                 </div>
             </form>
@@ -128,8 +118,8 @@ const gen_comments = (comments, colorindex, path) => {
     });
 }
 
-function Comment(props) {
-    const [replying, setReplying] = useContext(CommentContext);
+let Comment = (props) => {
+    const [replying, setReplying] = useContext(ReplyingContext);
     const [minimized, setMinimized] = useState(false);
     const [hidden, setHidden] = useState(false);
     const [hiddenCommentId, setHiddenCommentId] = useState(-1);
@@ -238,8 +228,7 @@ class Comments extends React.Component {
         }
     }
 
-    componentDidMount() {
-
+    getComments() {
         let id = this.props.params.id;
 
         if (!id) {
@@ -260,12 +249,39 @@ class Comments extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    componentDidMount() {
+        this.getComments();
+    }
+
     setReplying(replying) {
         this.setState(
             {
                 replying: replying
             }
         )
+    }
+
+    setComment(data) {
+
+        let id = this.props.params.id;
+
+        if (!id) {
+            return;
+        }
+
+        let headers = Authentication.getHeaders();
+
+        let commentsUrl = `${url.get()}/api/comments/?note_id=${id}/`;
+        axios.post(commentsUrl,
+            data,
+            {
+                headers: headers,
+            }).then(response => {
+                this.getComments();
+        }).catch(error => {
+            console.log(error);
+            alert('Added comment error!');
+        });
     }
 
     render() {
@@ -275,9 +291,11 @@ class Comments extends React.Component {
                 <Card className="comment-card" {...this.props}>
                     <span id="comments">Comments </span>
                     <span id="comments_count">{this.state.count}</span>
-                    <Reply/>
-                    <CommentContext.Provider value={[this.state.replying, this.setReplying.bind(this)]}>
-                        {gen_comments(this.state.comments, 0, [])}
+                    <CommentContext.Provider value={[this.setComment.bind(this)]}>
+                        <ReplyingContext.Provider value={[this.state.replying, this.setReplying.bind(this)]}>
+                            <Reply/>
+                            {gen_comments(this.state.comments, 0, [])}
+                        </ReplyingContext.Provider>
                     </CommentContext.Provider>
                 </Card>
             </div>
