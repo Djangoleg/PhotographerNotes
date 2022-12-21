@@ -38,3 +38,152 @@
 .form-control::placeholder {
     color: #dedede;
 }
+
+/* Reply */
+.comment-reply {
+    /*border-radius: 8px;*/
+    /*border: solid 1px #d3dbe1;*/
+    margin-bottom: 5px;
+    margin-top: 5px;
+    overflow: hidden;
+}
+.comment-reply .hidden {
+    display: none;
+}
+
+.text-area-reply {
+    font-family: inherit;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    resize: none;
+
+    background: #f9f9f9;
+    padding: 12px;
+    color: #13181d;
+    border: none;
+    max-width: 100%;
+    min-width: 100%;
+}
+
+.panel {
+    display: flex;
+    align-items: center;
+    background: #e1e1e1;
+    padding: 8px;
+}
+
+.comment_as {
+    font-size: 14px;
+    color: #ffffff;
+    margin-right: 8px;
+}
+
+.username {
+    display: inline-block;
+    color: #4f9eed;
+}
+
+/* Comment */
+.record-comment {
+    display: flex;
+    text-align: left;
+    padding: 16px 16px 16px 12px;
+    border: 1px solid #d3dbe1;
+    /*border-radius: 5px;*/
+    margin-top: 5px;
+}
+
+#showMore {
+    background: none;
+    border: none;
+    color: #53626f;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: left;
+}
+
+#showMore:hover {
+    text-decoration: underline;
+}
+
+.comments {
+    margin-bottom: 16px;
+}
+
+.comments.last-child {
+    margin-bottom: 0px;
+}
+
+.comments.hidden {
+    display: none;
+}
+
+#left {
+    text-align: center;
+}
+
+#left.hidden {
+    visibility: hidden;
+    height: 0;
+}
+
+#content {
+    color: #FFFFFF;
+}
+
+#content.hidden {
+    display: none;
+}
+
+#actions {
+    color: #5da5ee;
+    margin-bottom: 12px;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome and Opera */
+}
+
+#actions.hidden {
+    display: none;
+}
+
+#actions.selected {
+    font-weight: bold;
+}
+
+#username {
+    color: #4f9eed;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#date {
+    display: inline-block;
+    color: #53626f;
+}
+
+#top .minimize {
+    cursor: pointer;
+    color: #53626f;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /* Non-prefixed version, currently
+                                     supported by Chrome and Opera */
+}
+
+#right {
+    flex-grow: 1;
+}

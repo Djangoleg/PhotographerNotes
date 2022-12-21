@@ -62,94 +62,53 @@ function Reply(props) {
     }
 
     return (
-
-        <form id={`form_${props.parent_id ? props.parent_id : 0}`} noValidate className="requires-validation">
-            <div {...props}>
-                <div>
-                    <TextArea className="form-control mb-1" id={`username_${props.parent_id ? props.parent_id : 0}`}
-                              name="username"
-                              rows="1"
-                              placeholder="Username.."
-                              defaultValue={getCurrentUserName()}
-                              onChange={value => {
-                                  setUsername(value.target.value);
-                              }}
-                              required
-                    />
-                </div>
-
-                <div>
-                    <TextArea name="comment"
-                              className="form-control mb-1"
-                              placeholder="What are your thoughts?"
-                              minRows={2}
-                              defaultValue={text}
-                              onChange={value => {
-                                  setText(value.target.value);
-                              }}
-                              required
-                    />
-                </div>
-
-                <div className="panel">
-                    <div className="comment_as">
-                        {$(`#username_${props.parent_id ? props.parent_id : 0}`).val() ? 'Comment as ' : ''}
-                        <div href="" className="username">
-                            {$(`#username_${props.parent_id ? props.parent_id : 0}`).val()}
-                        </div>
+        <div className="comment-reply">
+            <form id={`form_${props.parent_id ? props.parent_id : 0}`} noValidate
+                  className="requires-validation">
+                <div {...props}>
+                    <div>
+                        <TextArea className="form-control mb-1 text-area-reply"
+                                  id={`username_${props.parent_id ? props.parent_id : 0}`}
+                                  name="username"
+                                  rows="1"
+                                  placeholder="Username.."
+                                  defaultValue={getCurrentUserName()}
+                                  onChange={value => {
+                                      setUsername(value.target.value);
+                                  }}
+                                  required
+                        />
                     </div>
-                    <input type="button" className="btn btn-primary ms-2 border-0" value="Comment"
-                           onClick={(event) => handleSubmit(event, props)}/>
+
+                    <div>
+                        <TextArea name="comment"
+                                  className="form-control mb-1 text-area-reply"
+                                  placeholder="What are your thoughts?"
+                                  minRows={2}
+                                  defaultValue={text}
+                                  onChange={value => {
+                                      setText(value.target.value);
+                                  }}
+                                  required
+                        />
+                    </div>
+
+                    <div className="panel">
+                        <div className="comment_as">
+                            {$(`#username_${props.parent_id ? props.parent_id : 0}`).val() ? 'Comment as ' : ''}
+                            <div href="" className="username">
+                                {$(`#username_${props.parent_id ? props.parent_id : 0}`).val()}
+                            </div>
+                        </div>
+                        <input type="button" className="btn btn-primary ms-2 border-0" value="Comment"
+                               onClick={(event) => handleSubmit(event, props)}/>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
 
     );
 }
-
-Reply = styled(Reply)`
-  border-radius: 8px;
-  border: solid 1px #d3dbe1;
-  overflow: hidden;
-
-  &.hidden {
-    display: none;
-  }
-
-  textarea {
-    font-family: inherit;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-
-    resize: none;
-
-    background: #f9f9f9;
-    padding: 12px;
-    color: #13181d;
-    border: none;
-    max-width: 100%;
-    min-width: 100%;
-  }
-
-  .panel {
-    display: flex;
-    align-items: center;
-    background: #e1e1e1;
-    padding: 8px;
-
-    .comment_as {
-      font-size: 14px;
-      color: #ffffff;
-      margin-right: 8px;
-
-      .username {
-        display: inline-block;
-        color: #4f9eed;
-      }
-    }
-  }
-`;
 
 const gen_comments = (comments, colorindex, path) => {
     return comments.map((comment, i) => {
@@ -189,20 +148,21 @@ function Comment(props) {
 
     return (
         <div {...props}>
-            {hidden ? (
-                <button
-                    id="showMore"
-                    onClick={() => {
-                        setHidden(false);
-                        setHiddenCommentId(props.id);
-                    }}
-                >
-                    Show More Replies
-                </button>
-            ) : (
-                <>
-                    <div id="right">
-                        <div id="top">
+            <div className="record-comment">
+                {hidden ? (
+                    <button
+                        id="showMore"
+                        onClick={() => {
+                            setHidden(false);
+                            setHiddenCommentId(props.id);
+                        }}
+                    >
+                        Show More Replies
+                    </button>
+                ) : (
+                    <>
+                        <div id="right">
+                            <div id="top">
               <span
                   className="minimize"
                   onClick={() => {
@@ -211,13 +171,13 @@ function Comment(props) {
               >
                 [{minimized ? "+" : "-"}]
               </span>
-                            <span id="username">{props.username}</span>
-                            <span id="date">{Moment(props.date).format('LLL')}</span>
-                        </div>
-                        <div id="content" className={minimized ? "hidden" : ""}>
-                            <Markdown className="comment-body" options={{forceBlock: true}}>{props.text}</Markdown>
-                        </div>
-                        <div id="actions" className={minimized ? "hidden" : ""}>
+                                <span id="username">{props.username}</span>
+                                <span id="date">{Moment(props.date).format('LLL')}</span>
+                            </div>
+                            <div id="content" className={minimized ? "hidden" : ""}>
+                                <Markdown className="comment-body" options={{forceBlock: true}}>{props.text}</Markdown>
+                            </div>
+                            <div id="actions" className={minimized ? "hidden" : ""}>
               <span
                   className={`${compare(replying, props.path) ? "selected" : ""}`}
                   onClick={() => {
@@ -230,137 +190,29 @@ function Comment(props) {
               >
                 reply
               </span>
+                            </div>
+                            <Reply
+                                className={
+                                    compare(replying, props.path) && !minimized ? "" : "hidden"
+                                }
+                                parent_id={props.id}
+                            />
+                            <div className={`comments ${minimized ? "hidden" : ""}`}>
+                                {gen_comments(props.comments, props.colorindex + 1, [
+                                    ...props.path
+                                ])}
+                            </div>
                         </div>
-                        <Reply
-                            className={
-                                compare(replying, props.path) && !minimized ? "" : "hidden"
-                            }
-                            parent_id={props.id}
-                        />
-                        <div className={`comments ${minimized ? "hidden" : ""}`}>
-                            {gen_comments(props.comments, props.colorindex + 1, [
-                                ...props.path
-                            ])}
-                        </div>
-                    </div>
-                </>
-            )}
+                    </>
+                )}
+            </div>
         </div>
+
     );
 }
 
 Comment = styled(Comment)`
-  display: flex;
-  text-align: left;
   background: ${props => (props.colorindex % 2 === 0 ? "#FFFFFF" : "#f5f5f5")};
-  padding: 16px 16px 16px 12px;
-  border: 0.1px solid #d3dbe1;
-  border-radius: 8px;
-
-  #showMore {
-    background: none;
-    border: none;
-    color: #53626f;
-    cursor: pointer;
-    font-size: 13px;
-    text-align: left;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .comments {
-    > * {
-      margin-bottom: 16px;
-
-      &:last-child {
-        margin-bottom: 0px;
-      }
-    }
-
-    &.hidden {
-      display: none;
-    }
-  }
-
-  #left {
-    text-align: center;
-    &.hidden {
-      visibility: hidden;
-      height: 0;
-    }
-  }
-
-  #right {
-    flex-grow: 1;
-
-    #top {
-      .minimize {
-        cursor: pointer;
-        color: #53626f;
-
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-      }
-
-      #username {
-        color: #4f9eed;
-      }
-
-      #date {
-        display: inline-block;
-        color: #53626f;
-      }
-
-      > * {
-        margin-right: 8px;
-      }
-    }
-
-    #content {
-      color: #FFFFFF;
-
-      &.hidden {
-        display: none;
-      }
-    }
-
-    #actions {
-      color: #5da5ee;
-      margin-bottom: 12px;
-
-      -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-      -khtml-user-select: none; /* Konqueror HTML */
-      -moz-user-select: none; /* Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-      user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-
-      &.hidden {
-        display: none;
-      }
-
-      > .selected {
-        font-weight: bold;
-      }
-
-      > * {
-        cursor: pointer;
-        margin-right: 8px;
-      }
-    }
-  }
-
-  ${Reply} {
-    margin-bottom: 12px;
-  }
 `;
 
 const Card = (props) => {
