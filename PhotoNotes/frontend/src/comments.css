@@ -138,6 +138,11 @@
     user-select: none;
 }
 
+.reply-link {
+    width: fit-content;
+    cursor: pointer;
+}
+
 #actions.hidden {
     display: none;
 }

@@ -46,7 +46,12 @@ const Reply = (props) => {
         };
 
         addComment(data);
+
         $('textarea[name="comment"]').val('');
+        if (props.parent_id) {
+            $(".selected").removeClass('selected');
+            form.children[0].classList.add('hidden');
+        }
     }
 
     return (
@@ -178,7 +183,7 @@ let Comment = (props) => {
                       }
                   }}
               >
-                reply
+                  <div className="reply-link">reply</div>
               </span>
                             </div>
                             <Reply
@@ -277,7 +282,7 @@ class Comments extends React.Component {
             {
                 headers: headers,
             }).then(response => {
-                this.getComments();
+            this.getComments();
         }).catch(error => {
             console.log(error);
             alert('Added comment error!');
