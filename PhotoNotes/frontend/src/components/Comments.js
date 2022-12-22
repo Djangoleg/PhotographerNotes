@@ -25,7 +25,7 @@ const getCurrentUserName = () => {
 }
 
 const Reply = (props) => {
-    const [addComment] = useContext(CommentContext);
+    const [addComment, deleteComment] = useContext(CommentContext);
     const [text, setText] = useState("");
     const [username, setUsername] = useState("");
     const routeParams = useParams();
@@ -112,6 +112,7 @@ const gen_comments = (comments, colorindex, path) => {
                 id={comment.id}
                 parent={comment.parent}
                 username={comment.user}
+                note_owner={comment.note_owner}
                 date={comment.created}
                 text={comment.body}
                 comments={comment.children}
@@ -125,14 +126,15 @@ const gen_comments = (comments, colorindex, path) => {
 
 let Comment = (props) => {
     const [replying, setReplying] = useContext(ReplyingContext);
+    const [addComment, deleteComment] = useContext(CommentContext);
     const [minimized, setMinimized] = useState(false);
     const [hidden, setHidden] = useState(false);
     const [hiddenCommentId, setHiddenCommentId] = useState(-1);
 
     useEffect(() => {
         const calcHidden = async () => {
-            if (((props.path.length > 2 && props.path.length % 2 === 0) ||
-                (props.path[props.path.length - 1] > 3)) && (hiddenCommentId !== props.id)) {
+            if (((props.path.length > 4 && props.path.length % 2 === 0) ||
+                (props.path[props.path.length - 1] > 5)) && (hiddenCommentId !== props.id)) {
                 setHidden(true);
             }
         };
@@ -140,6 +142,13 @@ let Comment = (props) => {
         calcHidden().then(r => {
         });
     }, [props]);
+
+    const showDeleteButton = () => {
+        if (getCurrentUserName() === props.note_owner) {
+            return true;
+        }
+        return false;
+    }
 
     return (
         <div {...props}>
@@ -173,6 +182,7 @@ let Comment = (props) => {
                                 <Markdown className="comment-body" options={{forceBlock: true}}>{props.text}</Markdown>
                             </div>
                             <div id="actions" className={minimized ? "hidden" : ""}>
+                                <div className="d-flex justify-content-between">
               <span
                   className={`${compare(replying, props.path) ? "selected" : ""}`}
                   onClick={() => {
@@ -183,8 +193,19 @@ let Comment = (props) => {
                       }
                   }}
               >
-                  <div className="reply-link">reply</div>
+                      <div className="reply-link d-inline-block">reply</div>
               </span>
+              {showDeleteButton() ? (
+              <span
+                    className={`${compare(replying, props.path) ? "selected" : ""}`}
+                    onClick={() => {
+                        deleteComment(props.id);
+                    }}
+              >
+                    <div className="reply-link d-inline-block">delete</div>
+              </span>) : null}
+
+                                </div>
                             </div>
                             <Reply
                                 className={
@@ -266,7 +287,7 @@ class Comments extends React.Component {
         )
     }
 
-    setComment(data) {
+    addComment(data) {
 
         let id = this.props.params.id;
 
@@ -289,6 +310,22 @@ class Comments extends React.Component {
         });
     }
 
+    deleteComment(comment_id) {
+
+        let headers = Authentication.getHeaders();
+
+        let commentDeleteUrl = `${url.get()}/api/comments/${comment_id}/`
+
+        axios.delete(commentDeleteUrl, {
+            headers: headers,
+        }).then(() => {
+            this.getComments();
+        }).catch(error => {
+            console.log(error);
+            alert('Delete comment error!');
+        });
+    }
+
     render() {
 
         return (
@@ -296,7 +333,7 @@ class Comments extends React.Component {
                 <Card className="comment-card" {...this.props}>
                     <span id="comments">Comments </span>
                     <span id="comments_count">{this.state.count}</span>
-                    <CommentContext.Provider value={[this.setComment.bind(this)]}>
+                    <CommentContext.Provider value={[this.addComment.bind(this), this.deleteComment.bind(this)]}>
                         <ReplyingContext.Provider value={[this.state.replying, this.setReplying.bind(this)]}>
                             <Reply/>
                             {gen_comments(this.state.comments, 0, [])}

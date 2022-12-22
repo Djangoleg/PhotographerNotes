@@ -32,3 +32,10 @@ class CommentViewSet(ModelViewSet):
             ('results', serializer.data)
         ]))
 
+    def perform_destroy(self, instance):
+        request_user = self.request.user
+        comment = Comments.objects.get(pk=instance.pk)
+        if request_user.pk != comment.user.pk:
+            raise Exception('Destroy other comment is prohibited!')
+        instance.delete()
+
