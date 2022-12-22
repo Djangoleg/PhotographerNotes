@@ -9,24 +9,15 @@ from django.utils.timezone import now
 from PhotoNotes import settings
 
 
-class Role(models.Model):
-    """Группы пользователей: Пользователь, автор"""
-    role_name = models.CharField(max_length=256, unique=True)
-
-    def __str__(self):
-        return self.role_name
-
-
 class User(AbstractUser):
-    """Модель пользователя"""
-    role = models.ForeignKey(Role, null=True, db_constraint=False, on_delete=models.CASCADE)
-    # ключ используемый для подтверждения email
+    """User model"""
+    # Key used to verify email
     activation_key = models.CharField(max_length=128, null=True, blank=True)
-    # дата создания ключа для проверки работоспособности ключа (действует 48 часов)
+    # Date of creation of the key to check the functionality of the key (valid for 48 hours)
     activation_key_created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def is_activation_key_expired(self):
-        """метод для проверки, что ключ проверки email не просрочен"""
+        """Method to check that the email verification key is not expired"""
         if now() <= self.activation_key_created + timedelta(hours=settings.USER_EMAIL_KEY_LIFETIME):
             return False
         return True

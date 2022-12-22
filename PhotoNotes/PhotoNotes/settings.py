@@ -146,12 +146,6 @@ LOGIN_REDIRECT_URL = 'index'
 
 USER_EMAIL_KEY_LIFETIME = 48
 
-
-class UserRole:
-    OWNER = 1
-    READER = 2
-
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
