@@ -23,7 +23,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         User.objects.all().delete()
 
-        superuser = User.objects.create_superuser('ok', 'test@gmail.com', 'KJH1212sdfg', pk=1)
+        superuser = User.objects.create_superuser(pk=1, username='ok', first_name='William',
+                                                  email='test@gmail.com', password='KJH1212sdfg')
         Token.objects.create(user=superuser)
         superuser.save()
         self.user_pk = 1

@@ -87,7 +87,7 @@ class RegistrationForm extends React.Component {
 
                                     <div className="col-md-12">
                                         <input className="form-control" type="firstname" name="firstname"
-                                               placeholder="Firstname" value={this.state.firstname}
+                                               placeholder="Firstname" required value={this.state.firstname}
                                                onChange={(event) => this.handleChange(event)}/>
                                         <div className="valid-feedback">Firstname field is valid!</div>
                                         <div className="invalid-feedback">Firstname field cannot be blank!</div>
