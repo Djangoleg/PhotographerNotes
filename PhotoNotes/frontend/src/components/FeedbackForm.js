@@ -33,6 +33,13 @@ class FeedbackForm extends React.Component {
 
     handleSubmit = (event) => {
 
+        let form = document.querySelectorAll('.requires-validation')[0];
+
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;
+        }
+
         let headers = Auth.getHeaders();
 
         let data = new FormData();
@@ -60,7 +67,7 @@ class FeedbackForm extends React.Component {
                     <h2>Feedback</h2>
                 </div>
                 <div className="col-lg-12">
-                    <form role="form">
+                    <form className="requires-validation" role="form" noValidate>
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Title</label>
                             <div className="col-lg-9">
@@ -84,10 +91,15 @@ class FeedbackForm extends React.Component {
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Body</label>
                             <div className="col-lg-9">
-                                <textarea className="form-control" id="body" name="body"
+                                <textarea id="body"
+                                          name="body"
+                                          className="form-control"
                                           rows="8" placeholder="Enter message.."
                                           value={this.state.body}
-                                          onChange={(event) => this.handleChange(event)}/>
+                                          onChange={(event) => this.handleChange(event)}
+                                          required/>
+                                <div className="valid-feedback">Body field is valid!</div>
+                                <div className="invalid-feedback">Body field cannot be blank!</div>
                             </div>
                         </div>
                         <br/>
