@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import Moment from 'moment';
 import Auth from "./Authentication";
 import Constants from "./AppConstants";
@@ -17,7 +15,7 @@ const PhotoNotesItem = ({note, tag, page}) => {
 
     const showControlButtons = () => {
         const auth = Auth;
-        if (auth.username === note.user) {
+        if (auth.username === note.username) {
            return true;
         }
         return false;

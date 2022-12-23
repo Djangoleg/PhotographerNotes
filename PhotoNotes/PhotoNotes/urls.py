@@ -34,7 +34,7 @@ router.register('notes', PhotoNoteViewSet)
 router.register('comments', CommentViewSet)
 router.register('carousel', CarouselViewSet)
 router.register('feedback', FeedbackViewSet)
-router.register('minicards', MiniCardsViewSet)
+router.register('minicards', MiniCardsViewSet, 'minicards')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

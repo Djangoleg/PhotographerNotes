@@ -11,6 +11,7 @@ from PhotoNotes import settings
 
 class User(AbstractUser):
     """User model"""
+    first_name = models.CharField(verbose_name="first name", max_length=150, blank=False, null=False)
     # Key used to verify email
     activation_key = models.CharField(max_length=128, null=True, blank=True)
     # Date of creation of the key to check the functionality of the key (valid for 48 hours)

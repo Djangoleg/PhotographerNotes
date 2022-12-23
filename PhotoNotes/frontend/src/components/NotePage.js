@@ -14,7 +14,7 @@ const Note = ({note}) => {
 
     const showControlButtons = () => {
         const auth = Auth;
-        if (auth.username === note.user) {
+        if (auth.username === note.username) {
            return true;
         }
         return false;

@@ -4,8 +4,11 @@ import axios from "axios";
 import url from "./AppURL";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import {useNavigate} from "react-router-dom";
+import Constants from "./AppConstants";
 
 const DeleteButton = ({note}) => {
+    const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
@@ -15,7 +18,13 @@ const DeleteButton = ({note}) => {
             headers: headers,
         }).then(() => {
             setShow(false);
-            window.location.reload();
+
+            if (window.location.pathname.includes('blog')) {
+                window.location.reload();
+            } else {
+                navigate(`/blog/${Constants.allTags}/${Constants.firstPage}`);
+            }
+
         }).catch(error => {
             setShow(false);
             console.log(error);

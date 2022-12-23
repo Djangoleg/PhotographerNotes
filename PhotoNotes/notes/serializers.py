@@ -12,16 +12,25 @@ from rest_framework.utils import json
 
 from comments.models import Comments
 from notes.models import PhotoNotes, PhotoNotesTags
+from users.models import User
 
 
 class PhotoNoteModelSerializer(ModelSerializer):
     tags = StringRelatedField(many=True, read_only=True)
-    comments_number = serializers.SerializerMethodField(source='get_comments_number')
-    user = StringRelatedField(many=False, read_only=True)
+    comments_number = serializers.SerializerMethodField(source='get_comments_number', read_only=True)
+    username = serializers.SerializerMethodField(source='get_username', read_only=True)
+    user_firstname = serializers.SerializerMethodField(source='get_user_firstname', read_only=True)
 
     class Meta:
         model = PhotoNotes
-        fields = ('id', 'modified', 'user', 'title', 'image', 'photo_comment', 'tags', 'comments_number')
+        fields = ('id', 'modified', 'username', 'user_firstname', 'title', 'image', 'photo_comment',
+                  'tags', 'comments_number')
+
+    def get_username(self, obj):
+        return User.objects.get(pk=obj.user.pk).username
+
+    def get_user_firstname(self, obj):
+        return User.objects.get(pk=obj.user.pk).first_name
 
     def get_comments_number(self, obj):
         return Comments.objects.filter(note=obj).count()
