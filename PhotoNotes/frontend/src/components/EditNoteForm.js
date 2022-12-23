@@ -1,4 +1,3 @@
-import '../editNote.css';
 import React from "react";
 import {useParams, useNavigate} from "react-router-dom";
 import $ from "jquery";
@@ -85,6 +84,19 @@ class EditNoteForm extends React.Component {
 
     handleSubmit = (event) => {
 
+        if ($('#note_image').attr('src')) {
+            $('#chooseFile').prop('required',false);
+        } else {
+            $('#chooseFile').prop('required',true);
+        }
+
+        let form = document.querySelectorAll('.requires-validation')[0];
+
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated');
+            return;
+        }
+
         let headers = Auth.getHeaders();
 
         let data = new FormData();
@@ -140,15 +152,18 @@ class EditNoteForm extends React.Component {
                     <br/><br/>
                 </div>
                 <div className="col-lg-8 push-lg-4 personal-info">
-                    <form role="form">
+                    <form className="requires-validation" role="form" noValidate>
 
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Title</label>
                             <div className="col-lg-9">
-                                <input className="form-control" id="title" name="title" type="text"
-                                       placeholder="Enter title"
+                                <input className="form-control placeholder-custom-color" id="title" name="title" type="text"
+                                       placeholder="Enter title.."
                                        value={this.state.title}
-                                       onChange={(event) => this.handleChange(event)}/>
+                                       onChange={(event) => this.handleChange(event)}
+                                       required/>
+                                <div className="valid-feedback">Title field is valid!</div>
+                                <div className="invalid-feedback">Title field cannot be blank!</div>
                             </div>
                         </div>
                         <br/>
@@ -162,27 +177,29 @@ class EditNoteForm extends React.Component {
                             </div>
                         </div>
                         <br/>
+
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Image File</label>
                             <div className="col-lg-9">
-                                <div className="file-upload">
-                                    <div className="file-select">
-                                        <div className="file-select-button" id="fileName">Choose File</div>
-                                        <div className="file-select-name" id="noFile">No file chosen...</div>
-                                        <input type="file" name="chooseFile" id="chooseFile"
-                                               onChange={(event) => this.onFileChange(event)}/>
-                                    </div>
-                                </div>
+                                <input id="chooseFile" className="form-control placeholder-custom-color" type="file" name="chooseFile"
+                                       onChange={(event) => this.onFileChange(event)} />
+                                <div className="valid-feedback">File field is valid!</div>
+                                <div className="invalid-feedback">File field cannot be blank!</div>
                             </div>
                         </div>
+
                         <br/>
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Comment</label>
                             <div className="col-lg-9">
                                 <textarea className="form-control" id="comment" name="comment"
-                                          rows="4" placeholder="Comment, please.."
+                                          rows="7"
+                                          placeholder="Comment, please.."
                                           value={this.state.comment}
-                                          onChange={(event) => this.handleChange(event)}/>
+                                          onChange={(event) => this.handleChange(event)}
+                                          required/>
+                                <div className="valid-feedback">Comment field is valid!</div>
+                                <div className="invalid-feedback">Comment field cannot be blank!</div>
                             </div>
                         </div>
                         <br/>
@@ -190,10 +207,12 @@ class EditNoteForm extends React.Component {
                             <label className="col-lg-3 col-form-label form-control-label">Tags</label>
                             <div className="col-lg-9">
                                 <TagsInput
+                                    id="tagsInput"
+                                    className="form-control"
                                     value={this.state.tags}
                                     onChange={(event) => this.handleTagsChange(event)}
                                     name="tags"
-                                    placeHolder="enter tags"
+                                    placeHolder="Enter tags.."
                                 />
                             </div>
                         </div>
