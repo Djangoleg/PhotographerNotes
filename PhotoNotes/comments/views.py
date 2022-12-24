@@ -5,9 +5,11 @@ from django.shortcuts import render
 # Create your views here.
 # CommentViewSet
 from mptt.templatetags.mptt_tags import cache_tree_children
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from PhotoNotes.settings import ALLOW_ANONYMOUS_COMMENTS
 from comments.models import Comments
 from comments.serializers import CommentModelSerializer
 
@@ -31,6 +33,16 @@ class CommentViewSet(ModelViewSet):
             ('count', count),
             ('results', serializer.data)
         ]))
+
+    def create(self, request, *args, **kwargs):
+
+        if not ALLOW_ANONYMOUS_COMMENTS and request.user.is_anonymous:
+            return Response(OrderedDict([
+                ('is_forbidden', True),
+                ('message', 'Anonymous comments are not allowed! Log in please.'),
+            ]), status=status.HTTP_200_OK)
+
+        return super(CommentViewSet, self).create(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
         request_user = self.request.user

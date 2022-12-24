@@ -66,6 +66,7 @@ const Reply = (props) => {
                                   rows="1"
                                   placeholder="Username.."
                                   defaultValue={getCurrentUserName()}
+                                  readOnly={getCurrentUserName() ? true : false}
                                   onChange={value => {
                                       setUsername(value.target.value);
                                   }}
@@ -89,7 +90,7 @@ const Reply = (props) => {
                     <div className="panel">
                         <div className="comment_as">
                             {$(`#username_${props.parent_id ? props.parent_id : 0}`).val() ? 'Comment as ' : ''}
-                            <div href="" className="username">
+                            <div className="username">
                                 {$(`#username_${props.parent_id ? props.parent_id : 0}`).val()}
                             </div>
                         </div>
@@ -99,6 +100,7 @@ const Reply = (props) => {
                                }/>
                     </div>
                 </div>
+                <div id="add-comment-message"></div>
             </form>
         </div>
 
@@ -303,7 +305,13 @@ class Comments extends React.Component {
             {
                 headers: headers,
             }).then(response => {
-            this.getComments();
+
+                if (response.data.is_forbidden) {
+                    $('#add-comment-message').html(`${response.data.message}`).css('color', '#ff606e');
+                    return;
+                }
+
+                this.getComments();
         }).catch(error => {
             console.log(error);
             alert('Added comment error!');
