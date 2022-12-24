@@ -16,7 +16,7 @@ const PhotoNotesItem = ({note, tag, page}) => {
     const showControlButtons = () => {
         const auth = Auth;
         if (auth.username === note.username) {
-           return true;
+            return true;
         }
         return false;
     }
@@ -26,12 +26,15 @@ const PhotoNotesItem = ({note, tag, page}) => {
         <div className="row">
             <div className="col-12 mb-4">
                 <article className="card article-card">
+                    <div className="d-flex justify-content-between">
+                        <div className="d-inline-block">
+                            <img src="/img/Rock16.svg"/>
+                            <span className="text-uppercase ms-1 text-info">{note.user_firstname}</span>
+                        </div>
+                        <span className="d-inline-block">{Moment(note.modified).format('LLL')}</span>
+                    </div>
                     <h2 className="h1">{note.title}</h2>
                     <div className="card-image">
-                        <div className="post-info d-flex justify-content-between">
-                            <span className="text-uppercase">{note.user_firstname}</span>
-                            <span className="text-uppercase">{Moment(note.modified).format('LLL')}</span>
-                        </div>
                         <img loading="lazy" decoding="async" src={note.image} className="w-100"/>
                     </div>
                     <div className="card-body px-0 pb-1">
