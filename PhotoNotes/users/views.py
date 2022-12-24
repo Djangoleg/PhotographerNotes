@@ -1,5 +1,6 @@
 import hashlib
 import random
+from collections import OrderedDict
 
 from django.contrib import auth
 from django.core.mail import send_mail
@@ -12,6 +13,7 @@ from rest_framework.reverse import reverse
 from rest_framework.viewsets import ModelViewSet
 
 from PhotoNotes import settings
+from PhotoNotes.settings import ALLOW_REGISTRATION_NEW_USERS
 from users.models import User
 from users.serializers import UserModelSerializer
 from rest_framework.authtoken.models import Token
@@ -23,6 +25,13 @@ class UserViewSet(ModelViewSet):
     http_method_names = ['post', 'head']
 
     def create(self, request, *args, **kwargs):
+
+        if not ALLOW_REGISTRATION_NEW_USERS:
+            return Response(OrderedDict([
+                ('is_forbidden', True),
+                ('message', 'Registration of new users is prohibited'),
+            ]), status=status.HTTP_200_OK)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = self.perform_create(serializer)
