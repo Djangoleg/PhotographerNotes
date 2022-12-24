@@ -26,7 +26,7 @@ const Note = ({note}) => {
                 <article className="card article-card">
                     <div className="post-info d-flex justify-content-between">
                         <div className="d-inline-block">
-                            <img src="/img/Rock16.svg"/>
+                            <img src="/img/Rock16.svg" title="Rock!" alt=""/>
                             <span className="text-uppercase ms-1 text-info">{note.user_firstname}</span>
                         </div>
                         <span className="d-inline-block">{Moment(note.modified).format('LLL')}</span>
