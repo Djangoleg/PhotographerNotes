@@ -14,9 +14,11 @@ const Menu = () => {
             <div>
                 <Navbar className="navbar navbar-expand-lg static-top my-navbar">
                     <div className="container-nav">
+
                         <a className="navbar-brand" href="/">
                             <img src="/img/logo.png" alt="..."/>
                         </a>
+                        <img src="/img/Rock32.svg" alt=""/>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -24,8 +26,9 @@ const Menu = () => {
                         </button>
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav ms-auto">
+                                <img src="/img/Rica32.svg" alt=""/>
                                 <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    <a className="nav-link dropdown-toggle ms-3" href="#" id="navbarDropdown" role="button"
                                        data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src="/img/menu.png"/>
                                     </a>

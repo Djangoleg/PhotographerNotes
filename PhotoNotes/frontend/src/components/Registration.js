@@ -1,4 +1,3 @@
-import appPath from "./AppPath";
 import axios from "axios";
 import $ from "jquery";
 import url from "./AppURL"
