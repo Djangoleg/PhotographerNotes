@@ -21,6 +21,7 @@ class EditNoteForm extends React.Component {
             comment: '',
             image: null,
             selectedFile: null,
+            pinned: '',
             tags: []
         };
     }
@@ -40,7 +41,8 @@ class EditNoteForm extends React.Component {
                             title: note.title,
                             comment: note.photo_comment,
                             image: note.image,
-                            tags: note.tags
+                            tags: note.tags,
+                            pinned: note.pinned
                         }
                     )
                 }).catch(error => console.log(error))
@@ -85,9 +87,9 @@ class EditNoteForm extends React.Component {
     handleSubmit = (event) => {
 
         if ($('#note_image').attr('src')) {
-            $('#chooseFile').prop('required',false);
+            $('#chooseFile').prop('required', false);
         } else {
-            $('#chooseFile').prop('required',true);
+            $('#chooseFile').prop('required', true);
         }
 
         let form = document.querySelectorAll('.requires-validation')[0];
@@ -107,6 +109,8 @@ class EditNoteForm extends React.Component {
         if (this.state.selectedFile) {
             data.append('image', this.state.selectedFile);
         }
+
+        data.append('pinned', this.state.pinned);
 
         if (this.props.params.id) {
             // Edit note.
@@ -157,7 +161,8 @@ class EditNoteForm extends React.Component {
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Title</label>
                             <div className="col-lg-9">
-                                <input className="form-control placeholder-custom-color" id="title" name="title" type="text"
+                                <input className="form-control placeholder-custom-color" id="title" name="title"
+                                       type="text"
                                        placeholder="Enter title.."
                                        value={this.state.title}
                                        onChange={(event) => this.handleChange(event)}
@@ -181,8 +186,9 @@ class EditNoteForm extends React.Component {
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Image File</label>
                             <div className="col-lg-9">
-                                <input id="chooseFile" className="form-control placeholder-custom-color" type="file" name="chooseFile"
-                                       onChange={(event) => this.onFileChange(event)} />
+                                <input id="chooseFile" className="form-control placeholder-custom-color" type="file"
+                                       name="chooseFile"
+                                       onChange={(event) => this.onFileChange(event)}/>
                                 <div className="valid-feedback">File field is valid!</div>
                                 <div className="invalid-feedback">File field cannot be blank!</div>
                             </div>
@@ -200,6 +206,17 @@ class EditNoteForm extends React.Component {
                                           required/>
                                 <div className="valid-feedback">Comment field is valid!</div>
                                 <div className="invalid-feedback">Comment field cannot be blank!</div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div className="form-group row">
+                            <label className="col-lg-3 col-form-label form-control-label">Pinned</label>
+                            <div className="col-lg-9">
+                                <input className="form-check-input" id="pinned" name="pinned"
+                                       type="checkbox"
+                                       checked={this.state.pinned}
+                                       onChange={(event) => this.handleChange(event)}
+                                       />
                             </div>
                         </div>
                         <br/>
@@ -226,7 +243,6 @@ class EditNoteForm extends React.Component {
                                        onClick={(event) => this.handleSubmit(event)}/>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>

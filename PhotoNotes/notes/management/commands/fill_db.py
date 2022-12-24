@@ -55,6 +55,7 @@ class Command(BaseCommand):
             ph_n['id'] = p.get('id')
             ph_n['title'] = p.get('title')
             ph_n['image'] = p.get('image')
+            ph_n['pinned'] = p.get('pinned')
             ph_n['imageminicard'] = crop_image(os.path.join('media', p.get('image')))
             ph_n['photo_comment'] = p.get('photo_comment')
             ph_n['user'] = User.objects.get(pk=p.get('user'))
