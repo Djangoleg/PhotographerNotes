@@ -1,0 +1,127 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Button style */
+.btn {
+    font-family: "Work Sans", sans-serif;
+    font-weight: 500;
+    text-transform: capitalize;
+    padding: 10px 25px;
+    border-radius: 0;
+    border: 1px solid;
+    position: relative;
+    z-index: 1;
+    transition: 0.2s ease;
+}
+
+.btn:hover, .btn:active, .btn.active .btn:focus, .btn.focus {
+    outline: 0;
+    box-shadow: none !important;
+}
+
+.btn-primary {
+    background: #6bb2b2;
+    color: #ffffff !important;
+    /*border-color: #6bb2b2;*/
+    /*bs-btn-bg: #336666;*/
+    background: #366 !important;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary.active .btn-primary:focus, .btn-primary.focus {
+    background: #6bb2b2 !important;
+    border-color: #6bb2b2 !important;
+}
+
+.btn-outline-primary {
+    background: transparent;
+    color: #6bb2b2;
+    border-color: #6bb2b2;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary.active .btn-outline-primary:focus, .btn-outline-primary.focus {
+    background: #6bb2b2 !important;
+    border-color: #6bb2b2 !important;
+    color: #fff;
+}
+
+.btn-sm {
+    font-size: 14px;
+    padding: 10px 25px;
+}
+
+.text-blue {
+    color: #0c63e4;
+}
+
+.container-index {
+    max-width: 1624px;
+    /*min-height: 700px;*/
+}
+
+.webkit-center {
+    text-align: -webkit-center;
+}
+
+.section-padding {
+    position: relative;
+    padding-top: 30px;
+    padding-bottom: 165px;
+    /*padding: 30px 15px 70px;*/
+    /*position: relative;*/
+}
+
+.post-grid span {
+  font-size: 15px;
+}
+
+.post-list .cat-name {
+  color: #ce8460;
+}
+.post-list .post-view {
+  position: relative;
+  padding-left: 10px;
+  margin-left: 10px;
+}
+.post-list .post-view:before {
+  position: absolute;
+  content: "";
+  left: -10px;
+  top: 13px;
+  width: 10px;
+  height: 1px;
+  background: #000;
+}
+
+.post-title {
+  text-transform: capitalize;
+}
+
+.letter-spacing-1 {
+  letter-spacing: 1px;
+}
+
+.col-padding {
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+}
+
+.post-title-card {
+  color: #000;
+  text-decoration: none;
+  background-image: linear-gradient(#3deaa4, #3deaa4);
+  background-position: 0% 80%;
+  background-repeat: no-repeat;
+  background-size: 0% 8px;
+  transition: background-size 0.3s;
+}

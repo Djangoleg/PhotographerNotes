@@ -1,0 +1,6 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /blog/alltgs/1
+Allow: /login
+Allow: /registration
+Allow: /feedback

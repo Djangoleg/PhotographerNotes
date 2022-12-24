@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap');
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    /*background: #C5D9D9;*/
+    background-color: #FFFFFF;
+}
+
+.bg-blog {
+    /* The image used */
+    background-image: url("../public/img/bg.jpg");
+    /* Center and scale the image nicely */
+    /*background-position: center;*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: -webkit-fill-available;
+}
+
+*, body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.dropdown-toggle::after {
+    display: inline-block;
+    margin-left: 0.255em;
+    vertical-align: 0.255em;
+    content: "";
+    border-top: 0.3em solid;
+    border-right: 0.3em solid transparent;
+    border-bottom: 0;
+    border-left: 0.3em solid transparent;
+    color: #336666;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: var(--bs-dropdown-link-active-color);
+    text-decoration: none;
+    background-color: #062020;
+}
+
+.navbar-footer {
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.navbar-footer .nav-item {
+    margin: 10px 0;
+}
+
+.navbar-footer .nav-item .nav-link {
+    color: #FFFFFF;
+}
+
+.footer {
+    background: #062020;
+}
+
+.copyright {
+    background-color: #0e0e0e !important;
+    color: #e8e8e8;
+    padding: 15px 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+.content {
+    position: absolute;
+    width: 100%;
+}
+
+.my-navbar {
+    background-color: #062020;
+}
+
+.row {
+    --bs-gutter-x: 0rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+}
+
+.button-tar {
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.container-nav {
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1320px;
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    margin-right: auto;
+    margin-left: auto;
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "First post. Sunset",
+    "image": "post_photo/1.jpg",
+    "photo_comment": "Sunsets, like childhood, are viewed with wonder not just because they are beautiful but because they are fleeting. Enjoy the beauty of a sunset and enjoy nature’s farewell kiss for the night.",
+    "user": 1
+  },
+  {
+    "id": 2,
+    "title": "Gandhi",
+    "image": "post_photo/2.jpg",
+    "photo_comment": "What Is Mindful Walking?\nJust as mindfulness is the practice of bringing your attention to the present moment, mindful walking is the practice of becoming aware of your surroundings and how your body and mind feel while moving. Meditation isn’t necessarily about being still. For some people, movement is helpful for becoming more aware of their bodies and minds, as well as the present moment. Choose a route, preferably outdoors, where you can walk uninterrupted for at least 10 minutes. Dedicate the time simply to walking — mindful walking isn’t about getting to a destination or running an errand!",
+    "user": 2
+  },
+  {
+    "id": 3,
+    "title": "Run, Forest",
+    "image": "post_photo/3.jpg",
+    "photo_comment": "It's not 'Forest' it's 'Forrest'. In Forrest Gump, little Forrest, wearing leg braces, was being bullied by the other kids from school and while he was wondering whether to run or fight (make that, run or get the crap beaten out of him by the bullies) his small, female friend, yelled at him, “Run, Forrest. Run!”",
+    "user": 1
+  },
+  {
+    "id": 4,
+    "title": "Christmas tree",
+    "image": "post_photo/4.jpg",
+    "photo_comment": "A walk in the park, a step in the dark\nA walk in the park, a trip in the dark\nI'm getting away escaping today.",
+    "user": 2
+  }
+]
