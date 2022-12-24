@@ -14,7 +14,7 @@ class Command(BaseCommand):
         print(f'Created user: {name}_{self.user_pk}\tPass: Ghjkhsd124{self.user_pk}')
         user = User.objects.create_user(pk=self.user_pk, username=f'{name}_{self.user_pk}',
                                         email=f'{self.user_pk}@mail.ru', password=f'Ghjkhsd124{self.user_pk}',
-                                        first_name=f'first_name_{self.user_pk}', last_name=f'last_name_{self.user_pk}')
+                                        first_name=f'name', last_name=f'last_name_{self.user_pk}')
         Token.objects.create(user=user)
 
         user.save()

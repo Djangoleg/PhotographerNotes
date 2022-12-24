@@ -15,7 +15,7 @@ const Note = ({note}) => {
     const showControlButtons = () => {
         const auth = Auth;
         if (auth.username === note.username) {
-           return true;
+            return true;
         }
         return false;
     }
@@ -26,7 +26,8 @@ const Note = ({note}) => {
                 <article className="card article-card">
                     <h2 className="h1">{note.title}</h2>
                     <div className="card-image">
-                        <div className="post-info">
+                        <div className="post-info d-flex justify-content-between">
+                            <span className="text-uppercase">{note.user_firstname}</span>
                             <span className="text-uppercase">{Moment(note.modified).format('LLL')}</span>
                         </div>
                         <img loading="lazy" decoding="async" src={note.image} className="w-100"/>
@@ -34,12 +35,12 @@ const Note = ({note}) => {
                     <div className="card-body px-0 pb-1">
                         <ul className="post-meta mb-2">
                             <li>
-                                { note.tags ?
+                                {note.tags ?
                                     note.tags.map((tag) => {
-                                    return (
-                                        <a key={tag} href={`/blog/${tag}/${Constants.firstPage}`}>{tag} </a>
-                                    );
-                                }) : null}
+                                        return (
+                                            <a key={tag} href={`/blog/${tag}/${Constants.firstPage}`}>{tag} </a>
+                                        );
+                                    }) : null}
                             </li>
                         </ul>
                         <p className="card-text m-3">{note.photo_comment}</p>
@@ -96,8 +97,8 @@ class NotePage extends React.Component {
                         <div className="container">
                             <div className="row no-gutters-lg justify-content-center">
                                 <div className="col-lg-9 mb-lg-5">
-                                    <Note note={this.state.note} />
-                                    <Comments note={this.state.note.id} />
+                                    <Note note={this.state.note}/>
+                                    <Comments note={this.state.note.id}/>
                                 </div>
                             </div>
                         </div>

@@ -28,7 +28,8 @@ const PhotoNotesItem = ({note, tag, page}) => {
                 <article className="card article-card">
                     <h2 className="h1">{note.title}</h2>
                     <div className="card-image">
-                        <div className="post-info">
+                        <div className="post-info d-flex justify-content-between">
+                            <span className="text-uppercase">{note.user_firstname}</span>
                             <span className="text-uppercase">{Moment(note.modified).format('LLL')}</span>
                         </div>
                         <img loading="lazy" decoding="async" src={note.image} className="w-100"/>
