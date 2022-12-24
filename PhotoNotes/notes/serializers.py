@@ -24,7 +24,7 @@ class PhotoNoteModelSerializer(ModelSerializer):
     class Meta:
         model = PhotoNotes
         fields = ('id', 'modified', 'username', 'user_firstname', 'title', 'image', 'photo_comment',
-                  'tags', 'comments_number')
+                  'tags', 'comments_number', 'pinned')
 
     def get_username(self, obj):
         return User.objects.get(pk=obj.user.pk).username
@@ -55,6 +55,7 @@ class PhotoNoteModelSerializer(ModelSerializer):
         if not image.closed:
             instance.imageminicard = self.crop_image(image)
         instance.photo_comment = validated_data.get('photo_comment', instance.photo_comment)
+        instance.pinned = validated_data.get('pinned', instance.pinned)
         instance.save()
         PhotoNotesTags.objects.filter(note_id=instance.id).delete()
         for tag in tags_data:
