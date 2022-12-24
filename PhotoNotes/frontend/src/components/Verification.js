@@ -1,6 +1,5 @@
 import axios from "axios";
 import $ from "jquery";
-import appPath from "./AppPath";
 import url from "./AppURL";
 
 const verify = {
