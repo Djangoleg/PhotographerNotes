@@ -182,3 +182,8 @@ else:
     EMAIL_PORT = 25
     EMAIL_USER_SSL = True if os.getenv('EMAIL_USER_SSL') == 'True' else False
     EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+
+ALLOW_REGISTRATION_NEW_USERS = True
+
+ALLOW_ANONYMOUS_COMMENTS = True
+
