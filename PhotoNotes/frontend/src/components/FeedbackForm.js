@@ -4,6 +4,8 @@ import {useNavigate, useParams} from "react-router-dom";
 import Auth from "./Authentication";
 import axios from "axios";
 import url from "./AppURL";
+import Spinner from 'react-bootstrap/Spinner';
+import $ from "jquery";
 
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
@@ -39,6 +41,9 @@ class FeedbackForm extends React.Component {
             form.classList.add('was-validated');
             return;
         }
+
+        $('#send-button').prop('disabled', true);
+        $('#spinner-loading').removeClass('visually-hidden');
 
         let headers = Auth.getHeaders();
 
@@ -103,12 +108,16 @@ class FeedbackForm extends React.Component {
                             </div>
                         </div>
                         <br/>
+                        <div className="text-center">
+                            <Spinner id="spinner-loading" className="visually-hidden" animation="border" variant="success" />
+                        </div>
+                        <br/>
                         <div className="form-group row pb-5">
                             <label className="col-lg-3 col-form-label form-control-label"></label>
                             <div className="col-lg-9">
                                 <input type="reset" className="btn btn-secondary" value="Cancel"
                                        onClick={(event) => this.backSubmit(event)}/>
-                                <input type="button" className="btn btn-primary ms-2" value="Send"
+                                <input id="send-button" type="button" className="btn btn-primary ms-2" value="Send"
                                        onClick={(event) => this.handleSubmit(event)}/>
                             </div>
                         </div>
