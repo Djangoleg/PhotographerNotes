@@ -4,10 +4,8 @@ import $ from "jquery";
 import axios from "axios";
 import url from "./AppURL";
 import Auth from "./Authentication";
-import appPath from "./AppPath";
 import {TagsInput} from "react-tag-input-component";
 import Constants from "./AppConstants";
-import BackButton from "./BackButton";
 
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
