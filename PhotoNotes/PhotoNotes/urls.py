@@ -26,10 +26,11 @@ from comments.views import CommentViewSet
 from feedback.views import FeedbackViewSet
 from minicards.views import MiniCardsViewSet
 from notes.views import PhotoNoteViewSet
-from users.views import UserViewSet
+from users.views import UserViewSet, UserProfileViewSet
 
 router = DefaultRouter()
 router.register('users', UserViewSet)
+router.register('profile', UserProfileViewSet)
 router.register('notes', PhotoNoteViewSet)
 router.register('comments', CommentViewSet)
 router.register('carousel', CarouselViewSet)

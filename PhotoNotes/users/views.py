@@ -14,8 +14,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from PhotoNotes import settings
 from PhotoNotes.settings import ALLOW_REGISTRATION_NEW_USERS
-from users.models import User
-from users.serializers import UserModelSerializer
+from users.models import User, UserProfile
+from users.serializers import UserModelSerializer, UserProfileModelSerializer
 from rest_framework.authtoken.models import Token
 
 
@@ -84,3 +84,8 @@ class UserViewSet(ModelViewSet):
             description = 'activation key is not valid'
         finally:
             return JsonResponse({'status': status, 'description': description})
+
+
+class UserProfileViewSet(ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileModelSerializer

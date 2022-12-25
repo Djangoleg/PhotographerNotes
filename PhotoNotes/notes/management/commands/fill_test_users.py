@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from users.models import User
+from users.models import User, UserProfile
 from rest_framework.authtoken.models import Token
 
 JSON_PATH_USERS = 'users/fixtures/'
@@ -18,9 +18,10 @@ class Command(BaseCommand):
         Token.objects.create(user=user)
 
         user.save()
-        return self.user_pk
+        return user
 
     def handle(self, *args, **options):
+        UserProfile.objects.all().delete()
         User.objects.all().delete()
 
         superuser = User.objects.create_superuser(pk=1, username='ok', first_name='William',
@@ -28,6 +29,10 @@ class Command(BaseCommand):
         Token.objects.create(user=superuser)
         superuser.save()
         self.user_pk = 1
+        UserProfile.objects.create(user=superuser, image="user_pics/1.jpg", info="I love pictures and photography")
 
-        self.create_user('billy')
-        self.create_user('johny')
+        billy = self.create_user('billy')
+        UserProfile.objects.create(user=billy, image="user_pics/2.jpg", info="I not love pictures and photography")
+
+        johny = self.create_user('johny')
+        UserProfile.objects.create(user=johny, image="user_pics/3.jpg", info="I love photography")

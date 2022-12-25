@@ -22,3 +22,9 @@ class User(AbstractUser):
         if now() <= self.activation_key_created + timedelta(hours=settings.USER_EMAIL_KEY_LIFETIME):
             return False
         return True
+
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, verbose_name="User", null=False, db_index=True, on_delete=models.CASCADE)
+    image = models.ImageField(verbose_name='User photo', upload_to='user_pics', blank=True)
+    info = models.TextField(verbose_name='User info', blank=True)
