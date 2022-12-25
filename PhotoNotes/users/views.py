@@ -38,6 +38,8 @@ class UserViewSet(ModelViewSet):
 
         Token.objects.create(user=user)
 
+        UserProfile.objects.create(user=user)
+
         self.added_activation_key(user)
 
         # Send a confirmation email
