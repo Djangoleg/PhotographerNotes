@@ -91,3 +91,18 @@ class UserViewSet(ModelViewSet):
 class UserProfileViewSet(ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserProfileModelSerializer
+
+    def perform_update(self, serializer):
+        request_user = self.request.user
+        profile = UserProfile.objects.get(pk=serializer.instance.pk)
+        if request_user.pk != profile.user.pk:
+            raise Exception('Editing other profile is prohibited!')
+        serializer.save(user=request_user)
+
+    def get_queryset(self):
+        queryset = UserProfile.objects.all()
+        profile_id = self.request.query_params.get('id')
+        if profile_id is not None:
+            return queryset.filter(pk=profile_id)
+
+        return queryset
