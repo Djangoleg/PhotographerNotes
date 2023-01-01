@@ -122,5 +122,6 @@ class CustomAuthToken(ObtainAuthToken):
 
         return Response({
             'token': token.key,
-            'profile_id': profile.pk
+            'profile_id': profile.pk,
+            'firstname': user.first_name
         })

@@ -84,10 +84,10 @@ class UseProfile extends React.Component {
             {
                 headers: headers,
             }).then(response => {
-                if (this.state.selectedFile) {
-                    this.setState({image: URL.createObjectURL(this.state.selectedFile)});
-                }
-                this.setState({edit: false});
+            if (this.state.selectedFile) {
+                this.setState({image: URL.createObjectURL(this.state.selectedFile)});
+            }
+            this.setState({edit: false});
         }).catch(error => {
             console.log(error);
             alert('Error change profile!');
@@ -149,7 +149,6 @@ class UseProfile extends React.Component {
                         <div className="container">
                             <div className="row no-gutters-lg justify-content-center">
                                 <div className="col-lg-9 mb-lg-5">
-                                    <h2 className="text-center">User profile</h2>
                                     <div className="row">
                                         <div className="col-12 mb-4">
                                             {this.state.edit ?
@@ -178,40 +177,6 @@ class UseProfile extends React.Component {
                                                         <br/>
                                                         <div className="form-group row">
                                                             <label
-                                                                className="col-lg-3 col-form-label form-control-label">User
-                                                                pic</label>
-                                                            <div className="col-lg-9">
-                                                                <div className="text-center mb30">
-                                                                    <img id="note_image"
-                                                                         className="rounded mx-auto d-block blog-img"
-                                                                         src={(this.state.image || '/img/empty_user_pic.jpg')}
-                                                                         alt=''/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <br/>
-
-                                                        <div className="form-group row">
-                                                            <label
-                                                                className="col-lg-3 col-form-label form-control-label">Image
-                                                                File</label>
-                                                            <div className="col-lg-9">
-                                                                <input id="chooseFile"
-                                                                       className="form-control placeholder-custom-color"
-                                                                       type="file"
-                                                                       name="chooseFile"
-                                                                       onChange={(event) => this.onFileChange(event)}/>
-                                                                <div className="valid-feedback">File field is valid!
-                                                                </div>
-                                                                <div className="invalid-feedback">File field cannot be
-                                                                    blank!
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <br/>
-                                                        <div className="form-group row">
-                                                            <label
                                                                 className="col-lg-3 col-form-label form-control-label">Last
                                                                 name</label>
                                                             <div className="col-lg-9">
@@ -230,7 +195,38 @@ class UseProfile extends React.Component {
                                                                 </div>
                                                             </div>
                                                         </div>
-
+                                                        <br/>
+                                                        <div className="form-group row">
+                                                            <label
+                                                                className="col-lg-3 col-form-label form-control-label">User
+                                                                pic</label>
+                                                            <div className="col-lg-9">
+                                                                <div className="text-center mb30">
+                                                                    <img id="note_image"
+                                                                         className="rounded mx-auto d-block blog-img"
+                                                                         src={(this.state.image || '/img/empty_user_pic.jpg')}
+                                                                         alt=''/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br/>
+                                                        <div className="form-group row">
+                                                            <label
+                                                                className="col-lg-3 col-form-label form-control-label">Image
+                                                                File</label>
+                                                            <div className="col-lg-9">
+                                                                <input id="chooseFile"
+                                                                       className="form-control placeholder-custom-color"
+                                                                       type="file"
+                                                                       name="chooseFile"
+                                                                       onChange={(event) => this.onFileChange(event)}/>
+                                                                <div className="valid-feedback">File field is valid!
+                                                                </div>
+                                                                <div className="invalid-feedback">File field cannot be
+                                                                    blank!
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <br/>
                                                         <div className="form-group row">
                                                             <label
@@ -273,15 +269,10 @@ class UseProfile extends React.Component {
                                                                  src={(this.state.image || '/img/empty_user_pic.jpg')}
                                                             />
                                                         </div>
-
                                                         <div className="card-body px-0 pb-1">
-                                                            <p className="card-text m-3">{this.state.firstname}</p>
-                                                        </div>
-
-                                                        <div className="card-body px-0 pb-1">
-                                                            <p className="card-text m-3">{this.state.lastname || ''}</p>
-                                                        </div>
-                                                        <div className="card-body px-0 pb-1">
+                                                            <h4 className="m-3 text-capitalize">
+                                                                {this.state.firstname + ' ' + this.state.lastname || ''}
+                                                            </h4>
                                                             <p className="card-text m-3">{this.state.info || ''}</p>
                                                         </div>
                                                         <div className="d-inline-block">
