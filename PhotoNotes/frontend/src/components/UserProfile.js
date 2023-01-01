@@ -20,6 +20,7 @@ class UseProfile extends React.Component {
             lastname: '',
             password: '',
             confirmpassword: '',
+            username: '',
             edit: false
         }
     }
@@ -83,29 +84,29 @@ class UseProfile extends React.Component {
             {
                 headers: headers,
             }).then(response => {
-            this.setState({edit: false});
-            this.props.navigate(-1);
+                if (this.state.selectedFile) {
+                    this.setState({image: URL.createObjectURL(this.state.selectedFile)});
+                }
+                this.setState({edit: false});
         }).catch(error => {
             console.log(error);
             alert('Error change profile!');
         });
     };
 
-    backSubmit = (event) => {
+    cancelSubmit = (event) => {
         this.setState({edit: false});
+    }
+
+    backSubmit = (event) => {
         this.props.navigate(-1);
     }
 
     editProfile = () => {
         this.setState({edit: true});
-        let profileId = this.props.params.id;
-        this.props.navigate(`/profile/edit/${profileId}`);
     }
 
     componentDidMount() {
-        if (window.location.pathname.includes('edit')) {
-            this.setState({edit: true});
-        }
 
         let profileId = this.props.params.id;
 
@@ -123,12 +124,21 @@ class UseProfile extends React.Component {
                                 image: profile.image,
                                 firstname: profile.user.first_name,
                                 lastname: profile.user.last_name,
-                                info: profile.info
+                                info: profile.info,
+                                username: profile.user.username
                             }
                         )
                     }
                 }).catch(error => console.log(error))
         }
+    }
+
+    showEditButtons = () => {
+        const auth = Auth;
+        if (auth.username === this.state.username) {
+            return true;
+        }
+        return false;
     }
 
     render() {
@@ -174,7 +184,7 @@ class UseProfile extends React.Component {
                                                                 <div className="text-center mb30">
                                                                     <img id="note_image"
                                                                          className="rounded mx-auto d-block blog-img"
-                                                                         src={this.state.image || '/img/empty_user_pic.jpg'}
+                                                                         src={(this.state.image || '/img/empty_user_pic.jpg')}
                                                                          alt=''/>
                                                                 </div>
                                                             </div>
@@ -247,7 +257,7 @@ class UseProfile extends React.Component {
                                                             <div className="col-lg-9">
                                                                 <input type="reset" className="btn btn-secondary"
                                                                        value="Cancel"
-                                                                       onClick={(event) => this.backSubmit(event)}/>
+                                                                       onClick={(event) => this.cancelSubmit(event)}/>
                                                                 <input type="button" className="btn btn-primary ms-2"
                                                                        value="Save Changes"
                                                                        onClick={(event) => this.handleSubmit(event)}/>
@@ -258,10 +268,10 @@ class UseProfile extends React.Component {
                                                 (
                                                     <article className="card article-card">
                                                         <div className="card-image">
-                                                            <img loading="lazy"
-                                                                 decoding="async"
-                                                                 src={this.state.image || '/img/empty_user_pic.jpg'}
-                                                                 className="vw-100"/>
+                                                            <img id="note_image"
+                                                                 className="rounded mx-auto d-block blog-img"
+                                                                 src={(this.state.image || '/img/empty_user_pic.jpg')}
+                                                            />
                                                         </div>
 
                                                         <div className="card-body px-0 pb-1">
@@ -276,9 +286,17 @@ class UseProfile extends React.Component {
                                                         </div>
                                                         <div className="d-inline-block">
                                                             <Button type="submit" className="btn btn-primary ms-1"
-                                                                    onClick={this.editProfile}>
-                                                                Edit
+                                                                    onClick={this.backSubmit}>
+                                                                Back
                                                             </Button>
+                                                            {this.showEditButtons() ? (
+
+                                                                <Button type="submit" className="btn btn-primary ms-1"
+                                                                        onClick={this.editProfile}>
+                                                                    Edit
+                                                                </Button>
+
+                                                            ) : null}
                                                         </div>
                                                     </article>
                                                 )}

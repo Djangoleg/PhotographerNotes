@@ -26,7 +26,7 @@ from comments.views import CommentViewSet
 from feedback.views import FeedbackViewSet
 from minicards.views import MiniCardsViewSet
 from notes.views import PhotoNoteViewSet
-from users.views import UserViewSet, UserProfileViewSet
+from users.views import UserViewSet, UserProfileViewSet, CustomAuthToken
 
 router = DefaultRouter()
 router.register('users', UserViewSet)
@@ -41,7 +41,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include(router.urls)),
-    path('api-token-auth/', views.obtain_auth_token),
+    path('api-token-auth/', CustomAuthToken.as_view()),
     path('verify/<str:username>/<str:activation_key>/', UserViewSet.verify, name='verify'),
 ]
 

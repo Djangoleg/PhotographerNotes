@@ -6,11 +6,12 @@ import Constants from "./AppConstants";
 const Auth = {
     token: '',
     username: '',
+    profile: '',
     login: function (username, password) {
         axios.post(`${url.get()}/api-token-auth/`, {username: username, password: password})
         .then(response => {
 
-            this.setToken(response.data['token'], username);
+            this.setToken(response.data['token'], username, response.data['profile_id']);
             document.location.pathname = `/blog/${Constants.allTags}/${Constants.firstPage}`;
 
         }).catch(error => alert('Wrong login or password'));
@@ -19,19 +20,23 @@ const Auth = {
         this.setToken('', '');
         document.location.reload();
     },
-    setToken: function (token, username) {
+    setToken: function (token, username, profile) {
         const cookies = new Cookies();
         cookies.set('token', token, { path: '/' });
         cookies.set('username', username, { path: '/' });
+        cookies.set('profile', profile, { path: '/' });
         this.token = token;
         this.username = username;
+        this.profile = profile;
     },
     getTokenFromStorage: function () {
         const cookies = new Cookies();
         const token = cookies.get('token');
         const username = cookies.get('username');
+        const profile = cookies.get('profile');
         this.token = token;
         this.username = username;
+        this.profile = profile;
     },
     isAuthenticated: function () {
         return this.token !== '' && this.token !== undefined;

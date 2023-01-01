@@ -44,6 +44,11 @@ const Menu = () => {
                                             </li> :
                                             <li><a className="dropdown-item" href={appPath.login}>Login</a></li>}
 
+                                        {myAuth.isAuthenticated() ?
+                                            <li><a className="dropdown-item"
+                                                   href={`/profile/view/${myAuth.profile}`}>Profile</a>
+                                            </li> : null}
+
                                         {!myAuth.isAuthenticated() ?
                                             <li><a className="dropdown-item"
                                                    href={appPath.registration}>Registration</a>

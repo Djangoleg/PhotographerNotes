@@ -12,7 +12,7 @@ from rest_framework.utils import json
 
 from comments.models import Comments
 from notes.models import PhotoNotes, PhotoNotesTags
-from users.models import User
+from users.models import User, UserProfile
 
 
 class PhotoNoteModelSerializer(ModelSerializer):
@@ -20,11 +20,15 @@ class PhotoNoteModelSerializer(ModelSerializer):
     comments_number = serializers.SerializerMethodField(source='get_comments_number', read_only=True)
     username = serializers.SerializerMethodField(source='get_username', read_only=True)
     user_firstname = serializers.SerializerMethodField(source='get_user_firstname', read_only=True)
+    profile_id = serializers.SerializerMethodField(source='get_profile_id', read_only=True)
 
     class Meta:
         model = PhotoNotes
-        fields = ('id', 'modified', 'username', 'user_firstname', 'title', 'image', 'photo_comment',
+        fields = ('id', 'modified', 'username', 'user_firstname', 'profile_id', 'title', 'image', 'photo_comment',
                   'tags', 'comments_number', 'pinned')
+
+    def get_profile_id(self, obj):
+        return UserProfile.objects.get(user=obj.user).pk
 
     def get_username(self, obj):
         return User.objects.get(pk=obj.user.pk).username

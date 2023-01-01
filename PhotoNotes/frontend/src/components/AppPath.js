@@ -11,7 +11,6 @@ const appPath = {
         'verify': '/verify/:username/:activation_key',
         'feedback': '/feedback',
         'profile': '/profile/view/:id',
-        'editprofile': '/profile/edit/:id',
         'any': '*'
     };
 

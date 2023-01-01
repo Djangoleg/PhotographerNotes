@@ -98,11 +98,6 @@ class PhotoNotes extends React.Component {
                             <UseProfile/>
                         </div>
                     }/>
-                    <Route path={appPath.editprofile} element={
-                        <div className="content">
-                            <UseProfile/>
-                        </div>
-                    }/>
 
                     <Route path={appPath.any} element={
                         <div>

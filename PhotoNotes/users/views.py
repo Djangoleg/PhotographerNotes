@@ -8,6 +8,7 @@ from django.http import JsonResponse
 
 # Create your views here.
 from rest_framework import status
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.viewsets import ModelViewSet
@@ -106,3 +107,20 @@ class UserProfileViewSet(ModelViewSet):
             return queryset.filter(pk=profile_id)
 
         return queryset
+
+
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+
+        profile = UserProfile.objects.get(user=user)
+
+        return Response({
+            'token': token.key,
+            'profile_id': profile.pk
+        })
