@@ -19,6 +19,7 @@ import BlogPage from "./components/Blog";
 import FeedbackForm from "./components/FeedbackForm";
 import NotePage from "./components/NotePage";
 import IndexMiniCards from "./components/IndexMiniCard";
+import UseProfile from "./components/UserProfile";
 
 
 class PhotoNotes extends React.Component {
@@ -90,6 +91,11 @@ class PhotoNotes extends React.Component {
                                 <FeedbackForm/>
                             </div>
                             <Footer/>
+                        </div>
+                    }/>
+                    <Route path={appPath.profile} element={
+                        <div className="content">
+                            <UseProfile/>
                         </div>
                     }/>
 

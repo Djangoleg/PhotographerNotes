@@ -8,14 +8,15 @@ from django.http import JsonResponse
 
 # Create your views here.
 from rest_framework import status
+from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.viewsets import ModelViewSet
 
 from PhotoNotes import settings
 from PhotoNotes.settings import ALLOW_REGISTRATION_NEW_USERS
-from users.models import User
-from users.serializers import UserModelSerializer
+from users.models import User, UserProfile
+from users.serializers import UserModelSerializer, UserProfileModelSerializer
 from rest_framework.authtoken.models import Token
 
 
@@ -37,6 +38,8 @@ class UserViewSet(ModelViewSet):
         user = self.perform_create(serializer)
 
         Token.objects.create(user=user)
+
+        UserProfile.objects.create(user=user)
 
         self.added_activation_key(user)
 
@@ -84,3 +87,41 @@ class UserViewSet(ModelViewSet):
             description = 'activation key is not valid'
         finally:
             return JsonResponse({'status': status, 'description': description})
+
+
+class UserProfileViewSet(ModelViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileModelSerializer
+
+    def perform_update(self, serializer):
+        request_user = self.request.user
+        profile = UserProfile.objects.get(pk=serializer.instance.pk)
+        if request_user.pk != profile.user.pk:
+            raise Exception('Editing other profile is prohibited!')
+        serializer.save(user=request_user)
+
+    def get_queryset(self):
+        queryset = UserProfile.objects.all()
+        profile_id = self.request.query_params.get('id')
+        if profile_id is not None:
+            return queryset.filter(pk=profile_id)
+
+        return queryset
+
+
+class CustomAuthToken(ObtainAuthToken):
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+
+        profile = UserProfile.objects.get(user=user)
+
+        return Response({
+            'token': token.key,
+            'profile_id': profile.pk,
+            'firstname': user.first_name
+        })

@@ -10,6 +10,7 @@ const appPath = {
         'registration': '/registration',
         'verify': '/verify/:username/:activation_key',
         'feedback': '/feedback',
+        'profile': '/profile/view/:id',
         'any': '*'
     };
 
