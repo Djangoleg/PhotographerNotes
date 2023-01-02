@@ -15,6 +15,6 @@ class PwdActions(models.Model):
     created = models.DateTimeField(verbose_name='Сreated', auto_now_add=True, db_index=True)
     modified = models.DateTimeField(verbose_name='Modified', auto_now=True, db_index=True)
     user = models.ForeignKey(User, verbose_name="User", null=True, db_index=True, on_delete=models.CASCADE)
-    email = models.EmailField(verbose_name='Email', blank=False, null=False)
+    email = models.EmailField(verbose_name='Email', blank=False, null=True)
     status = models.CharField(verbose_name='Status', choices=Status.choices, max_length=50, blank=True)
     hash_key = models.CharField(max_length=128, null=True, blank=True)

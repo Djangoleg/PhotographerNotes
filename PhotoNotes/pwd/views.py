@@ -24,10 +24,12 @@ def send_pwd_link(pwd_action):
 def check_hash_key(request, hash_key):
     pwd_actions = PwdActions.objects.filter(hash_key=hash_key)
     if len(pwd_actions) == 1:
-        user = pwd_actions.first().user
+        pwd_action = pwd_actions.first()
+        user = pwd_action.user
         token, created = Token.objects.get_or_create(user=user)
         profile = UserProfile.objects.get(user=user)
         return JsonResponse({
+            'id': pwd_action.pk,
             'token': token.key,
             'username': user.username,
             'profile_id': profile.pk,
@@ -40,7 +42,7 @@ def check_hash_key(request, hash_key):
 class PwdActionsViewSet(ModelViewSet):
     queryset = PwdActions.objects.all()
     serializer_class = PwdActionsSerializer
-    http_method_names = ['post', 'head']
+    http_method_names = ['post', 'head', 'put']
 
     def perform_create(self, serializer):
         return serializer.save()

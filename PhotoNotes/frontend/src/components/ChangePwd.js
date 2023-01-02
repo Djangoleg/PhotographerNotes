@@ -4,6 +4,7 @@ import Auth from "./Authentication";
 import axios from "axios";
 import url from "./AppURL";
 import $ from "jquery";
+import appPath from "./AppPath";
 
 const Authentication = Auth;
 Authentication.getTokenFromStorage();
@@ -19,7 +20,8 @@ class ChangePwd extends React.Component {
             password: '',
             confirmpassword: '',
             confirmPasswordMessage: '',
-            keyIsValid: false
+            keyIsValid: false,
+            pwdActionId: ''
         }
     }
 
@@ -37,7 +39,8 @@ class ChangePwd extends React.Component {
                     if (respData['token'] && respData['username'] && respData['profile_id'] && respData['firstname']) {
                         Authentication.setToken(respData['token'], respData['username'], respData['profile_id'], respData['firstname']);
                         this.setState({
-                            keyIsValid: true
+                            keyIsValid: true,
+                            pwdActionId: respData['id']
                         });
                     } else {
                         this.setState({
@@ -88,9 +91,29 @@ class ChangePwd extends React.Component {
                 const form = forms[0];
                 if (this.checkPassword()) {
                     if (form.checkValidity()) {
+                        
+                        let headers = Authentication.getHeaders();
+                        let data = new FormData();
+                        data.append('password', this.state.password);
 
-                        // TODO: send request.
-                        console.log('TODO: send request.');
+                        if (!this.state.pwdActionId) {
+                            console.error(`Pwd action id is empty!`);
+                            return;
+                        }
+
+                        let pwdUrl = `${url.get()}/api/pwd/${this.state.pwdActionId}/`;
+                        axios.put(pwdUrl,
+                            data,
+                            {
+                                headers: headers,
+                            }).then(response => {
+                            Authentication.setToken('', '', '', '');
+                            this.props.navigate(appPath.login);
+                        }).catch(error => {
+                            console.log(error);
+                            alert('Error change password!');
+                        });
+
 
                     } else {
                         form.classList.add('was-validated');

@@ -1,6 +1,8 @@
 import hashlib
 import random
 
+from django.contrib.auth.hashers import make_password
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from pwd.models import PwdActions, Status
@@ -20,6 +22,10 @@ class PwdActionsSerializer(ModelSerializer):
 
     def create(self, validated_data):
         email = validated_data.get('email')
+
+        if not email:
+            raise serializers.ValidationError({'email': ['This field may not be null.']})
+
         users = User.objects.filter(email=email)
 
         if len(users) == 1:
@@ -30,3 +36,14 @@ class PwdActionsSerializer(ModelSerializer):
         validated_data['hash_key'] = get_hash_key(email)
 
         return PwdActions.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        request = self.context.get('request')
+        password = request.data.get('password')
+        user = User.objects.get(pk=instance.user.pk)
+        user.password = make_password(password)
+        user.save()
+        instance.status = Status.SUCCESS
+        instance.hash_key = ''
+        instance.save()
+        return instance
