@@ -40,6 +40,19 @@ class PwdActionsSerializer(ModelSerializer):
     def update(self, instance, validated_data):
         request = self.context.get('request')
         password = request.data.get('password')
+
+        if not password:
+            instance.status = Status.ERROR
+            instance.hash_key = ''
+            instance.save()
+            raise serializers.ValidationError({'password': ['This data may not be null or empty.']})
+
+        if instance.is_hash_key_expired():
+            instance.status = Status.ERROR
+            instance.hash_key = ''
+            instance.save()
+            raise serializers.ValidationError({'hash_key': ['Hash key expired.']})
+
         user = User.objects.get(pk=instance.user.pk)
         user.password = make_password(password)
         user.save()

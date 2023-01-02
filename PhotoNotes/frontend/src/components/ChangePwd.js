@@ -91,7 +91,7 @@ class ChangePwd extends React.Component {
                 const form = forms[0];
                 if (this.checkPassword()) {
                     if (form.checkValidity()) {
-                        
+
                         let headers = Authentication.getHeaders();
                         let data = new FormData();
                         data.append('password', this.state.password);
