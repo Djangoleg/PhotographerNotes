@@ -20,6 +20,7 @@ import FeedbackForm from "./components/FeedbackForm";
 import NotePage from "./components/NotePage";
 import IndexMiniCards from "./components/IndexMiniCard";
 import UseProfile from "./components/UserProfile";
+import ChangePwd from "./components/ChangePwd";
 
 
 class PhotoNotes extends React.Component {
@@ -96,6 +97,11 @@ class PhotoNotes extends React.Component {
                     <Route path={appPath.profile} element={
                         <div className="content">
                             <UseProfile/>
+                        </div>
+                    }/>
+                    <Route path={appPath.checkkey} element={
+                        <div className="content">
+                            <ChangePwd/>
                         </div>
                     }/>
 

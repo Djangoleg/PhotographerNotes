@@ -16,7 +16,6 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
-from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 from django.views.static import serve
 
@@ -26,6 +25,7 @@ from comments.views import CommentViewSet
 from feedback.views import FeedbackViewSet
 from minicards.views import MiniCardsViewSet
 from notes.views import PhotoNoteViewSet
+from pwd.views import check_hash_key, PwdActionsViewSet
 from users.views import UserViewSet, UserProfileViewSet, CustomAuthToken
 
 router = DefaultRouter()
@@ -36,6 +36,7 @@ router.register('comments', CommentViewSet)
 router.register('carousel', CarouselViewSet)
 router.register('feedback', FeedbackViewSet)
 router.register('minicards', MiniCardsViewSet, 'minicards')
+router.register('pwd', PwdActionsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,6 +44,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api-token-auth/', CustomAuthToken.as_view()),
     path('verify/<str:username>/<str:activation_key>/', UserViewSet.verify, name='verify'),
+    path('checkkey/<str:hash_key>/', check_hash_key, name='checkkey'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

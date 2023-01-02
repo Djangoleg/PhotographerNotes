@@ -18,8 +18,6 @@ class UseProfile extends React.Component {
             selectedFile: null,
             firstname: '',
             lastname: '',
-            password: '',
-            confirmpassword: '',
             username: '',
             edit: false
         }

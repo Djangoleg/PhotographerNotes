@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'carousel',
     'feedback',
     'minicards',
+    'pwd',
 ]
 
 MIDDLEWARE = [

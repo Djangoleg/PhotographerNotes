@@ -18,7 +18,7 @@ const Auth = {
         }).catch(error => alert('Wrong login or password'));
     },
     logout: function () {
-        this.setToken('', '');
+        this.setToken('', '', '', '');
         document.location.reload();
     },
     setToken: function (token, username, profile, firstname) {
