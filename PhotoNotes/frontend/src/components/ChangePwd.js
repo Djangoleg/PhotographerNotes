@@ -9,6 +9,14 @@ import appPath from "./AppPath";
 const Authentication = Auth;
 Authentication.getTokenFromStorage();
 
+const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/g;
+const atLeastOneUppercase = /[A-Z]/g; // capital letters from A to Z
+const atLeastOneLowercase = /[a-z]/g; // small letters from a to z
+const atLeastOneNumeric = /[0-9]/g; // numbers from 0 to 9
+const atLeastOneSpecialChar = /[#?!@$%^&*-]/g; // any of the special characters within the square brackets
+const eightCharsOrMore = /.{8,}/g; // eight characters or more
+const PASSWORDSTRENGTH = 5;
+
 const withParams = (Component) => {
     return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
 }
@@ -21,8 +29,31 @@ class ChangePwd extends React.Component {
             confirmpassword: '',
             confirmPasswordMessage: '',
             keyIsValid: false,
-            pwdActionId: ''
+            pwdActionId: '',
+            meter: false,
+            passwordTracker: '',
+            passwordStrength: 0
         }
+    }
+
+    setPasswordMeter(password) {
+
+        let passwordTracker = {
+            uppercase: password.match(atLeastOneUppercase),
+            lowercase: password.match(atLeastOneLowercase),
+            number: password.match(atLeastOneNumeric),
+            specialChar: password.match(atLeastOneSpecialChar),
+            eightCharsOrGreater: password.match(eightCharsOrMore),
+        };
+
+        this.setState(
+            {
+                passwordTracker: passwordTracker,
+                passwordStrength: Object.values(passwordTracker).filter(
+                    (value) => value
+                ).length
+            }
+        );
     }
 
     componentDidMount() {
@@ -53,10 +84,20 @@ class ChangePwd extends React.Component {
             }).catch(error => alert('Wrong check key!'));
     }
 
-    handleChange(event) {
+    handlePasswordChange(event) {
         this.setState(
             {
-                [event.target.name]: event.target.value
+                password: event.target.value
+            }
+        );
+        this.setPasswordMeter(event.target.value);
+        this.checkPassword();
+    }
+
+    handleConfirmPasswordChange(event) {
+        this.setState(
+            {
+                confirmpassword: event.target.value
             }
         );
         this.checkPassword();
@@ -67,62 +108,68 @@ class ChangePwd extends React.Component {
         const password = $('#password').val();
         const confirmpassword = $('#confirmpassword').val();
 
-        if (!password || !confirmpassword) {
-            $('#confirm_password_message').css('color', '#ff606e');
-            this.state.confirmPasswordMessage = 'Not Matching!';
-            return false;
-        }
-
-        if (password === confirmpassword) {
-            $('#confirm_password_message').css('color', '#2acc80');
-            this.state.confirmPasswordMessage = 'Matching!';
+        if (password && confirmpassword && password === confirmpassword) {
+            $('#confirm_password_message').removeClass('text-danger').addClass('text-success');
+            this.setState(
+                {
+                    confirmPasswordMessage: 'Matching!'
+                }
+            );
             return true;
         } else {
-            $('#confirm_password_message').css('color', '#ff606e');
-            this.state.confirmPasswordMessage = 'Not Matching!';
+            $('#confirm_password_message').removeClass('text-success').addClass('text-danger');
+            this.setState(
+                {
+                    confirmPasswordMessage: 'Not Matching!'
+                }
+            );
             return false;
         }
     }
 
+    setMeter = () => {
+        this.setState(
+            {
+                meter: true
+            }
+        )
+    }
+
     handleSubmit = (event) => {
+        if (!this.state.meter) {
+            this.setMeter();
+        }
         let forms = document.querySelectorAll('.requires-validation');
         if (forms) {
             if (forms.length > 0) {
                 const form = forms[0];
-                if (this.checkPassword()) {
-                    if (form.checkValidity()) {
+                if (this.checkPassword() && this.state.passwordStrength === PASSWORDSTRENGTH) {
 
-                        let headers = Authentication.getHeaders();
-                        let data = new FormData();
-                        data.append('password', this.state.password);
-
-                        if (!this.state.pwdActionId) {
-                            console.error(`Pwd action id is empty!`);
-                            return;
-                        }
-
-                        let pwdUrl = `${url.get()}/api/pwd/${this.state.pwdActionId}/`;
-                        axios.put(pwdUrl,
-                            data,
-                            {
-                                headers: headers,
-                            }).then(response => {
-                            Authentication.setToken('', '', '', '');
-                            this.props.navigate(appPath.login);
-                        }).catch(error => {
-                            console.log(error);
-                            alert('Error change password!');
-                        });
-
-
-                    } else {
-                        form.classList.add('was-validated');
-                    }
-                } else {
                     form.classList.add('was-validated');
+
+                    let headers = Authentication.getHeaders();
+                    let data = new FormData();
+                    data.append('password', this.state.password);
+
+                    if (!this.state.pwdActionId) {
+                        console.error(`Pwd action id is empty!`);
+                        return;
+                    }
+
+                    let pwdUrl = `${url.get()}/api/pwd/${this.state.pwdActionId}/`;
+                    axios.put(pwdUrl,
+                        data,
+                        {
+                            headers: headers,
+                        }).then(response => {
+                        Authentication.setToken('', '', '', '');
+                        this.props.navigate(appPath.login);
+                    }).catch(error => {
+                        console.log(error);
+                        alert('Error change password!');
+                    });
                 }
                 event.preventDefault();
-                event.stopPropagation();
             }
         }
     }
@@ -154,13 +201,22 @@ class ChangePwd extends React.Component {
                                                                         type="password"
                                                                         placeholder="Password.."
                                                                         value={this.state.password || ''}
-                                                                        onChange={(event) => this.handleChange(event)}
-                                                                        required/>
-                                                                    <div className="valid-feedback">Password field is
-                                                                        valid!
-                                                                    </div>
-                                                                    <div className="invalid-feedback">Password field
-                                                                        cannot be blank!
+                                                                        onChange={(event) => this.handlePasswordChange(event)}
+                                                                        onFocus={() => this.setMeter()}
+                                                                    />
+                                                                    <div className="text-danger">
+                                                                        {
+                                                                            this.state.meter && (
+                                                                                <div>
+                                                                                    {this.state.passwordStrength < PASSWORDSTRENGTH && 'Must contain '}
+                                                                                    {!this.state.passwordTracker.uppercase && 'uppercase, '}
+                                                                                    {!this.state.passwordTracker.lowercase && 'lowercase, '}
+                                                                                    {!this.state.passwordTracker.specialChar && 'special character, '}
+                                                                                    {!this.state.passwordTracker.number && 'number, '}
+                                                                                    {!this.state.passwordTracker.eightCharsOrGreater && 'eight characters or more'}
+                                                                                </div>
+                                                                            )
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -176,17 +232,9 @@ class ChangePwd extends React.Component {
                                                                            type="password"
                                                                            placeholder="Confirm password.."
                                                                            value={this.state.confirmpassword || ''}
-                                                                           onChange={(event) => this.handleChange(event)}
-                                                                           required/>
-                                                                    <div className="valid-feedback">Confirm password
-                                                                        field is
-                                                                        valid!
-                                                                    </div>
-                                                                    <div className="invalid-feedback">Confirm password
-                                                                        field
-                                                                        cannot
-                                                                        be blank!
-                                                                    </div>
+                                                                           onChange={(event) => this.handleConfirmPasswordChange(event)}
+                                                                           onFocus={() => this.setMeter()}
+                                                                    />
                                                                     <div
                                                                         id="confirm_password_message">{this.state.confirmPasswordMessage}</div>
                                                                 </div>
@@ -205,7 +253,8 @@ class ChangePwd extends React.Component {
                                                         </form>
                                                     ) :
                                                     (
-                                                        <div className="col-lg-12 text-lg-center">Wrong check
+                                                        <div className="col-lg-12 text-lg-center text-danger">Wrong
+                                                            hash
                                                             key...</div>
                                                     )
                                             }
