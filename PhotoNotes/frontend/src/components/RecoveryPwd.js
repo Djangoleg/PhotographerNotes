@@ -117,7 +117,7 @@ class RecoveryPwd extends React.Component {
                                 <div className="col-lg-9 mb-lg-5">
                                     <div className="row">
                                         <div className="col-12 mb-4">
-                                            <form className="requires-validation" role="form" noValidate>
+                                            <form className="requires-validation" noValidate>
                                                 <div className="form-group row">
                                                     <label
                                                         className="col-lg-3 col-form-label form-control-label">E-Mail</label>
