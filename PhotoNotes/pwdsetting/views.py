@@ -10,8 +10,8 @@ from rest_framework.reverse import reverse
 from rest_framework.viewsets import ModelViewSet
 
 from PhotoNotes import settings
-from pwd.models import PwdActions
-from pwd.serializers import PwdActionsSerializer
+from pwdsetting.models import PwdActions
+from pwdsetting.serializers import PwdActionsSerializer
 from users.models import UserProfile
 
 

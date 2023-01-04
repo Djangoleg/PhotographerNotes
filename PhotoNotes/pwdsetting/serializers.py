@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from pwd.models import PwdActions, Status
+from pwdsetting.models import PwdActions, Status
 from users.models import User
 
 

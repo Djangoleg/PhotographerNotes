@@ -25,7 +25,7 @@ from comments.views import CommentViewSet
 from feedback.views import FeedbackViewSet
 from minicards.views import MiniCardsViewSet
 from notes.views import PhotoNoteViewSet
-from pwd.views import check_hash_key, PwdActionsViewSet
+from pwdsetting.views import check_hash_key, PwdActionsViewSet
 from users.views import UserViewSet, UserProfileViewSet, CustomAuthToken
 
 router = DefaultRouter()
@@ -36,7 +36,7 @@ router.register('comments', CommentViewSet)
 router.register('carousel', CarouselViewSet)
 router.register('feedback', FeedbackViewSet)
 router.register('minicards', MiniCardsViewSet, 'minicards')
-router.register('pwd', PwdActionsViewSet)
+router.register('pwdsetting', PwdActionsViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

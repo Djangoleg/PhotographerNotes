@@ -59,7 +59,7 @@ class RecoveryPwd extends React.Component {
         let data = new FormData();
         data.append('email', this.state.email);
 
-        const recPwdUrl = `${url.get()}/api/pwd/`;
+        const recPwdUrl = `${url.get()}/api/pwdsetting/`;
 
         axios.post(recPwdUrl,
             data,
