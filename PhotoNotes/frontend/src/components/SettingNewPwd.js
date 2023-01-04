@@ -152,7 +152,7 @@ class SettingNewPwd extends React.Component {
                         return;
                     }
 
-                    let pwdUrl = `${url.get()}/api/pwd/${this.state.pwdActionId}/`;
+                    let pwdUrl = `${url.get()}/api/pwdsetting/${this.state.pwdActionId}/`;
                     axios.put(pwdUrl,
                         data,
                         {
