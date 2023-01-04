@@ -5,7 +5,11 @@ import Spinner from "react-bootstrap/Spinner";
 import axios from "axios";
 import url from "./AppURL";
 import Auth from "./Authentication";
+import {useNavigate, useParams} from "react-router-dom";
 
+const withParams = (Component) => {
+    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
+}
 
 class RecoveryPwd extends React.Component {
     constructor(props) {
@@ -15,6 +19,10 @@ class RecoveryPwd extends React.Component {
             checkEmailMessage: '',
             sendLetterMessage: ''
         }
+    }
+
+    backSubmit = (event) => {
+        this.props.navigate(-1);
     }
 
     handleChange(event) {
@@ -137,6 +145,9 @@ class RecoveryPwd extends React.Component {
                                                     <label
                                                         className="col-lg-3 col-form-label form-control-label"></label>
                                                     <div className="col-lg-9">
+                                                        <input type="button" className="btn btn-primary ms-1"
+                                                               value="Back"
+                                                               onClick={() => this.backSubmit()}/>
                                                         <input type="button"
                                                                className="btn btn-primary ms-2"
                                                                value="Send letter"
@@ -158,4 +169,4 @@ class RecoveryPwd extends React.Component {
     }
 }
 
-export default RecoveryPwd
+export default withParams(RecoveryPwd)
