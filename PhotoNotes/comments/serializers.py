@@ -3,7 +3,6 @@ from rest_framework.relations import SlugRelatedField
 from rest_framework.serializers import ModelSerializer
 
 from comments.models import Comments
-from notes.models import PhotoNotes
 from users.models import User
 
 
@@ -32,7 +31,7 @@ class RecursiveField(serializers.Serializer):
 
 
 class CommentModelSerializer(ModelSerializer):
-    children = RecursiveField(many=True)
+    children = RecursiveField(many=True, read_only=True)
     user = UserNameRelatedField()
     note_owner = serializers.SerializerMethodField(source='get_note_owner')
 
@@ -43,7 +42,3 @@ class CommentModelSerializer(ModelSerializer):
     def get_note_owner(self, obj):
         return obj.note.user.username
 
-    def create(self, validated_data):
-        validated_data.pop('children')
-        instance = Comments.objects.create(**validated_data)
-        return instance
