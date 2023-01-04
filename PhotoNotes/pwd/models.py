@@ -12,6 +12,7 @@ from users.models import User
 class Status(models.TextChoices):
     WAITING = 'WAITING', 'Waiting for change'
     SUCCESS = 'SUCCESS', 'Success'
+    CANCEL = 'CANCEL', 'Cancel'
     ERROR = 'ERROR', 'Error'
 
 

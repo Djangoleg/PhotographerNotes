@@ -28,9 +28,21 @@ class PwdActionsSerializer(ModelSerializer):
 
         users = User.objects.filter(email=email)
 
+        user = None
         if len(users) == 1:
             user = users.first()
             validated_data['user'] = user
+
+        # User not found.
+        if not user:
+            raise serializers.ValidationError({'user': ['User with this email was not found.']})
+
+        # User have record in status WAITING.
+        pwd_actions = PwdActions.objects.filter(user=user, status=Status.WAITING)
+        for action in pwd_actions:
+            action.status = Status.CANCEL
+            action.hash_key = ''
+            action.save()
 
         validated_data['status'] = Status.WAITING
         validated_data['hash_key'] = get_hash_key(email)
@@ -60,4 +72,3 @@ class PwdActionsSerializer(ModelSerializer):
         instance.hash_key = ''
         instance.save()
         raise serializers.ValidationError(error)
-

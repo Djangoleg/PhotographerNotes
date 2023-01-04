@@ -61,7 +61,7 @@ class FeedbackForm extends React.Component {
             this.props.navigate(appPath.index);
         }).catch(error => {
             console.log(error);
-            alert('Error change or create note!');
+            alert('Error send feedback!');
         });
     }
 

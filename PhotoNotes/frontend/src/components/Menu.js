@@ -28,12 +28,14 @@ const Menu = () => {
                             <ul className="navbar-nav ms-auto">
                                 <img src="/img/Rica32.svg" alt=""/>
                                 <li className="nav-item dropdown">
-                                    <a className="nav-link dropdown-toggle ms-3" href="#" id="navbarDropdown" role="button"
+                                    <a className="nav-link dropdown-toggle ms-3" href="#" id="navbarDropdown"
+                                       role="button"
                                        data-bs-toggle="dropdown" aria-expanded="false">
                                         <img src="/img/menu.png"/>
                                     </a>
                                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <li><a className="dropdown-item" href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>Blog</a></li>
+                                        <li><a className="dropdown-item"
+                                               href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>Blog</a></li>
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
@@ -58,6 +60,9 @@ const Menu = () => {
                                             <li><a className="dropdown-item"
                                                    href={appPath.createNote}>Create note</a>
                                             </li> : null}
+                                        <li><a className="dropdown-item"
+                                               href={appPath.recoveryPwd}>Password recovery</a>
+                                        </li>
 
                                         <li><a className="dropdown-item" href={appPath.feedback}>Feedback</a></li>
                                     </ul>

@@ -1,8 +1,6 @@
-import React, {useState} from 'react';
-import Carousel from 'react-bootstrap/Carousel';
+import React from 'react';
 import axios from "axios";
 import url from "./AppURL";
-import Constants from "./AppConstants";
 import Moment from "moment/moment";
 import Footer from "./Footer";
 

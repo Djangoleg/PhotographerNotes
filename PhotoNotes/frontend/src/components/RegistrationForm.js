@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import appPath from "./AppPath";
 
 
 class RegistrationForm extends React.Component {

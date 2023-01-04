@@ -21,7 +21,7 @@ const withParams = (Component) => {
     return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
 }
 
-class ChangePwd extends React.Component {
+class SettingNewPwd extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -181,7 +181,7 @@ class ChangePwd extends React.Component {
                     <section className="section">
                         <div className="container">
                             <div className="col-lg-12 text-lg-center">
-                                <h2>Change password</h2>
+                                <h2>Set password</h2>
                             </div>
                             <div className="row no-gutters-lg justify-content-center">
                                 <div className="col-lg-9 mb-lg-5">
@@ -270,4 +270,4 @@ class ChangePwd extends React.Component {
     }
 }
 
-export default withParams(ChangePwd)
+export default withParams(SettingNewPwd)
