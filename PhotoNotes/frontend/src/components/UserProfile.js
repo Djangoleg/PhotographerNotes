@@ -151,7 +151,7 @@ class UseProfile extends React.Component {
                                         <div className="col-12 mb-4">
                                             {this.state.edit ?
                                                 (
-                                                    <form className="requires-validation" role="form" noValidate>
+                                                    <form className="requires-validation" noValidate>
                                                         <div className="form-group row">
                                                             <label
                                                                 className="col-lg-3 col-form-label form-control-label">First

@@ -151,7 +151,7 @@ class EditNoteForm extends React.Component {
             <div className="container mt-4 mb-4">
                 <div className="col-lg-12 d-flex justify-content-center">
                     <div className="col-lg-8">
-                        <form className="requires-validation" role="form" noValidate>
+                        <form className="requires-validation" noValidate>
                             <h2 className="text-center">{this.props.pagetitle}</h2>
                             <div className="form-group row">
                                 <label className="col-lg-3 col-form-label form-control-label">Title</label>

@@ -72,7 +72,7 @@ class FeedbackForm extends React.Component {
                     <h2>Feedback</h2>
                 </div>
                 <div className="col-lg-12">
-                    <form className="requires-validation" role="form" noValidate>
+                    <form className="requires-validation" noValidate>
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Title</label>
                             <div className="col-lg-9">

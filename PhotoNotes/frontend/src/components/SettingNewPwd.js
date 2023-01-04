@@ -190,7 +190,7 @@ class SettingNewPwd extends React.Component {
                                             {
                                                 this.state.keyIsValid ?
                                                     (
-                                                        <form className="requires-validation" role="form" noValidate>
+                                                        <form className="requires-validation" noValidate>
                                                             <div className="form-group row">
                                                                 <label
                                                                     className="col-lg-3 col-form-label form-control-label">Password</label>
