@@ -1,14 +1,10 @@
 import React from "react";
-import {useNavigate, useParams} from "react-router-dom";
 import Auth from "./Authentication";
 import url from "./AppURL";
 import axios from "axios";
 import $ from "jquery";
 import Button from "react-bootstrap/Button";
-
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
-}
+import withParams from "./ComponentWithParams";
 
 class UseProfile extends React.Component {
     constructor(props) {
@@ -18,8 +14,6 @@ class UseProfile extends React.Component {
             selectedFile: null,
             firstname: '',
             lastname: '',
-            password: '',
-            confirmpassword: '',
             username: '',
             edit: false
         }
@@ -153,7 +147,7 @@ class UseProfile extends React.Component {
                                         <div className="col-12 mb-4">
                                             {this.state.edit ?
                                                 (
-                                                    <form className="requires-validation" role="form" noValidate>
+                                                    <form className="requires-validation" noValidate>
                                                         <div className="form-group row">
                                                             <label
                                                                 className="col-lg-3 col-form-label form-control-label">First

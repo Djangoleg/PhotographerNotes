@@ -1,15 +1,11 @@
 import React from "react";
 import appPath from "./AppPath";
-import {useNavigate, useParams} from "react-router-dom";
 import Auth from "./Authentication";
 import axios from "axios";
 import url from "./AppURL";
 import Spinner from 'react-bootstrap/Spinner';
 import $ from "jquery";
-
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
-}
+import withParams from "./ComponentWithParams";
 
 class FeedbackForm extends React.Component {
     constructor(props) {
@@ -61,7 +57,7 @@ class FeedbackForm extends React.Component {
             this.props.navigate(appPath.index);
         }).catch(error => {
             console.log(error);
-            alert('Error change or create note!');
+            alert('Error send feedback!');
         });
     }
 
@@ -72,7 +68,7 @@ class FeedbackForm extends React.Component {
                     <h2>Feedback</h2>
                 </div>
                 <div className="col-lg-12">
-                    <form className="requires-validation" role="form" noValidate>
+                    <form className="requires-validation" noValidate>
                         <div className="form-group row">
                             <label className="col-lg-3 col-form-label form-control-label">Title</label>
                             <div className="col-lg-9">

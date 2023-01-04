@@ -9,6 +9,7 @@ import Markdown from 'markdown-to-jsx';
 import Auth from './Authentication'
 import styled from "styled-components";
 import $ from "jquery";
+import withParams from "./ComponentWithParams";
 
 const ReplyingContext = createContext({});
 const CommentContext = createContext([]);
@@ -240,10 +241,6 @@ const Card = (props) => {
             {props.children}
         </div>
     );
-}
-
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()}/>;
 }
 
 class Comments extends React.Component {

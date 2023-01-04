@@ -1,5 +1,4 @@
 import React from "react";
-import {useNavigate, useParams} from "react-router-dom";
 import url from "./AppURL";
 import axios from "axios";
 import Constants from "./AppConstants";
@@ -9,6 +8,7 @@ import BackButton from "./BackButton";
 import Auth from "./Authentication";
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
+import withParams from "./ComponentWithParams";
 
 const Note = ({note}) => {
 
@@ -59,10 +59,6 @@ const Note = ({note}) => {
             </div>
         </div>
     );
-}
-
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
 }
 
 class NotePage extends React.Component {

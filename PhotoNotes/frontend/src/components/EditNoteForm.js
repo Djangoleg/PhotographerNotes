@@ -1,15 +1,12 @@
 import React from "react";
-import {useParams, useNavigate} from "react-router-dom";
 import $ from "jquery";
 import axios from "axios";
 import url from "./AppURL";
 import Auth from "./Authentication";
 import {TagsInput} from "react-tag-input-component";
 import Constants from "./AppConstants";
+import withParams from "./ComponentWithParams";
 
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
-}
 
 class EditNoteForm extends React.Component {
     constructor(props) {
@@ -151,7 +148,7 @@ class EditNoteForm extends React.Component {
             <div className="container mt-4 mb-4">
                 <div className="col-lg-12 d-flex justify-content-center">
                     <div className="col-lg-8">
-                        <form className="requires-validation" role="form" noValidate>
+                        <form className="requires-validation" noValidate>
                             <h2 className="text-center">{this.props.pagetitle}</h2>
                             <div className="form-group row">
                                 <label className="col-lg-3 col-form-label form-control-label">Title</label>
