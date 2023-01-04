@@ -1,10 +1,10 @@
 import React from "react";
-import {useNavigate, useParams} from "react-router-dom";
 import Auth from "./Authentication";
 import axios from "axios";
 import url from "./AppURL";
 import $ from "jquery";
 import appPath from "./AppPath";
+import withParams from "./ComponentWithParams";
 
 const Authentication = Auth;
 Authentication.getTokenFromStorage();
@@ -16,10 +16,6 @@ const atLeastOneNumeric = /[0-9]/g; // numbers from 0 to 9
 const atLeastOneSpecialChar = /[#?!@$%^&*-]/g; // any of the special characters within the square brackets
 const eightCharsOrMore = /.{8,}/g; // eight characters or more
 const PASSWORDSTRENGTH = 5;
-
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
-}
 
 class SettingNewPwd extends React.Component {
     constructor(props) {

@@ -1,15 +1,11 @@
 import React from "react";
 import appPath from "./AppPath";
-import {useNavigate, useParams} from "react-router-dom";
 import Auth from "./Authentication";
 import axios from "axios";
 import url from "./AppURL";
 import Spinner from 'react-bootstrap/Spinner';
 import $ from "jquery";
-
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
-}
+import withParams from "./ComponentWithParams";
 
 class FeedbackForm extends React.Component {
     constructor(props) {

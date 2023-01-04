@@ -1,15 +1,12 @@
 import React from "react";
-import {useParams, useNavigate} from "react-router-dom";
 import $ from "jquery";
 import axios from "axios";
 import url from "./AppURL";
 import Auth from "./Authentication";
 import {TagsInput} from "react-tag-input-component";
 import Constants from "./AppConstants";
+import withParams from "./ComponentWithParams";
 
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
-}
 
 class EditNoteForm extends React.Component {
     constructor(props) {

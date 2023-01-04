@@ -1,14 +1,10 @@
 import React from "react";
-import {useNavigate, useParams} from "react-router-dom";
 import Auth from "./Authentication";
 import url from "./AppURL";
 import axios from "axios";
 import $ from "jquery";
 import Button from "react-bootstrap/Button";
-
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
-}
+import withParams from "./ComponentWithParams";
 
 class UseProfile extends React.Component {
     constructor(props) {

@@ -5,11 +5,8 @@ import Spinner from "react-bootstrap/Spinner";
 import axios from "axios";
 import url from "./AppURL";
 import Auth from "./Authentication";
-import {useNavigate, useParams} from "react-router-dom";
+import withParams from "./ComponentWithParams";
 
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
-}
 
 class RecoveryPwd extends React.Component {
     constructor(props) {

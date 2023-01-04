@@ -5,11 +5,11 @@ import Constants from "./AppConstants";
 import axios from "axios";
 import url from "./AppURL";
 import '../blog.css';
-import {useNavigate, useParams} from "react-router-dom";
 import Pagination from 'react-bootstrap/Pagination';
 import appPath from "./AppPath";
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
+import withParams from "./ComponentWithParams";
 
 const PhotoNotesItem = ({note, tag, page}) => {
 
@@ -146,10 +146,6 @@ function BlogPagination({paginator, tag}) {
         //     <Pagination.Last/>
         // </Pagination>
     );
-}
-
-const withParams = (Component) => {
-    return props => <Component {...props} params={useParams()} navigate={useNavigate()}/>;
 }
 
 class BlogPage extends React.Component {
