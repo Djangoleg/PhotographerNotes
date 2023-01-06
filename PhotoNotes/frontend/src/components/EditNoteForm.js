@@ -4,7 +4,6 @@ import axios from "axios";
 import url from "./AppURL";
 import Auth from "./Authentication";
 import {TagsInput} from "react-tag-input-component";
-import Constants from "./AppConstants";
 import withParams from "./ComponentWithParams";
 import appPath from "./AppPath";
 
@@ -140,7 +139,7 @@ class EditNoteForm extends React.Component {
     }
 
     backSubmit = (event) => {
-        this.props.navigate(appPath.blog);
+        this.props.navigate(-1);
     }
 
     noteError = (error) => {

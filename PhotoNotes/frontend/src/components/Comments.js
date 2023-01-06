@@ -1,6 +1,6 @@
 import '../comments.css';
 import React, {createContext, useContext, useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import url from "./AppURL";
 import axios from "axios";
 import Moment from "moment";
