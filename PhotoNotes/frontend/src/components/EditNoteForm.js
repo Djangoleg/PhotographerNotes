@@ -140,7 +140,7 @@ class EditNoteForm extends React.Component {
     }
 
     backSubmit = (event) => {
-        this.props.navigate(appPath.blog);
+        this.props.navigate(-1);
     }
 
     noteError = (error) => {
