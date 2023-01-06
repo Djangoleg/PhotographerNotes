@@ -1,6 +1,5 @@
 import React from 'react';
 import appPath from "./AppPath";
-import Constants from "./AppConstants";
 import moment from "moment";
 
 const Footer = () => {
@@ -15,7 +14,7 @@ const Footer = () => {
                         </a>
                         <ul className="p-0 d-flex navbar-footer mb-0 list-unstyled">
                             <li className="nav-item my-0"><a className="nav-link m-lg-1"
-                                                             href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>Blog</a>
+                                                             href={appPath.blog}>Blog</a>
                             </li>
                             <li className="nav-item my-0"><a className="nav-link m-lg-1"
                                                              href={appPath.feedback}>Feedback</a></li>

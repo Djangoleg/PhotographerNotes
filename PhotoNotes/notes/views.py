@@ -42,7 +42,6 @@ class PhotoNoteViewSet(ModelViewSet):
 
         tag = self.request.query_params.get('tags')
         if tag is not None:
-            if tag != 'alltgs':
-                return queryset.filter(tags__value=tag)
+            return queryset.filter(tags__value=tag)
 
         return queryset

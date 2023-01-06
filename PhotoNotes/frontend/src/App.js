@@ -28,21 +28,23 @@ class PhotoNotes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            regData: reg
+            regData: reg,
+            blogSelectedTag: '',
+            blogSelectedPage: ''
         }
     }
 
     render() {
         return (
             <BrowserRouter>
-                <Menu />
+                <Menu/>
                 <Routes>
                     <Route path={appPath.index} element={
                         <div>
                             <div className="content bg-blog">
                                 <div className="h-100 justify-content-lg-center align-items-lg-start">
-                                    <IndexPhoto />
-                                    <IndexMiniCards />
+                                    <IndexPhoto/>
+                                    <IndexMiniCards/>
                                 </div>
                             </div>
                         </div>
@@ -63,23 +65,55 @@ class PhotoNotes extends React.Component {
                     <Route exact path={appPath.blog} element={
                         <div className="content bg-blog">
                             <div className="justify-content-center align-items-center">
-                                <BlogPage/>
+                                <BlogPage
+                                    selectedTag={this.state.blogSelectedTag}
+                                    selectedPage={this.state.blogSelectedPage}
+
+                                    pageData={(selectedTag, selectedPage) => {
+                                        this.setState({
+                                            blogSelectedTag: selectedTag,
+                                            blogSelectedPage: selectedPage
+                                        });
+                                    }}/>
                             </div>
                         </div>
                     }/>
                     <Route exact path={appPath.editNote} element={
                         <div className="content">
-                            <EditNoteForm pagetitle="Edit Note" />
+                            <EditNoteForm
+                                pagetitle="Edit Note"
+                                pageData={(selectedTag, selectedPage) => {
+                                    this.setState({
+                                        blogSelectedTag: selectedTag,
+                                        blogSelectedPage: selectedPage
+                                    });
+                                }}
+                            />
                         </div>
                     }/>
                     <Route exact path={appPath.viewNote} element={
                         <div className="content bg-blog">
-                            <NotePage />
+                            <NotePage
+                                pageData={(selectedTag, selectedPage) => {
+                                    this.setState({
+                                        blogSelectedTag: selectedTag,
+                                        blogSelectedPage: selectedPage
+                                    });
+                                }}
+                            />
                         </div>
                     }/>
                     <Route exact path={appPath.createNote} element={
                         <div className="content">
-                            <EditNoteForm pagetitle="Create Note" />
+                            <EditNoteForm
+                                pagetitle="Create Note"
+                                pageData={(selectedTag, selectedPage) => {
+                                    this.setState({
+                                        blogSelectedTag: selectedTag,
+                                        blogSelectedPage: selectedPage
+                                    });
+                                }}
+                            />
                         </div>
                     }/>
                     <Route path={appPath.verify} element={

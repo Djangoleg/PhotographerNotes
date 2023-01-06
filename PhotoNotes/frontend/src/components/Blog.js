@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createContext, useContext} from 'react';
 import Moment from 'moment';
 import Auth from "./Authentication";
 import Constants from "./AppConstants";
@@ -11,7 +11,10 @@ import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 import withParams from "./ComponentWithParams";
 
-const PhotoNotesItem = ({note, tag, page}) => {
+const BlogContext = createContext({});
+
+const PhotoNotesItem = ({note}) => {
+    const [setTag, setPage, getNotes, setPageData] = useContext(BlogContext);
 
     const showControlButtons = () => {
         const auth = Auth;
@@ -44,7 +47,16 @@ const PhotoNotesItem = ({note, tag, page}) => {
                             <li>
                                 {note.tags.map((tag, i) => {
                                     return (
-                                        <a key={i} href={`/blog/${tag}/${Constants.firstPage}`}>{tag} </a>
+                                        <a
+                                            key={i}
+                                            onClick={() => {
+                                                setTag(tag);
+                                                setPage('');
+                                                getNotes();
+                                            }}
+                                        >
+                                            {tag}
+                                        </a>
                                     );
                                 })}
                             </li>
@@ -53,8 +65,8 @@ const PhotoNotesItem = ({note, tag, page}) => {
                         <div><a href={`/note/view/${note.id}`}>Comments {note.comments_number}</a></div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        {showControlButtons() ? <DeleteButton note={note}/> : null}
-                        {showControlButtons() ? <EditButton noteId={note.id} tag={tag} page={page}/> : null}
+                        {showControlButtons() ? <DeleteButton note={note} setPageData={setPageData}/> : null}
+                        {showControlButtons() ? <EditButton noteId={note.id}/> : null}
                     </div>
                 </article>
             </div>
@@ -68,6 +80,8 @@ const PhotoNotesItem = ({note, tag, page}) => {
  * @constructor
  */
 const Tags = ({groupTags}) => {
+    const [setTag, setPage, getNotes, setPageData] = useContext(BlogContext);
+
     return (
         <div className="col-lg-2">
             <div className="widget-blocks">
@@ -76,11 +90,29 @@ const Tags = ({groupTags}) => {
                         <h2 className="section-title mb-3">Tags</h2>
                         <div className="widget-body">
                             <ul className="widget-list">
-                                <li><a href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>All </a></li>
+                                <li>
+                                    <a
+                                        onClick={() => {
+                                            setTag('');
+                                            setPage('');
+                                            getNotes();
+                                        }}
+                                    >
+                                        All
+                                    </a>
+                                </li>
                                 {groupTags.map((t, i) => {
                                     return (
-                                        <li key={i}><a href={`/blog/${t.value}/${Constants.firstPage}`}>
-                                            {t.value} {t.total}</a>
+                                        <li key={i}>
+                                            <a
+                                                onClick={() => {
+                                                    setTag(t.value);
+                                                    setPage('');
+                                                    getNotes();
+                                                }}
+                                            >
+                                                {t.value} {t.total}
+                                            </a>
                                         </li>
                                     );
                                 })}
@@ -93,16 +125,20 @@ const Tags = ({groupTags}) => {
     );
 }
 
-function BlogPagination({paginator, tag}) {
+function BlogPagination({paginator}) {
+    const [setTag, setPage, getNotes, setPageData] = useContext(BlogContext);
 
     let pageCount = Math.ceil(paginator.count / Constants.pageSize);
 
     let items = [];
     for (let number = 1; number <= pageCount; number++) {
         items.push(
-            <Pagination.Item key={number} active={number === paginator.active_page} href={`/blog/${tag}/${number}`}>
+            <Pagination.Item key={number} active={number === paginator.active_page} onClick={() => {
+                setPage(number);
+                getNotes();
+            }}>
                 {number}
-            </Pagination.Item>,
+            </Pagination.Item>
         );
     }
 
@@ -122,29 +158,24 @@ function BlogPagination({paginator, tag}) {
 
     return (
         <Pagination>
-            <Pagination.First href={`/blog/${tag}/1`}/>
-            <Pagination.Prev href={`/blog/${tag}/${prev}`}/>
+            <Pagination.First onClick={() => {
+                setPage('');
+                getNotes();
+            }}/>
+            <Pagination.Prev onClick={() => {
+                setPage(prev);
+                getNotes();
+            }}/>
             {items}
-            <Pagination.Next href={`/blog/${tag}/${next}`}/>
-            <Pagination.Last href={`/blog/${tag}/${pageCount}`}/>
+            <Pagination.Next onClick={() => {
+                setPage(next);
+                getNotes();
+            }}/>
+            <Pagination.Last onClick={() => {
+                setPage(pageCount);
+                getNotes();
+            }}/>
         </Pagination>
-        // <Pagination>
-        //     <Pagination.First/>
-        //     <Pagination.Prev/>
-        //     <Pagination.Item>{1}</Pagination.Item>
-        //     <Pagination.Ellipsis/>
-        //
-        //     <Pagination.Item>{10}</Pagination.Item>
-        //     <Pagination.Item>{11}</Pagination.Item>
-        //     <Pagination.Item active>{12}</Pagination.Item>
-        //     <Pagination.Item>{13}</Pagination.Item>
-        //     <Pagination.Item disabled>{14}</Pagination.Item>
-        //
-        //     <Pagination.Ellipsis/>
-        //     <Pagination.Item>{20}</Pagination.Item>
-        //     <Pagination.Next/>
-        //     <Pagination.Last/>
-        // </Pagination>
     );
 }
 
@@ -154,63 +185,86 @@ class BlogPage extends React.Component {
         this.state = {
             notes: [],
             tags: [],
-            paginator: {}
+            paginator: {},
+            selectedTag: '',
+            selectedPage: ''
         }
     }
 
     componentDidMount() {
+        this.state.selectedTag = this.props.selectedTag;
+        this.state.selectedPage = this.props.selectedPage;
 
-        Auth.getTokenFromStorage();
+        this.getNotes();
+    }
 
-        let tag = this.props.params.tag ? this.props.params.tag : Constants.allTags;
-        let p = parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage;
+    getNotes() {
+        this.props.pageData(this.state.selectedTag, this.state.selectedPage);
 
-        let blogUrl = `${url.get()}/api/notes/?tags=${tag}&p=${p}`;
+        let blogUrl = `${url.get()}/api/notes/`;
 
-        axios.get(blogUrl)
-            .then(response => {
-                const notes = response.data
-                this.setState(
-                    {
-                        notes: notes.results,
-                        tags: notes.tags,
-                        paginator: notes.paginator
-                    }
-                )
-            }).catch(error => console.log(error))
+        if (this.state.selectedPage && this.state.selectedTag) {
+            blogUrl += '?p=' + this.state.selectedPage + '&tags=' + this.state.selectedTag;
+        } else if (this.state.selectedPage) {
+            blogUrl += '?p=' + this.state.selectedPage;
+        } else if (this.state.selectedTag) {
+            blogUrl += '?tags=' + this.state.selectedTag;
+        }
+
+        axios.get(blogUrl).then(response => {
+            const notes = response.data
+            this.setState(
+                {
+                    notes: notes.results,
+                    tags: notes.tags,
+                    paginator: notes.paginator
+                }
+            )
+        }).catch(error => console.log(error))
+    }
+
+    setPageData(tag, page) {
+        this.props.pageData(tag, page);
+    }
+
+    setTag(tag) {
+        this.state.selectedTag = tag;
+    }
+
+    setPage(page) {
+        this.state.selectedPage = page;
     }
 
     render() {
-
         const isAuthenticated = Auth.isAuthenticated();
-
         return (
             <div>
                 <main>
                     <section className="section">
                         <div className="container">
-                            <div className="row no-gutters-lg">
-                                {this.state.tags.length > 0 ? <Tags groupTags={this.state.tags}/> : null}
-                                <div className="col-lg-9 mb-lg-5">
-                                    {this.state.notes.map((note) =>
-                                        <PhotoNotesItem key={note.id} note={note}
-                                                        tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
-                                                        page={parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}
-                                        />)}
-                                    {this.state.notes.length > 0 ?
-                                        <BlogPagination paginator={this.state.paginator}
-                                                        tag={this.props.params.tag ? this.props.params.tag : Constants.allTags}
-                                        /> :
-                                        <div className="text-light">
-                                            There are no posts.
-                                            {isAuthenticated ? <> Create the <a
-                                                    href={appPath.createNote}>first</a> one.</> :
-                                                <> Log in <a href={appPath.login}>here</a>.</>
-                                            }
-                                        </div>
-                                    }
+                            <BlogContext.Provider
+                                value={[this.setTag.bind(this), this.setPage.bind(this),
+                                    this.getNotes.bind(this), this.setPageData.bind(this)]}>
+                                <div className="row no-gutters-lg">
+                                    {this.state.tags.length > 0 ? <Tags groupTags={this.state.tags}/> : null}
+                                    <div className="col-lg-9 mb-lg-5">
+                                        {this.state.notes.map((note) =>
+                                            <PhotoNotesItem key={note.id} note={note}/>)}
+                                        {this.state.notes.length > 0 ?
+
+                                            (<BlogPagination paginator={this.state.paginator}/>) :
+
+                                            (<div className="text-light">
+                                                There are no posts.
+                                                {isAuthenticated ? <> Create the <a
+                                                        href={appPath.createNote}>first</a> one.</> :
+                                                    <> Log in <a href={appPath.login}>here</a>.</>
+                                                }
+                                            </div>)
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                            </BlogContext.Provider>
                         </div>
                     </section>
                 </main>

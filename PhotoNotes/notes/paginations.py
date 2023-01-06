@@ -18,8 +18,8 @@ class CustomPagination(PageNumberPagination):
         tags = PhotoNotesTags.objects.all().values('value').annotate(total=Count('value')).order_by('total')
         paginator = {
             'count': self.page.paginator.count,
-            'next': self.get_next_link(),
-            'previous': self.get_previous_link(),
+            'next': self.page.next_page_number() if self.page.has_next() else None,
+            'previous': self.page.previous_page_number() if self.page.has_previous() else None,
             'active_page': self.page.number
         }
 

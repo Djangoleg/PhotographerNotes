@@ -1,6 +1,6 @@
 import '../comments.css';
 import React, {createContext, useContext, useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import url from "./AppURL";
 import axios from "axios";
 import Moment from "moment";
@@ -9,12 +9,15 @@ import Markdown from 'markdown-to-jsx';
 import Auth from './Authentication'
 import styled from "styled-components";
 import $ from "jquery";
-import withParams from "./ComponentWithParams";
 
 const ReplyingContext = createContext({});
 const CommentContext = createContext([]);
 const ThemeContext = createContext([]);
 const Authentication = Auth;
+
+const withParams = (Component) => {
+    return props => <Component {...props} params={useParams()}/>;
+}
 
 const compare = (a1, a2) => {
     return JSON.stringify(a1) === JSON.stringify(a2);

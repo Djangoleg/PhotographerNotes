@@ -6,6 +6,7 @@ import Auth from "./Authentication";
 import {TagsInput} from "react-tag-input-component";
 import Constants from "./AppConstants";
 import withParams from "./ComponentWithParams";
+import appPath from "./AppPath";
 
 
 class EditNoteForm extends React.Component {
@@ -17,7 +18,8 @@ class EditNoteForm extends React.Component {
             image: null,
             selectedFile: null,
             pinned: '',
-            tags: []
+            tags: [],
+            tagsWasChanged: false
         };
     }
 
@@ -115,7 +117,10 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                this.props.navigate(`/blog/${this.props.params.tag !== 'undefined' ? this.props.params.tag : Constants.allTags}/${Constants.firstPage}`);
+                    if (this.state.tagsIsChange) {
+                        this.props.pageData('', '');
+                    }
+                    this.props.navigate(appPath.blog);
             }).catch(error => {
                 this.noteError(error)
             });
@@ -126,7 +131,8 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                this.props.navigate(`/blog/${this.props.params.tag ? this.props.params.tag : Constants.allTags}/${Constants.firstPage}`);
+                this.props.pageData('', '');
+                this.props.navigate(appPath.blog);
             }).catch(error => {
                 this.noteError(error)
             });
@@ -134,13 +140,20 @@ class EditNoteForm extends React.Component {
     }
 
     backSubmit = (event) => {
-        // this.props.navigate(`/blog/${this.props.params.tag !== 'undefined' ? this.props.params.tag : Constants.allTags}/${parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}`);
-        this.props.navigate(-1);
+        this.props.navigate(appPath.blog);
     }
 
     noteError = (error) => {
         console.log(error);
         alert('Error change or create note!');
+    }
+
+    tagEdit = (event) => {
+        this.setState(
+            {
+                tagsWasChanged: true
+            }
+        );
     }
 
     render() {
@@ -222,6 +235,8 @@ class EditNoteForm extends React.Component {
                                         className="form-control"
                                         value={this.state.tags}
                                         onChange={(event) => this.handleTagsChange(event)}
+                                        onKeyUp={(event) => this.tagEdit(event)}
+                                        onRemoved={(event) => this.tagEdit(event)}
                                         name="tags"
                                         placeHolder="Enter tags.."
                                     />
