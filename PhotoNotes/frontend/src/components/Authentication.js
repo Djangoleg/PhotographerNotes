@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import url from "./AppURL"
-import Constants from "./AppConstants";
+import appPath from "./AppPath";
 
 const Auth = {
     token: '',
@@ -13,7 +13,7 @@ const Auth = {
         .then(response => {
 
             this.setToken(response.data['token'], username, response.data['profile_id'], response.data['firstname']);
-            document.location.pathname = `/blog/${Constants.allTags}/${Constants.firstPage}`;
+            document.location.pathname = appPath.blog;
 
         }).catch(error => alert('Wrong login or password'));
     },

@@ -2,7 +2,6 @@ import React from "react";
 import {Navbar,} from "react-bootstrap";
 import appPath from "./AppPath";
 import {NavLink} from "react-router-dom";
-import Constants from "./AppConstants";
 import Auth from "./Authentication";
 
 

@@ -18,7 +18,8 @@ class EditNoteForm extends React.Component {
             image: null,
             selectedFile: null,
             pinned: '',
-            tags: []
+            tags: [],
+            tagsWasChanged: false
         };
     }
 
@@ -116,7 +117,10 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                this.props.navigate(appPath.blog);
+                    if (this.state.tagsIsChange) {
+                        this.props.pageData('', '');
+                    }
+                    this.props.navigate(appPath.blog);
             }).catch(error => {
                 this.noteError(error)
             });
@@ -127,6 +131,7 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
+                this.props.pageData('', '');
                 this.props.navigate(appPath.blog);
             }).catch(error => {
                 this.noteError(error)
@@ -141,6 +146,14 @@ class EditNoteForm extends React.Component {
     noteError = (error) => {
         console.log(error);
         alert('Error change or create note!');
+    }
+
+    tagEdit = (event) => {
+        this.setState(
+            {
+                tagsWasChanged: true
+            }
+        );
     }
 
     render() {
@@ -222,6 +235,8 @@ class EditNoteForm extends React.Component {
                                         className="form-control"
                                         value={this.state.tags}
                                         onChange={(event) => this.handleTagsChange(event)}
+                                        onKeyUp={(event) => this.tagEdit(event)}
+                                        onRemoved={(event) => this.tagEdit(event)}
                                         name="tags"
                                         placeHolder="Enter tags.."
                                     />

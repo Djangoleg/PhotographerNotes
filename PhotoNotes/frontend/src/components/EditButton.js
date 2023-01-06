@@ -2,7 +2,7 @@ import Button from "react-bootstrap/Button";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 
-const EditButton = ({noteId, tag, page}) => {
+const EditButton = ({noteId}) => {
 
     const navigate = useNavigate();
 

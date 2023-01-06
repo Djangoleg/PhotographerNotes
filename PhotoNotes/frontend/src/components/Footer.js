@@ -1,6 +1,5 @@
 import React from 'react';
 import appPath from "./AppPath";
-import Constants from "./AppConstants";
 import moment from "moment";
 
 const Footer = () => {

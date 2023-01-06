@@ -1,7 +1,6 @@
-import React from "react";
+import React, {createContext, useContext} from "react";
 import url from "./AppURL";
 import axios from "axios";
-import Constants from "./AppConstants";
 import Moment from "moment/moment";
 import Comments from "./Comments";
 import BackButton from "./BackButton";
@@ -9,8 +8,14 @@ import Auth from "./Authentication";
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 import withParams from "./ComponentWithParams";
+import appPath from "./AppPath";
+import {useNavigate} from "react-router-dom";
+
+const BlogContext = createContext({});
 
 const Note = ({note}) => {
+    const [setPageData] = useContext(BlogContext);
+    const navigate = useNavigate();
 
     const showControlButtons = () => {
         const auth = Auth;
@@ -41,9 +46,12 @@ const Note = ({note}) => {
                         <ul className="post-meta mb-2">
                             <li>
                                 {note.tags ?
-                                    note.tags.map((tag) => {
+                                    note.tags.map((tag, i) => {
                                         return (
-                                            <a key={tag} href={`/blog/${tag}/${Constants.firstPage}`}>{tag} </a>
+                                            <a key={i} onClick={() => {
+                                                setPageData(tag, '');
+                                                navigate(appPath.blog);
+                                            }}>{tag}</a>
                                         );
                                     }) : null}
                             </li>
@@ -51,8 +59,8 @@ const Note = ({note}) => {
                         <p className="card-text m-3">{note.photo_comment}</p>
                     </div>
                     <div className="d-flex justify-content-end">
-                        {showControlButtons() ? <DeleteButton note={note}/> : null}
-                        {showControlButtons() ? <EditButton noteId={note.id} page={1}/> : null}
+                        {showControlButtons() ? <DeleteButton note={note} setPageData={setPageData}/> : null}
+                        {showControlButtons() ? <EditButton noteId={note.id}/> : null}
                         <BackButton/>
                     </div>
                 </article>
@@ -90,6 +98,10 @@ class NotePage extends React.Component {
             }).catch(error => console.log(error))
     }
 
+    setPageData(tag, page) {
+        this.props.pageData(tag, page);
+    }
+
     render() {
         return (
             <div>
@@ -98,8 +110,10 @@ class NotePage extends React.Component {
                         <div className="container">
                             <div className="row no-gutters-lg justify-content-center">
                                 <div className="col-lg-9 mb-lg-5">
-                                    <Note note={this.state.note}/>
-                                    <Comments note={this.state.note.id}/>
+                                    <BlogContext.Provider value={[this.setPageData.bind(this)]}>
+                                        <Note note={this.state.note}/>
+                                        <Comments note={this.state.note.id}/>
+                                    </BlogContext.Provider>
                                 </div>
                             </div>
                         </div>

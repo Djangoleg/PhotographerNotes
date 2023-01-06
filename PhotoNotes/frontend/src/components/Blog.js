@@ -14,7 +14,7 @@ import withParams from "./ComponentWithParams";
 const BlogContext = createContext({});
 
 const PhotoNotesItem = ({note}) => {
-    const [setTag, setPage, getNotes] = useContext(BlogContext);
+    const [setTag, setPage, getNotes, setPageData] = useContext(BlogContext);
 
     const showControlButtons = () => {
         const auth = Auth;
@@ -65,7 +65,7 @@ const PhotoNotesItem = ({note}) => {
                         <div><a href={`/note/view/${note.id}`}>Comments {note.comments_number}</a></div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        {showControlButtons() ? <DeleteButton note={note}/> : null}
+                        {showControlButtons() ? <DeleteButton note={note} setPageData={setPageData}/> : null}
                         {showControlButtons() ? <EditButton noteId={note.id}/> : null}
                     </div>
                 </article>
@@ -80,7 +80,7 @@ const PhotoNotesItem = ({note}) => {
  * @constructor
  */
 const Tags = ({groupTags}) => {
-    const [setTag, setPage, getNotes] = useContext(BlogContext);
+    const [setTag, setPage, getNotes, setPageData] = useContext(BlogContext);
 
     return (
         <div className="col-lg-2">
@@ -126,7 +126,7 @@ const Tags = ({groupTags}) => {
 }
 
 function BlogPagination({paginator}) {
-    const [setTag, setPage, getNotes] = useContext(BlogContext);
+    const [setTag, setPage, getNotes, setPageData] = useContext(BlogContext);
 
     let pageCount = Math.ceil(paginator.count / Constants.pageSize);
 
@@ -192,12 +192,6 @@ class BlogPage extends React.Component {
     }
 
     componentDidMount() {
-
-        console.log(`blog.js props: ${JSON.stringify(this.props)}`);
-        // this.setState({
-        //     selectedTag: this.props.selectedTag,
-        //     selectedPage: this.props.selectedPage
-        // });
         this.state.selectedTag = this.props.selectedTag;
         this.state.selectedPage = this.props.selectedPage;
 
@@ -205,7 +199,7 @@ class BlogPage extends React.Component {
     }
 
     getNotes() {
-        this.props.pageData(this.state.selectedTag, this.state.selectedPage)
+        this.props.pageData(this.state.selectedTag, this.state.selectedPage);
 
         let blogUrl = `${url.get()}/api/notes/`;
 
@@ -229,6 +223,10 @@ class BlogPage extends React.Component {
         }).catch(error => console.log(error))
     }
 
+    setPageData(tag, page) {
+        this.props.pageData(tag, page);
+    }
+
     setTag(tag) {
         this.state.selectedTag = tag;
     }
@@ -245,7 +243,8 @@ class BlogPage extends React.Component {
                     <section className="section">
                         <div className="container">
                             <BlogContext.Provider
-                                value={[this.setTag.bind(this), this.setPage.bind(this), this.getNotes.bind(this)]}>
+                                value={[this.setTag.bind(this), this.setPage.bind(this),
+                                    this.getNotes.bind(this), this.setPageData.bind(this)]}>
                                 <div className="row no-gutters-lg">
                                     {this.state.tags.length > 0 ? <Tags groupTags={this.state.tags}/> : null}
                                     <div className="col-lg-9 mb-lg-5">

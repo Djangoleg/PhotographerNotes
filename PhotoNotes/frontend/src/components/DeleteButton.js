@@ -7,7 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import {useNavigate} from "react-router-dom";
 import appPath from "./AppPath";
 
-const DeleteButton = ({note}) => {
+const DeleteButton = ({note, setPageData}) => {
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
@@ -18,13 +18,12 @@ const DeleteButton = ({note}) => {
             headers: headers,
         }).then(() => {
             setShow(false);
-
+            setPageData('', '');
             if (window.location.pathname.includes('blog')) {
                 window.location.reload();
             } else {
                 navigate(appPath.blog);
             }
-
         }).catch(error => {
             setShow(false);
             console.log(error);
