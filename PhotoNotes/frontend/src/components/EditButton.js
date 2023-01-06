@@ -7,7 +7,7 @@ const EditButton = ({noteId, tag, page}) => {
     const navigate = useNavigate();
 
     const goNoteEdit = () => {
-        navigate(`/note/${noteId}/${tag}/${page}`);
+        navigate(`/note/edit/${noteId}`);
     }
 
     return (

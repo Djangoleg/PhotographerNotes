@@ -5,7 +5,7 @@ import url from "./AppURL";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import {useNavigate} from "react-router-dom";
-import Constants from "./AppConstants";
+import appPath from "./AppPath";
 
 const DeleteButton = ({note}) => {
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const DeleteButton = ({note}) => {
             if (window.location.pathname.includes('blog')) {
                 window.location.reload();
             } else {
-                navigate(`/blog/${Constants.allTags}/${Constants.firstPage}`);
+                navigate(appPath.blog);
             }
 
         }).catch(error => {

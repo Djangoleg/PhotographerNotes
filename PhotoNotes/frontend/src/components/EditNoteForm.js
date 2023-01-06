@@ -6,6 +6,7 @@ import Auth from "./Authentication";
 import {TagsInput} from "react-tag-input-component";
 import Constants from "./AppConstants";
 import withParams from "./ComponentWithParams";
+import appPath from "./AppPath";
 
 
 class EditNoteForm extends React.Component {
@@ -115,7 +116,7 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                this.props.navigate(`/blog/${this.props.params.tag !== 'undefined' ? this.props.params.tag : Constants.allTags}/${Constants.firstPage}`);
+                this.props.navigate(appPath.blog);
             }).catch(error => {
                 this.noteError(error)
             });
@@ -126,7 +127,7 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                this.props.navigate(`/blog/${this.props.params.tag ? this.props.params.tag : Constants.allTags}/${Constants.firstPage}`);
+                this.props.navigate(appPath.blog);
             }).catch(error => {
                 this.noteError(error)
             });
@@ -134,8 +135,7 @@ class EditNoteForm extends React.Component {
     }
 
     backSubmit = (event) => {
-        // this.props.navigate(`/blog/${this.props.params.tag !== 'undefined' ? this.props.params.tag : Constants.allTags}/${parseInt(this.props.params.p) ? this.props.params.p : Constants.firstPage}`);
-        this.props.navigate(-1);
+        this.props.navigate(appPath.blog);
     }
 
     noteError = (error) => {

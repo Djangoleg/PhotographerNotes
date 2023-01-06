@@ -28,7 +28,9 @@ class PhotoNotes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            regData: reg
+            regData: reg,
+            blogSelectedTag: '',
+            blogSelectedPage: ''
         }
     }
 
@@ -63,7 +65,17 @@ class PhotoNotes extends React.Component {
                     <Route exact path={appPath.blog} element={
                         <div className="content bg-blog">
                             <div className="justify-content-center align-items-center">
-                                <BlogPage/>
+                                <BlogPage
+                                    selectedTag={this.state.blogSelectedTag}
+                                    selectedPage={this.state.blogSelectedPage}
+
+                                    pageData={(selectedTag, selectedPage) => {
+                                        this.setState({
+                                            blogSelectedTag: selectedTag,
+                                            blogSelectedPage: selectedPage
+                                        });
+                                        console.log(`app.js selectedTag: ${selectedTag}; selectedPage: ${selectedPage};`);
+                                    }}/>
                             </div>
                         </div>
                     }/>

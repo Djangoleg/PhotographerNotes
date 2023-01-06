@@ -35,7 +35,7 @@ const Menu = () => {
                                     </a>
                                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <li><a className="dropdown-item"
-                                               href={`/blog/${Constants.allTags}/${Constants.firstPage}`}>Blog</a></li>
+                                               href={appPath.blog}>Blog</a></li>
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
