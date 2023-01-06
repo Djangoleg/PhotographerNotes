@@ -4,7 +4,6 @@ import axios from "axios";
 import url from "./AppURL";
 import Auth from "./Authentication";
 import {TagsInput} from "react-tag-input-component";
-import Constants from "./AppConstants";
 import withParams from "./ComponentWithParams";
 import appPath from "./AppPath";
 
