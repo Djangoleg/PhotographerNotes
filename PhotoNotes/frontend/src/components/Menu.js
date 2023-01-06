@@ -35,6 +35,10 @@ const Menu = () => {
                                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                         <li><a className="dropdown-item"
                                                href={appPath.blog}>Blog</a></li>
+                                        {myAuth.isAuthenticated() ?
+                                            <li><a className="dropdown-item"
+                                                   href={appPath.createNote}>Create note</a>
+                                            </li> : null}
                                         <li>
                                             <hr className="dropdown-divider"/>
                                         </li>
@@ -54,15 +58,12 @@ const Menu = () => {
                                             <li><a className="dropdown-item"
                                                    href={appPath.registration}>Registration</a>
                                             </li> : null}
-
-                                        {myAuth.isAuthenticated() ?
-                                            <li><a className="dropdown-item"
-                                                   href={appPath.createNote}>Create note</a>
-                                            </li> : null}
                                         <li><a className="dropdown-item"
                                                href={appPath.recoveryPwd}>Password recovery</a>
                                         </li>
-
+                                        <li>
+                                            <hr className="dropdown-divider"/>
+                                        </li>
                                         <li><a className="dropdown-item" href={appPath.feedback}>Feedback</a></li>
                                     </ul>
                                 </li>
