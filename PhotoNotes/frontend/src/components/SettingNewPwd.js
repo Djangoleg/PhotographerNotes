@@ -5,17 +5,17 @@ import url from "./AppURL";
 import $ from "jquery";
 import appPath from "./AppPath";
 import withParams from "./ComponentWithParams";
+import {
+    atLeastOneLowercase,
+    atLeastOneNumeric,
+    atLeastOneSpecialChar,
+    atLeastOneUppercase,
+    eightCharsOrMore,
+    PASSWORDSTRENGTH
+} from './CheckPwdConst'
 
 const Authentication = Auth;
 Authentication.getTokenFromStorage();
-
-const passwordRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/g;
-const atLeastOneUppercase = /[A-Z]/g; // capital letters from A to Z
-const atLeastOneLowercase = /[a-z]/g; // small letters from a to z
-const atLeastOneNumeric = /[0-9]/g; // numbers from 0 to 9
-const atLeastOneSpecialChar = /[#?!@$%^&*-]/g; // any of the special characters within the square brackets
-const eightCharsOrMore = /.{8,}/g; // eight characters or more
-const PASSWORDSTRENGTH = 5;
 
 class SettingNewPwd extends React.Component {
     constructor(props) {

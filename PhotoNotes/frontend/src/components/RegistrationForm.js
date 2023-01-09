@@ -1,18 +1,78 @@
 import React from 'react';
 import $ from 'jquery';
+import {
+    atLeastOneLowercase,
+    atLeastOneNumeric,
+    atLeastOneSpecialChar,
+    atLeastOneUppercase,
+    eightCharsOrMore,
+    PASSWORDSTRENGTH
+} from './CheckPwdConst'
+import Spinner from "react-bootstrap/Spinner";
 
 
 class RegistrationForm extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            'username': '',
-            'email': '',
-            'password': '',
-            'firstname': '',
-            'lastname': '',
-            'confirmpassword': ''
+            username: '',
+            email: '',
+            password: '',
+            firstname: '',
+            lastname: '',
+            confirmpassword: '',
+            confirmPasswordMessage: '',
+            meter: false,
+            passwordTracker: '',
+            passwordStrength: 0
         }
+    }
+
+    setPasswordMeter(password) {
+
+        let passwordTracker = {
+            uppercase: password.match(atLeastOneUppercase),
+            lowercase: password.match(atLeastOneLowercase),
+            number: password.match(atLeastOneNumeric),
+            specialChar: password.match(atLeastOneSpecialChar),
+            eightCharsOrGreater: password.match(eightCharsOrMore),
+        };
+
+        this.setState(
+            {
+                passwordTracker: passwordTracker,
+                passwordStrength: Object.values(passwordTracker).filter(
+                    (value) => value
+                ).length
+            }
+        );
+    }
+
+    handlePasswordChange(event) {
+        this.setState(
+            {
+                password: event.target.value
+            }
+        );
+        this.setPasswordMeter(event.target.value);
+        this.checkPassword();
+    }
+
+    handleConfirmPasswordChange(event) {
+        this.setState(
+            {
+                confirmpassword: event.target.value
+            }
+        );
+        this.checkPassword();
+    }
+
+    setMeter = () => {
+        this.setState(
+            {
+                meter: true
+            }
+        )
     }
 
     handleChange(event) {
@@ -21,34 +81,41 @@ class RegistrationForm extends React.Component {
                 [event.target.name]: event.target.value
             }
         );
-        this.checkPassword();
     }
 
     checkPassword() {
 
         const password = $('#password').val();
-        const confirm_password = $('#confirm_password').val();
+        const confirmpassword = $('#confirmpassword').val();
 
-        if (!password || !confirm_password) {
-            $('#confirm_password_message').html('Not Matching!').css('color', '#ff606e');
-            return false;
-        }
-
-        if (password === confirm_password) {
-            $('#confirm_password_message').html('Matching!').css('color', '#2acc80');
+        if (password && confirmpassword && password === confirmpassword) {
+            $('#confirm_password_message').removeClass('text-danger').addClass('text-success');
+            this.setState(
+                {
+                    confirmPasswordMessage: 'Matching!'
+                }
+            );
             return true;
         } else {
-            $('#confirm_password_message').html('Not Matching!').css('color', '#ff606e');
+            $('#confirm_password_message').removeClass('text-success').addClass('text-danger');
+            this.setState(
+                {
+                    confirmPasswordMessage: 'Not Matching!'
+                }
+            );
             return false;
         }
     }
 
     handleSubmit(event) {
+        if (!this.state.meter) {
+            this.setMeter();
+        }
         let forms = document.querySelectorAll('.requires-validation');
         if (forms) {
             if (forms.length > 0) {
                 const form = forms[0];
-                if (this.checkPassword()) {
+                if (this.checkPassword() && this.state.passwordStrength === PASSWORDSTRENGTH) {
                     if (form.checkValidity()) {
                         this.props.redData(this.state.username, this.state.password, this.state.email,
                             this.state.firstname, this.state.lastname);
@@ -109,31 +176,57 @@ class RegistrationForm extends React.Component {
                                     </div>
 
                                     <div className="col-md-12">
-                                        <input id="password" className="form-control" type="password" name="password"
-                                               placeholder="Password" required value={this.state.password}
-                                               onChange={(event) => this.handleChange(event)}/>
-                                        <div className="valid-feedback">Password field is valid!</div>
-                                        <div className="invalid-feedback">Password field cannot be blank!</div>
+                                        <input id="password"
+                                               className="form-control"
+                                               type="password"
+                                               name="password"
+                                               placeholder="Password"
+                                               value={this.state.password}
+                                               onChange={(event) => this.handlePasswordChange(event)}
+                                               onFocus={() => this.setMeter()}
+                                               required
+                                        />
+                                        <div className="text-danger">
+                                            {
+                                                this.state.meter && (
+                                                    <div id="password_message">
+                                                        {this.state.passwordStrength < PASSWORDSTRENGTH && 'Must contain '}
+                                                        {!this.state.passwordTracker.uppercase && 'uppercase, '}
+                                                        {!this.state.passwordTracker.lowercase && 'lowercase, '}
+                                                        {!this.state.passwordTracker.specialChar && 'special character, '}
+                                                        {!this.state.passwordTracker.number && 'number, '}
+                                                        {!this.state.passwordTracker.eightCharsOrGreater && 'eight characters or more'}
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
                                     </div>
 
                                     <div className="col-md-12">
-                                        <input id="confirm_password" className="form-control" type="password"
+                                        <input id="confirmpassword"
+                                               className="form-control"
+                                               type="password"
                                                name="confirmpassword"
-                                               placeholder="Confirm password" required
+                                               placeholder="Confirm password"
                                                value={this.state.confirmpassword}
-                                               onChange={(event) => this.handleChange(event)}/>
-                                        <div className="valid-feedback">Confirm password field is valid!</div>
-                                        <div className="invalid-feedback">Confirm password field cannot be blank!</div>
+                                               onChange={(event) => this.handleConfirmPasswordChange(event)}
+                                               required
+                                        />
                                     </div>
 
-                                    <div id="confirm_password_message"></div>
+                                    <div
+                                        id="confirm_password_message">{this.state.confirmPasswordMessage}</div>
 
                                     <div className="form-button mt-3">
-                                        <button id="reg_form_btn" type="submit" className="btn btn-primary">Registration</button>
+                                        <button id="reg_form_btn" type="submit"
+                                                className="btn btn-primary">Registration
+                                        </button>
                                     </div>
                                 </form>
                             </div>
                         </div>
+                        <Spinner id="spinner-loading" className="visually-hidden"
+                                 animation="border" variant="success"/>
                         <div className="reg-message" id="reg_message"></div>
                     </div>
                 </div>
