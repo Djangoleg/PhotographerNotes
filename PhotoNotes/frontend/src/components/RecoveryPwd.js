@@ -7,7 +7,6 @@ import url from "./AppURL";
 import Auth from "./Authentication";
 import withParams from "./ComponentWithParams";
 
-
 class RecoveryPwd extends React.Component {
     constructor(props) {
         super(props)

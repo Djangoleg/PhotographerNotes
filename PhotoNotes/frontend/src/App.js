@@ -12,7 +12,6 @@ import Footer from "./components/Footer";
 import Auth from "./components/Authentication";
 import LoginForm from "./components/LoginForm";
 import RegForm from "./components/RegistrationForm";
-import VerifyPage from "./components/VerifyPage";
 import EditNoteForm from "./components/EditNoteForm";
 import BlogPage from "./components/Blog";
 import FeedbackForm from "./components/FeedbackForm";
@@ -21,6 +20,7 @@ import IndexMiniCards from "./components/IndexMiniCard";
 import UseProfile from "./components/UserProfile";
 import SettingNewPwd from "./components/SettingNewPwd";
 import RecoveryPwd from "./components/RecoveryPwd";
+import EmailVerification from "./components/VerifyPage";
 
 
 class PhotoNotes extends React.Component {
@@ -113,8 +113,8 @@ class PhotoNotes extends React.Component {
                         </div>
                     }/>
                     <Route path={appPath.verify} element={
-                        <div className="content">
-                            <VerifyPage/>
+                        <div className="bg-blog position-fixed w-100">
+                            <EmailVerification/>
                         </div>
                     }/>
                     <Route path={appPath.feedback} element={
