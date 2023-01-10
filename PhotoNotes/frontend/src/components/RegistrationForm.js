@@ -9,6 +9,8 @@ import {
     PASSWORDSTRENGTH
 } from './CheckPwdConst'
 import Spinner from "react-bootstrap/Spinner";
+import axios from "axios";
+import url from "./AppURL";
 
 
 class RegistrationForm extends React.Component {
@@ -115,13 +117,52 @@ class RegistrationForm extends React.Component {
         if (forms) {
             if (forms.length > 0) {
                 const form = forms[0];
-                if (this.checkPassword() && this.state.passwordStrength === PASSWORDSTRENGTH) {
-                    if (form.checkValidity()) {
-                        this.props.redData(this.state.username, this.state.password, this.state.email,
-                            this.state.firstname, this.state.lastname);
-                    } else {
-                        form.classList.add('was-validated');
-                    }
+                if (form.checkValidity() && this.checkPassword() && this.state.passwordStrength === PASSWORDSTRENGTH) {
+
+                    $('#spinner-loading').removeClass('visually-hidden');
+                    axios.post(`${url.get()}/api/users/`,
+                        {
+                            username: this.state.username,
+                            password: this.state.password,
+                            email: this.state.email,
+                            first_name: this.state.firstname,
+                            last_name: this.state.lastname
+                        })
+                        .then(response => {
+                            if (response.data) {
+
+                                if (response.data.is_forbidden) {
+                                    $('#reg_message').html(`${response.data.message}`).css('color', '#ff606e');
+                                } else {
+                                    $('#reg_message').html(`Registration confirmation sent to email: ${response.data.email}`).css('color', '#ff606e');
+                                }
+
+                                $('#reg_form_btn').prop('disabled', true);
+
+                                $('#spinner-loading').addClass('visually-hidden');
+                            }
+                        }).catch(error => {
+
+                        $('#spinner-loading').addClass('visually-hidden');
+
+                        let values = []
+                        let message = '';
+                        for (let key in error.response.data) {
+                            if (error.response.data.hasOwnProperty(key)) {
+                                if (Array.isArray(error.response.data[key]) && error.response.data[key].length > 0) {
+                                    values.push(error.response.data[key][0])
+                                } else {
+                                    values.push(error.response.data[key])
+                                }
+                            }
+                        }
+                        if (values.length > 0) {
+                            message = values[0];
+                        }
+
+                        $('#reg_message').html(`${message || JSON.stringify(error.response.data)}`).css('color', '#ff606e');
+                    });
+
                 } else {
                     form.classList.add('was-validated');
                 }

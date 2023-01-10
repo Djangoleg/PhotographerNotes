@@ -10,7 +10,6 @@ import NotFound from "./components/NotFound";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
 import Auth from "./components/Authentication";
-import reg from "./components/Registration";
 import LoginForm from "./components/LoginForm";
 import RegForm from "./components/RegistrationForm";
 import VerifyPage from "./components/VerifyPage";
@@ -28,7 +27,6 @@ class PhotoNotes extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            regData: reg,
             blogSelectedTag: '',
             blogSelectedPage: ''
         }
@@ -57,9 +55,7 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route exact path={appPath.registration} element={
                         <div>
-                            <RegForm
-                                redData={(username, password, email, firstname, lastname) =>
-                                    this.state.regData.sendRegData(username, password, email, firstname, lastname)}/>
+                            <RegForm/>
                         </div>
                     }/>
                     <Route exact path={appPath.blog} element={
