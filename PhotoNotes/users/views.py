@@ -73,12 +73,14 @@ class UserViewSet(ModelViewSet):
             users = User.objects.filter(username=username, activation_key=activation_key)
             if len(users) > 0:
                 user = users.first()
-                if user and not user.is_activation_key_expired() and not user.is_active:
-                    # user.activation_key = ''
-                    # user.activation_key_created = None
+                if user and not user.is_activation_key_expired():
+                    user.activation_key = ''
+                    user.activation_key_created = None
                     user.is_active = True
                     user.save()
-                    auth.login(self, user, backend='django.contrib.auth.backends.ModelBackend')
+                else:
+                    status = 'error'
+                    description = 'activation key is not valid'
             else:
                 status = 'error'
                 description = 'activation key is not valid'

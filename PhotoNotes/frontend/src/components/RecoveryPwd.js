@@ -7,7 +7,6 @@ import url from "./AppURL";
 import Auth from "./Authentication";
 import withParams from "./ComponentWithParams";
 
-
 class RecoveryPwd extends React.Component {
     constructor(props) {
         super(props)
@@ -142,8 +141,8 @@ class RecoveryPwd extends React.Component {
                                                     <label
                                                         className="col-lg-3 col-form-label form-control-label"></label>
                                                     <div className="col-lg-9">
-                                                        <input type="button" className="btn btn-primary ms-1"
-                                                               value="Back"
+                                                        <input type="button" className="btn btn-secondary"
+                                                               value="Cancel"
                                                                onClick={() => this.backSubmit()}/>
                                                         <input type="button"
                                                                className="btn btn-primary ms-2"
