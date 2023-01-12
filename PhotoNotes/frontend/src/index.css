@@ -69,10 +69,6 @@ code {
     /*min-height: 700px;*/
 }
 
-.webkit-center {
-    text-align: -webkit-center;
-}
-
 .section-padding {
     position: relative;
     padding-top: 30px;

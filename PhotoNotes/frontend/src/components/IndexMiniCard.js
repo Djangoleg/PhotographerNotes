@@ -43,7 +43,7 @@ class IndexMiniCards extends React.Component {
 
     render() {
         return (
-            <section className="section-padding webkit-center">
+            <section className="section-padding d-flex justify-content-center">
                 <div className="container-index">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div className="row">
