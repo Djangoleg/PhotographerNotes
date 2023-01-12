@@ -19,8 +19,8 @@ html, body {
     /* Center and scale the image nicely */
     /*background-position: center;*/
     background-repeat: no-repeat;
-    /*background-size: cover;*/
-    min-height: 100%;
+    background-size: cover;
+    min-height: -webkit-fill-available;
 }
 
 *, body {
