@@ -257,6 +257,11 @@ class UseProfile extends React.Component {
                                                 ) :
                                                 (
                                                     <article className="card article-card">
+                                                        <div className="col-lg-12 text-lg-center">
+                                                            <h2 className="m-3 text-capitalize">
+                                                                {this.state.firstname + ' ' + this.state.lastname || ''}
+                                                            </h2>
+                                                        </div>
                                                         <div className="card-image">
                                                             <img id="note_image"
                                                                  className="rounded mx-auto d-block blog-img"
@@ -264,9 +269,6 @@ class UseProfile extends React.Component {
                                                             />
                                                         </div>
                                                         <div className="card-body px-0 pb-1">
-                                                            <h4 className="m-3 text-capitalize">
-                                                                {this.state.firstname + ' ' + this.state.lastname || ''}
-                                                            </h4>
                                                             <p className="card-text m-3">{this.state.info || ''}</p>
                                                         </div>
                                                         <div className="d-inline-block">

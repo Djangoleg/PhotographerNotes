@@ -116,10 +116,10 @@ class EditNoteForm extends React.Component {
                 {
                     headers: headers,
                 }).then(response => {
-                    if (this.state.tagsIsChange) {
-                        this.props.pageData('', '');
-                    }
-                    this.props.navigate(appPath.blog);
+                if (this.state.tagsIsChange) {
+                    this.props.pageData('', '');
+                }
+                this.props.navigate(appPath.blog);
             }).catch(error => {
                 this.noteError(error)
             });
@@ -157,103 +157,115 @@ class EditNoteForm extends React.Component {
 
     render() {
         return (
-            <div className="container mt-4 mb-4">
-                <div className="col-lg-12 d-flex justify-content-center">
-                    <div className="col-lg-8">
-                        <form className="requires-validation" noValidate>
-                            <h2 className="text-center">{this.props.pagetitle}</h2>
-                            <div className="form-group row">
-                                <label className="col-lg-3 col-form-label form-control-label">Title</label>
-                                <div className="col-lg-9">
-                                    <input className="form-control placeholder-custom-color" id="title" name="title"
-                                           type="text"
-                                           placeholder="Enter title.."
-                                           value={this.state.title}
-                                           onChange={(event) => this.handleChange(event)}
-                                           required/>
-                                    <div className="valid-feedback">Title field is valid!</div>
-                                    <div className="invalid-feedback">Title field cannot be blank!</div>
-                                </div>
-                            </div>
-                            <br/>
-                            <div className="form-group row">
-                                {this.state.image || this.state.selectedFile ? (
-                                    <label className="col-lg-3 col-form-label form-control-label">Image</label>
-                                ) : null}
-                                <div className="col-lg-9">
-                                    <div className="text-center mb30">
-                                        <img id="note_image" className="rounded mx-auto d-block blog-img"
-                                             src={this.state.image} alt=''/>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
+            <div>
+                <main>
+                    <section className="section">
+                        <div className="container">
+                            <div className="col-lg-12 d-flex justify-content-center">
+                                <div className="col-lg-8">
+                                    <form className="requires-validation" noValidate>
+                                        <h2 className="text-center">{this.props.pagetitle}</h2>
+                                        <div className="form-group row">
+                                            <label className="col-lg-3 col-form-label form-control-label">Title</label>
+                                            <div className="col-lg-9">
+                                                <input className="form-control placeholder-custom-color" id="title"
+                                                       name="title"
+                                                       type="text"
+                                                       placeholder="Enter title.."
+                                                       value={this.state.title}
+                                                       onChange={(event) => this.handleChange(event)}
+                                                       required/>
+                                                <div className="valid-feedback">Title field is valid!</div>
+                                                <div className="invalid-feedback">Title field cannot be blank!</div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div className="form-group row">
+                                            {this.state.image || this.state.selectedFile ? (
+                                                <label
+                                                    className="col-lg-3 col-form-label form-control-label">Image</label>
+                                            ) : null}
+                                            <div className="col-lg-9">
+                                                <div className="text-center mb30">
+                                                    <img id="note_image" className="rounded mx-auto d-block blog-img"
+                                                         src={this.state.image} alt=''/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
 
-                            <div className="form-group row">
-                                <label className="col-lg-3 col-form-label form-control-label">Image File</label>
-                                <div className="col-lg-9">
-                                    <input id="chooseFile" className="form-control placeholder-custom-color" type="file"
-                                           name="chooseFile"
-                                           onChange={(event) => this.onFileChange(event)}/>
-                                    <div className="valid-feedback">File field is valid!</div>
-                                    <div className="invalid-feedback">File field cannot be blank!</div>
-                                </div>
-                            </div>
+                                        <div className="form-group row">
+                                            <label className="col-lg-3 col-form-label form-control-label">Image
+                                                File</label>
+                                            <div className="col-lg-9">
+                                                <input id="chooseFile" className="form-control placeholder-custom-color"
+                                                       type="file"
+                                                       name="chooseFile"
+                                                       onChange={(event) => this.onFileChange(event)}/>
+                                                <div className="valid-feedback">File field is valid!</div>
+                                                <div className="invalid-feedback">File field cannot be blank!</div>
+                                            </div>
+                                        </div>
 
-                            <br/>
-                            <div className="form-group row">
-                                <label className="col-lg-3 col-form-label form-control-label">Comment</label>
-                                <div className="col-lg-9">
-                                <textarea className="form-control" id="comment" name="comment"
-                                          rows="7"
-                                          placeholder="Comment, please.."
-                                          value={this.state.comment}
-                                          onChange={(event) => this.handleChange(event)}
-                                          required/>
-                                    <div className="valid-feedback">Comment field is valid!</div>
-                                    <div className="invalid-feedback">Comment field cannot be blank!</div>
+                                        <br/>
+                                        <div className="form-group row">
+                                            <label
+                                                className="col-lg-3 col-form-label form-control-label">Comment</label>
+                                            <div className="col-lg-9">
+                                                <textarea className="form-control" id="comment" name="comment"
+                                                          rows="7"
+                                                          placeholder="Comment, please.."
+                                                          value={this.state.comment}
+                                                          onChange={(event) => this.handleChange(event)}
+                                                          required/>
+                                                <div className="valid-feedback">Comment field is valid!</div>
+                                                <div className="invalid-feedback">Comment field cannot be blank!</div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div className="form-group row">
+                                            <label className="col-lg-3 col-form-label form-control-label">Pinned</label>
+                                            <div className="col-lg-9">
+                                                <input className="form-check-input" id="pinned" name="pinned"
+                                                       type="checkbox"
+                                                       checked={this.state.pinned}
+                                                       onChange={(event) => this.handleChange(event)}
+                                                />
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div className="form-group row">
+                                            <label className="col-lg-3 col-form-label form-control-label">Tags</label>
+                                            <div className="col-lg-9">
+                                                <TagsInput
+                                                    id="tagsInput"
+                                                    className="form-control"
+                                                    value={this.state.tags}
+                                                    onChange={(event) => this.handleTagsChange(event)}
+                                                    onKeyUp={(event) => this.tagEdit(event)}
+                                                    onRemoved={(event) => this.tagEdit(event)}
+                                                    name="tags"
+                                                    placeHolder="Enter tags.."
+                                                />
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div className="form-group row">
+                                            <label className="col-lg-3 col-form-label form-control-label"></label>
+                                            <div className="col-lg-9">
+                                                <input type="reset" className="btn btn-secondary" value="Cancel"
+                                                       onClick={(event) => this.backSubmit(event)}/>
+                                                <input type="button" className="btn btn-primary ms-2"
+                                                       value="Save Changes"
+                                                       onClick={(event) => this.handleSubmit(event)}/>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                            <br/>
-                            <div className="form-group row">
-                                <label className="col-lg-3 col-form-label form-control-label">Pinned</label>
-                                <div className="col-lg-9">
-                                    <input className="form-check-input" id="pinned" name="pinned"
-                                           type="checkbox"
-                                           checked={this.state.pinned}
-                                           onChange={(event) => this.handleChange(event)}
-                                    />
-                                </div>
-                            </div>
-                            <br/>
-                            <div className="form-group row">
-                                <label className="col-lg-3 col-form-label form-control-label">Tags</label>
-                                <div className="col-lg-9">
-                                    <TagsInput
-                                        id="tagsInput"
-                                        className="form-control"
-                                        value={this.state.tags}
-                                        onChange={(event) => this.handleTagsChange(event)}
-                                        onKeyUp={(event) => this.tagEdit(event)}
-                                        onRemoved={(event) => this.tagEdit(event)}
-                                        name="tags"
-                                        placeHolder="Enter tags.."
-                                    />
-                                </div>
-                            </div>
-                            <br/>
-                            <div className="form-group row">
-                                <label className="col-lg-3 col-form-label form-control-label"></label>
-                                <div className="col-lg-9">
-                                    <input type="reset" className="btn btn-secondary" value="Cancel"
-                                           onClick={(event) => this.backSubmit(event)}/>
-                                    <input type="button" className="btn btn-primary ms-2" value="Save Changes"
-                                           onClick={(event) => this.handleSubmit(event)}/>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                        </div>
+                    </section>
+                </main>
             </div>
         )
     }
