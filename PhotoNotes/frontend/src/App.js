@@ -129,6 +129,7 @@ class PhotoNotes extends React.Component {
                     <Route path={appPath.profile} element={
                         <div className="content">
                             <UseProfile/>
+                            <Footer/>
                         </div>
                     }/>
                     <Route path={appPath.checkkey} element={
