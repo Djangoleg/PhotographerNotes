@@ -43,6 +43,7 @@ class PhotoNotes extends React.Component {
                                 <div className="h-100 justify-content-lg-center align-items-lg-start">
                                     <IndexPhoto/>
                                     <IndexMiniCards/>
+                                    <Footer />
                                 </div>
                             </div>
                         </div>
