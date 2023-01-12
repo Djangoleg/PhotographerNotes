@@ -43,79 +43,102 @@ class PhotoNotes extends React.Component {
                                 <div className="h-100 justify-content-lg-center align-items-lg-start">
                                     <IndexPhoto/>
                                     <IndexMiniCards/>
-                                    <Footer />
                                 </div>
                             </div>
+                            <Footer/>
                         </div>
                     }/>
                     <Route exact path={appPath.login} element={
                         <div>
-                            <LoginForm
-                                authData={(username, password) => Auth.login(username, password)}/>
+                            <div className="content">
+                                <LoginForm
+                                    authData={(username, password) => Auth.login(username, password)}/>
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
                     <Route exact path={appPath.registration} element={
                         <div>
-                            <RegForm/>
+                            <div className="content">
+                                <RegForm/>
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
                     <Route exact path={appPath.blog} element={
-                        <div className="content bg-blog">
-                            <div className="justify-content-center align-items-center">
-                                <BlogPage
-                                    selectedTag={this.state.blogSelectedTag}
-                                    selectedPage={this.state.blogSelectedPage}
+                        <div>
+                            <div className="content bg-blog">
+                                <div className="justify-content-center align-items-center">
+                                    <BlogPage
+                                        selectedTag={this.state.blogSelectedTag}
+                                        selectedPage={this.state.blogSelectedPage}
 
+                                        pageData={(selectedTag, selectedPage) => {
+                                            this.setState({
+                                                blogSelectedTag: selectedTag,
+                                                blogSelectedPage: selectedPage
+                                            });
+                                        }}/>
+                                </div>
+                            </div>
+                            <Footer/>
+                        </div>
+                    }/>
+                    <Route exact path={appPath.editNote} element={
+                        <div>
+                            <div className="content">
+                                <EditNoteForm
+                                    pagetitle="Edit Note"
                                     pageData={(selectedTag, selectedPage) => {
                                         this.setState({
                                             blogSelectedTag: selectedTag,
                                             blogSelectedPage: selectedPage
                                         });
-                                    }}/>
+                                    }}
+                                />
                             </div>
-                        </div>
-                    }/>
-                    <Route exact path={appPath.editNote} element={
-                        <div className="content">
-                            <EditNoteForm
-                                pagetitle="Edit Note"
-                                pageData={(selectedTag, selectedPage) => {
-                                    this.setState({
-                                        blogSelectedTag: selectedTag,
-                                        blogSelectedPage: selectedPage
-                                    });
-                                }}
-                            />
+                            <Footer/>
                         </div>
                     }/>
                     <Route exact path={appPath.viewNote} element={
-                        <div className="content bg-blog">
-                            <NotePage
-                                pageData={(selectedTag, selectedPage) => {
-                                    this.setState({
-                                        blogSelectedTag: selectedTag,
-                                        blogSelectedPage: selectedPage
-                                    });
-                                }}
-                            />
+                        <div>
+                            <div className="content bg-blog">
+                                <NotePage
+                                    pageData={(selectedTag, selectedPage) => {
+                                        this.setState({
+                                            blogSelectedTag: selectedTag,
+                                            blogSelectedPage: selectedPage
+                                        });
+                                    }}
+                                />
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
                     <Route exact path={appPath.createNote} element={
-                        <div className="content">
-                            <EditNoteForm
-                                pagetitle="Create Note"
-                                pageData={(selectedTag, selectedPage) => {
-                                    this.setState({
-                                        blogSelectedTag: selectedTag,
-                                        blogSelectedPage: selectedPage
-                                    });
-                                }}
-                            />
+                        <div>
+                            <div className="content">
+                                <EditNoteForm
+                                    pagetitle="Create Note"
+                                    pageData={(selectedTag, selectedPage) => {
+                                        this.setState({
+                                            blogSelectedTag: selectedTag,
+                                            blogSelectedPage: selectedPage
+                                        });
+                                    }}
+                                />
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
                     <Route path={appPath.verify} element={
-                        <div className="bg-blog position-fixed w-100">
-                            <EmailVerification/>
+                        <div>
+                            <div className="content">
+                                <div className="bg-blog position-fixed w-100">
+                                    <EmailVerification/>
+                                </div>
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
                     <Route path={appPath.feedback} element={
@@ -127,19 +150,27 @@ class PhotoNotes extends React.Component {
                         </div>
                     }/>
                     <Route path={appPath.profile} element={
-                        <div className="content">
-                            <UseProfile/>
+                        <div>
+                            <div className="content">
+                                <UseProfile/>
+                            </div>
                             <Footer/>
                         </div>
                     }/>
                     <Route path={appPath.checkkey} element={
-                        <div className="content">
-                            <SettingNewPwd/>
+                        <div>
+                            <div className="content">
+                                <SettingNewPwd/>
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
                     <Route path={appPath.recoveryPwd} element={
-                        <div className="content">
-                            <RecoveryPwd/>
+                        <div>
+                            <div className="content">
+                                <RecoveryPwd/>
+                            </div>
+                            <Footer/>
                         </div>
                     }/>
 
