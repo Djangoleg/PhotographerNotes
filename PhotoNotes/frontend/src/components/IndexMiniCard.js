@@ -10,11 +10,13 @@ const IndexMiniCardsItem = ({card}) => {
                 <a className="post-thumb mb-4 d-block" href={`/note/view/${card.id}`}>
                     <img src={card.imageminicard} alt="" className="img-fluid w-100"/>
                 </a>
-                {/*<span className="cat-name text-color font-extra text-sm text-uppercase letter-spacing-1">Explore</span>*/}
-                <h3 className="post-title-card mt-1"><a className="text-white" href={`/note/view/${card.id}`}>{card.title}</a></h3>
 
-                <span className="text-muted letter-spacing text-uppercase font-sm text-white-50">{Moment(card.modified).format('LLL')}</span>
+                <h3 className="text-center post-title-card mt-1"><a className="text-white"
+                                                        href={`/note/view/${card.id}`}>{card.title}</a></h3>
 
+                <div className="text-center text-muted letter-spacing text-uppercase font-sm text-white-50">
+                    {Moment(card.modified).format('LLL')}
+                </div>
             </article>
         </div>
     );
@@ -47,9 +49,9 @@ class IndexMiniCards extends React.Component {
                 <div className="container-index">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div className="row">
-                            { this.state.cards.length > 0 ?
+                            {this.state.cards.length > 0 ?
                                 this.state.cards.map((card, i) =>
-                                        <IndexMiniCardsItem key={i} card={card} />) : null }
+                                    <IndexMiniCardsItem key={i} card={card}/>) : null}
                         </div>
                     </div>
                 </div>

@@ -142,7 +142,7 @@ class UseProfile extends React.Component {
                     <section className="section">
                         <div className="container">
                             <div className="row no-gutters-lg justify-content-center">
-                                <div className="col-lg-9 mb-lg-5">
+                                <div className="col-lg-9 pb-5">
                                     <div className="row">
                                         <div className="col-12 mb-4">
                                             {this.state.edit ?

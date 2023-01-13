@@ -66,22 +66,19 @@ class PhotoNotes extends React.Component {
                         </div>
                     }/>
                     <Route exact path={appPath.blog} element={
-                        <div>
-                            <div className="content bg-blog">
-                                <div className="justify-content-center align-items-center">
-                                    <BlogPage
-                                        selectedTag={this.state.blogSelectedTag}
-                                        selectedPage={this.state.blogSelectedPage}
+                        <div className="content bg-blog">
+                            <div className="justify-content-center align-items-center">
+                                <BlogPage
+                                    selectedTag={this.state.blogSelectedTag}
+                                    selectedPage={this.state.blogSelectedPage}
 
-                                        pageData={(selectedTag, selectedPage) => {
-                                            this.setState({
-                                                blogSelectedTag: selectedTag,
-                                                blogSelectedPage: selectedPage
-                                            });
-                                        }}/>
-                                </div>
+                                    pageData={(selectedTag, selectedPage) => {
+                                        this.setState({
+                                            blogSelectedTag: selectedTag,
+                                            blogSelectedPage: selectedPage
+                                        });
+                                    }}/>
                             </div>
-                            <Footer/>
                         </div>
                     }/>
                     <Route exact path={appPath.editNote} element={
