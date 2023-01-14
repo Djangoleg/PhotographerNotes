@@ -198,6 +198,11 @@ class BlogPage extends React.Component {
         this.getNotes();
     }
 
+    backToTop() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }
+
     getNotes() {
         this.props.pageData(this.state.selectedTag, this.state.selectedPage);
 
@@ -220,6 +225,7 @@ class BlogPage extends React.Component {
                     paginator: notes.paginator
                 }
             )
+            this.backToTop();
         }).catch(error => console.log(error))
     }
 

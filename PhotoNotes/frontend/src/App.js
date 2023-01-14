@@ -180,7 +180,6 @@ class PhotoNotes extends React.Component {
                         </div>
                     }/>
                 </Routes>
-
             </BrowserRouter>
         )
     }
