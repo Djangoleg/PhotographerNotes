@@ -14,7 +14,7 @@ const Menu = () => {
                 <Navbar className="navbar navbar-expand-lg static-top my-navbar">
                     <div className="container-nav">
 
-                        <a className="navbar-brand" href="/">
+                        <a className="navbar-brand" href={appPath.index}>
                             <img src="/img/logo.png" alt="..."/>
                         </a>
                         <img src="/img/Rock32.svg" alt=""/>

@@ -7,8 +7,8 @@ const IndexMiniCardsItem = ({card}) => {
     return (
         <div className="col-lg-3 col-md-6 col-padding">
             <article className="post-grid mb-3">
-                <a className="post-thumb mb-4 d-block" href={`/note/view/${card.id}`}>
-                    <img src={card.imageminicard} alt="" className="img-fluid w-100"/>
+                <a className="post-thumb" href={`/note/view/${card.id}`}>
+                    <img src={card.imageminicard} alt="" className="img-fluid w-100 shadow-lg p-2 mb-4"/>
                 </a>
 
                 <h3 className="text-center post-title-card mt-1"><a className="text-white"
