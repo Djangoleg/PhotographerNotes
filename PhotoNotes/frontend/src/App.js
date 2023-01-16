@@ -173,7 +173,7 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route path={appPath.about} element={
                         <div>
-                            <div className="content position-fixed">
+                            <div className="content">
                                 <AboutPage/>
                             </div>
                             <Footer/>

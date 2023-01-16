@@ -25,7 +25,11 @@ class AboutPage extends React.Component {
                                         <h2>My photo notes</h2>
                                     </div>
                                     <div className="text-black fw-bold text-wrap">
-                                        The My Photo Notes project was created for all photography lovers. Here you can place your favorite photographs or other graphic works, make descriptions and tags for them. You can comment on the work of other authors. All rights reserved.
+                                        The My Photo Notes project was created for all photography lovers.
+                                        Here you can place your favorite photographs or other graphic works,
+                                        make descriptions and tags for them. You can comment on the work of other
+                                        authors. The site is currently under development. For loss of data,
+                                        the development team is not responsible. Developed By &copy;Kro. All rights reserved.
                                     </div>
                                     <div>
                                         <a className="btn btn-primary m-5" href={appPath.feedback}>Feedback</a></div>
