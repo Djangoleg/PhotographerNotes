@@ -65,6 +65,7 @@ const Menu = () => {
                                             <hr className="dropdown-divider"/>
                                         </li>
                                         <li><a className="dropdown-item" href={appPath.feedback}>Feedback</a></li>
+                                        <li><a className="dropdown-item" href={appPath.about}>About</a></li>
                                     </ul>
                                 </li>
                             </ul>

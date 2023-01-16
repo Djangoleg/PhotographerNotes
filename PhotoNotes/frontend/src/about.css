@@ -1,0 +1,37 @@
+.section-ext {
+    padding-top: 2rem;
+    padding-bottom: 5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.shape_left {
+  width: 30%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  background-color: #c5b1aa;
+}
+
+.shape_right {
+  width: 30%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background-color: #c7d3e3;
+}
+
+.section .image_left,
+.section .image_right {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.zindex-1 {
+  z-index: 1;
+}

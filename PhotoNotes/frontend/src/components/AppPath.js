@@ -13,6 +13,7 @@ const appPath = {
         'profile': '/profile/view/:id',
         'checkkey': '/checkkey/:key/',
         'recoveryPwd': '/pwd',
+        'about': '/about',
         'any': '*'
     };
 
