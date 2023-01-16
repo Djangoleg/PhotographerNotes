@@ -1,10 +1,3 @@
-.section-ext {
-    padding-top: 2rem;
-    padding-bottom: 5rem;
-    position: relative;
-    overflow: hidden;
-}
-
 .shape_left {
   width: 30%;
   position: absolute;
@@ -25,13 +18,10 @@
   background-color: #c7d3e3;
 }
 
-.section .image_left,
-.section .image_right {
-  display: block;
-  position: relative;
+.zindex-1 {
   z-index: 1;
 }
 
-.zindex-1 {
-  z-index: 1;
+.wh-90 {
+  height: 94vh !important;
 }

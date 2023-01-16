@@ -14,14 +14,14 @@ class AboutPage extends React.Component {
     render() {
         return (
             <div>
-                <div className="d-flex align-items-center vh-100 justify-content-between">
+                <div className="d-flex align-items-center wh-90 justify-content-between">
                     <div className="shape_left"></div>
                     <img className="zindex-1 col-12 col-md-3 col-lg-3 ms-3" src="/img/wfs-646x861.jpg" alt=""/>
                     <div className="container-fluid">
-                        <div className="d-flex justify-content-center ">
+                        <div className="d-flex justify-content-center pb-5 mt-5 pt-3">
                             <div className="col-8 zindex-1 text-center">
                                 <div className="text-center">
-                                    <div className="mt-1">
+                                    <div className="mt-5 pt-5">
                                         <h2>My photo notes</h2>
                                     </div>
                                     <div className="text-black fw-bold text-wrap">
