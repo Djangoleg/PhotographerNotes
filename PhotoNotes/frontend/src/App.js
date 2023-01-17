@@ -21,6 +21,7 @@ import UseProfile from "./components/UserProfile";
 import SettingNewPwd from "./components/SettingNewPwd";
 import RecoveryPwd from "./components/RecoveryPwd";
 import EmailVerification from "./components/VerifyPage";
+import AboutPage from "./components/About";
 
 
 class PhotoNotes extends React.Component {
@@ -166,6 +167,14 @@ class PhotoNotes extends React.Component {
                         <div>
                             <div className="content">
                                 <RecoveryPwd/>
+                            </div>
+                            <Footer/>
+                        </div>
+                    }/>
+                    <Route path={appPath.about} element={
+                        <div>
+                            <div className="content">
+                                <AboutPage/>
                             </div>
                             <Footer/>
                         </div>
