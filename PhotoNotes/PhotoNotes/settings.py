@@ -188,3 +188,8 @@ ALLOW_REGISTRATION_NEW_USERS = True
 
 ALLOW_ANONYMOUS_COMMENTS = True
 
+# Homepage thumbnail size.
+MAX_MINICARD_SIZE = 600
+
+# For blog. Reduction of the original image to.
+MAX_IMAGE_SIZE = 1280
