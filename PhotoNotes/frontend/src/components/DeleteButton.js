@@ -18,7 +18,7 @@ const DeleteButton = ({note, setPageData}) => {
             headers: headers,
         }).then(() => {
             setShow(false);
-            setPageData('', '');
+            setPageData('', '', '');
             if (window.location.pathname.includes('blog')) {
                 window.location.reload();
             } else {

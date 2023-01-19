@@ -84,39 +84,37 @@ const Tags = ({groupTags, selectedTag}) => {
 
     return (
         <div className="widget-blocks">
-            <div className="col-lg-12">
-                <div className="widget">
-                    <h2 className="section-title mb-3">Tags</h2>
-                    <div className="widget-body">
-                        <ul className="widget-list">
-                            <li>
-                                <a className={selectedTag ? "" : "fw-bold"}
-                                   onClick={() => {
-                                       setTag('');
-                                       setPage('');
-                                       getNotes();
-                                   }}
-                                >
-                                    All
-                                </a>
-                            </li>
-                            {groupTags.map((t, i) => {
-                                return (
-                                    <li key={i}>
-                                        <a className={selectedTag === t.value ? "fw-bold" : ""}
-                                           onClick={() => {
-                                               setTag(t.value);
-                                               setPage('');
-                                               getNotes();
-                                           }}
-                                        >
-                                            {t.value} {t.total}
-                                        </a>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </div>
+            <div className="widget">
+                <h2 className="section-title mb-3">Tags</h2>
+                <div className="widget-body">
+                    <ul className="widget-list">
+                        <li>
+                            <a className={selectedTag ? "" : "fw-bold"}
+                               onClick={() => {
+                                   setTag('');
+                                   setPage('');
+                                   getNotes();
+                               }}
+                            >
+                                All
+                            </a>
+                        </li>
+                        {groupTags.map((t, i) => {
+                            return (
+                                <li key={i}>
+                                    <a className={selectedTag === t.value ? "fw-bold" : ""}
+                                       onClick={() => {
+                                           setTag(t.value);
+                                           setPage('');
+                                           getNotes();
+                                       }}
+                                    >
+                                        {t.value} {t.total}
+                                    </a>
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </div>
             </div>
         </div>
@@ -133,39 +131,37 @@ const UsersNotes = ({groupUsersNotes, selectedUser}) => {
 
     return (
         <div className="widget-blocks">
-            <div className="col-lg-12">
-                <div className="widget">
-                    <h2 className="section-title mb-3">Users</h2>
-                    <div className="widget-body">
-                        <ul className="widget-list">
-                            <li>
-                                <a className={selectedUser ? "" : "fw-bold"}
-                                   onClick={() => {
-                                       setUser('');
-                                       setPage('');
-                                       getNotes();
-                                   }}
-                                >
-                                    All
-                                </a>
-                            </li>
-                            {groupUsersNotes.map((t, i) => {
-                                return (
-                                    <li key={i}>
-                                        <a className={selectedUser === t.user__username ? "fw-bold" : ""}
-                                           onClick={() => {
-                                               setUser(t.user__username);
-                                               setPage('');
-                                               getNotes();
-                                           }}
-                                        >
-                                            {t.user__username} {t.total}
-                                        </a>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </div>
+            <div className="widget">
+                <h2 className="section-title mb-3">Users</h2>
+                <div className="widget-body">
+                    <ul className="widget-list">
+                        <li>
+                            <a className={selectedUser ? "" : "fw-bold"}
+                               onClick={() => {
+                                   setUser('');
+                                   setPage('');
+                                   getNotes();
+                               }}
+                            >
+                                All
+                            </a>
+                        </li>
+                        {groupUsersNotes.map((t, i) => {
+                            return (
+                                <li key={i}>
+                                    <a className={selectedUser === t.user__username ? "fw-bold" : ""}
+                                       onClick={() => {
+                                           setUser(t.user__username);
+                                           setPage('');
+                                           getNotes();
+                                       }}
+                                    >
+                                        {t.user__username} {t.total}
+                                    </a>
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </div>
             </div>
         </div>
@@ -315,7 +311,7 @@ class BlogPage extends React.Component {
                                     this.setUser.bind(this)]}>
                                 <div className="row no-gutters-lg">
                                     <div className="d-flex ">
-                                        <div className="d-inline-block">
+                                        <div className="d-inline-block col-3">
                                             <div>
                                                 {this.state.tags.length > 0 ?
                                                     <Tags groupTags={this.state.tags}
