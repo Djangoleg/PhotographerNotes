@@ -67,7 +67,12 @@ class PhotoNoteModelSerializer(ModelSerializer):
             file_content = ContentFile(image.read())
             image.image.close()
             image_name = os.path.split(image.name)[1]
+
             instance.imageminicard = self.crop_image(file_content, image_name, image.content_type)
+
+            resize_image = self.resize_image(file_content, image_name, image.content_type)
+            instance.image = resize_image if resize_image else image
+
         instance.photo_comment = validated_data.get('photo_comment', instance.photo_comment)
         instance.pinned = validated_data.get('pinned', instance.pinned)
         instance.save()
