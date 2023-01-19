@@ -29,7 +29,8 @@ class PhotoNotes extends React.Component {
         super(props)
         this.state = {
             blogSelectedTag: '',
-            blogSelectedPage: ''
+            blogSelectedPage: '',
+            blogSelectedUser: ''
         }
     }
 
@@ -72,11 +73,13 @@ class PhotoNotes extends React.Component {
                                 <BlogPage
                                     selectedTag={this.state.blogSelectedTag}
                                     selectedPage={this.state.blogSelectedPage}
+                                    selectedUser={this.state.blogSelectedUser}
 
-                                    pageData={(selectedTag, selectedPage) => {
+                                    pageData={(selectedTag, selectedPage, selectedUser) => {
                                         this.setState({
                                             blogSelectedTag: selectedTag,
-                                            blogSelectedPage: selectedPage
+                                            blogSelectedPage: selectedPage,
+                                            blogSelectedUser: selectedUser
                                         });
                                     }}/>
                             </div>
@@ -87,10 +90,11 @@ class PhotoNotes extends React.Component {
                             <div className="content">
                                 <EditNoteForm
                                     pagetitle="Edit Note"
-                                    pageData={(selectedTag, selectedPage) => {
+                                    pageData={(selectedTag, selectedPage, selectedUser) => {
                                         this.setState({
                                             blogSelectedTag: selectedTag,
-                                            blogSelectedPage: selectedPage
+                                            blogSelectedPage: selectedPage,
+                                            blogSelectedUser: selectedUser
                                         });
                                     }}
                                 />
@@ -102,10 +106,11 @@ class PhotoNotes extends React.Component {
                         <div>
                             <div className="content bg-blog">
                                 <NotePage
-                                    pageData={(selectedTag, selectedPage) => {
+                                    pageData={(selectedTag, selectedPage, selectedUser) => {
                                         this.setState({
                                             blogSelectedTag: selectedTag,
-                                            blogSelectedPage: selectedPage
+                                            blogSelectedPage: selectedPage,
+                                            blogSelectedUser: selectedUser
                                         });
                                     }}
                                 />
@@ -118,10 +123,11 @@ class PhotoNotes extends React.Component {
                             <div className="content">
                                 <EditNoteForm
                                     pagetitle="Create Note"
-                                    pageData={(selectedTag, selectedPage) => {
+                                    pageData={(selectedTag, selectedPage, selectedUser) => {
                                         this.setState({
                                             blogSelectedTag: selectedTag,
-                                            blogSelectedPage: selectedPage
+                                            blogSelectedPage: selectedPage,
+                                            blogSelectedUser: selectedUser
                                         });
                                     }}
                                 />

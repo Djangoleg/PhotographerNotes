@@ -40,6 +40,10 @@ class PhotoNoteViewSet(ModelViewSet):
         if note_id is not None:
             return queryset.filter(pk=note_id)
 
+        username = self.request.query_params.get('user')
+        if username is not None:
+            return queryset.filter(user__username=username)
+
         tag = self.request.query_params.get('tags')
         if tag is not None:
             return queryset.filter(tags__value=tag)
