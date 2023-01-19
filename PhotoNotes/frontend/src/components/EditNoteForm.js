@@ -6,6 +6,7 @@ import Auth from "./Authentication";
 import {TagsInput} from "react-tag-input-component";
 import withParams from "./ComponentWithParams";
 import appPath from "./AppPath";
+import Spinner from "react-bootstrap/Spinner";
 
 
 class EditNoteForm extends React.Component {
@@ -82,6 +83,9 @@ class EditNoteForm extends React.Component {
 
     handleSubmit = (event) => {
 
+        $('#save-button').prop('disabled', true);
+        $('#spinner-loading').removeClass('visually-hidden');
+
         if ($('#note_image').attr('src')) {
             $('#chooseFile').prop('required', false);
         } else {
@@ -133,6 +137,7 @@ class EditNoteForm extends React.Component {
                 this.props.pageData('', '');
                 this.props.navigate(appPath.blog);
             }).catch(error => {
+                $('#spinner-loading').addClass('visually-hidden');
                 this.noteError(error)
             });
         }
@@ -250,12 +255,17 @@ class EditNoteForm extends React.Component {
                                             </div>
                                         </div>
                                         <br/>
+                                        <div className="text-center">
+                                            <Spinner id="spinner-loading" className="visually-hidden" animation="border"
+                                                     variant="success"/>
+                                        </div>
+                                        <br/>
                                         <div className="form-group row">
                                             <label className="col-lg-3 col-form-label form-control-label"></label>
                                             <div className="col-lg-9">
                                                 <input type="reset" className="btn btn-secondary" value="Cancel"
                                                        onClick={(event) => this.backSubmit(event)}/>
-                                                <input type="button" className="btn btn-primary ms-2"
+                                                <input id="save-button" type="button" className="btn btn-primary ms-2"
                                                        value="Save Changes"
                                                        onClick={(event) => this.handleSubmit(event)}/>
                                             </div>
