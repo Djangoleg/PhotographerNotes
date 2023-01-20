@@ -88,17 +88,19 @@ const Tags = ({groupTags, selectedTag}) => {
                 <h2 className="section-title mb-3">Tags</h2>
                 <div className="widget-body">
                     <ul className="widget-list">
-                        <li>
-                            <a className={selectedTag ? "" : "fw-bold"}
-                               onClick={() => {
-                                   setTag('');
-                                   setPage('');
-                                   getNotes();
-                               }}
-                            >
-                                All
-                            </a>
-                        </li>
+                        <div>
+                            <li>
+                                <a className={selectedTag ? "" : "fw-bold"}
+                                   onClick={() => {
+                                       setTag('');
+                                       setPage('');
+                                       getNotes();
+                                   }}
+                                >
+                                    All
+                                </a>
+                            </li>
+                        </div>
                         {groupTags.map((t, i) => {
                             return (
                                 <li key={i}>
@@ -135,17 +137,19 @@ const UsersNotes = ({groupUsersNotes, selectedUser}) => {
                 <h2 className="section-title mb-3">Users</h2>
                 <div className="widget-body">
                     <ul className="widget-list">
-                        <li>
-                            <a className={selectedUser ? "" : "fw-bold"}
-                               onClick={() => {
-                                   setUser('');
-                                   setPage('');
-                                   getNotes();
-                               }}
-                            >
-                                All
-                            </a>
-                        </li>
+                        <div>
+                            <li>
+                                <a className={selectedUser ? "" : "fw-bold"}
+                                   onClick={() => {
+                                       setUser('');
+                                       setPage('');
+                                       getNotes();
+                                   }}
+                                >
+                                    All
+                                </a>
+                            </li>
+                        </div>
                         {groupUsersNotes.map((t, i) => {
                             return (
                                 <li key={i}>
@@ -311,19 +315,7 @@ class BlogPage extends React.Component {
                                     this.setUser.bind(this)]}>
                                 <div className="row no-gutters-lg">
                                     <div className="d-flex ">
-                                        <div className="d-inline-block col-3">
-                                            <div>
-                                                {this.state.tags.length > 0 ?
-                                                    <Tags groupTags={this.state.tags}
-                                                          selectedTag={this.state.selectedTag}/> : null}
-                                            </div>
-                                            <div>
-                                                {this.state.users.length > 0 ?
-                                                    <UsersNotes groupUsersNotes={this.state.users}
-                                                                selectedUser={this.state.selectedUser}/> : null}
-                                            </div>
-                                        </div>
-                                        <div className="d-inline-block col-lg-9 mb-lg-5">
+                                        <div className="d-inline-block col-9 mb-lg-5">
                                             {this.state.notes.map((note) =>
                                                 <PhotoNotesItem key={note.id} note={note}/>)}
                                             {this.state.notes.length > 0 ?
@@ -338,6 +330,18 @@ class BlogPage extends React.Component {
                                                     }
                                                 </div>)
                                             }
+                                        </div>
+                                        <div className="d-inline-block col-3">
+                                            <div>
+                                                {this.state.tags.length > 0 ?
+                                                    <Tags groupTags={this.state.tags}
+                                                          selectedTag={this.state.selectedTag}/> : null}
+                                            </div>
+                                            <div>
+                                                {this.state.users.length > 0 ?
+                                                    <UsersNotes groupUsersNotes={this.state.users}
+                                                                selectedUser={this.state.selectedUser}/> : null}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
