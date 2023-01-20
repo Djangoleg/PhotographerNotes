@@ -14,7 +14,7 @@ import withParams from "./ComponentWithParams";
 const BlogContext = createContext({});
 
 const PhotoNotesItem = ({note}) => {
-    const [setTag, setPage, getNotes, setPageData] = useContext(BlogContext);
+    const [setTag, setPage, getNotes, setPageData, setUser] = useContext(BlogContext);
 
     const showControlButtons = () => {
         const auth = Auth;
@@ -75,50 +75,93 @@ const PhotoNotesItem = ({note}) => {
 }
 
 /**
- * Categories
+ * Tags
  * @returns {JSX.Element}
  * @constructor
  */
-const Tags = ({groupTags}) => {
-    const [setTag, setPage, getNotes, setPageData] = useContext(BlogContext);
+const Tags = ({groupTags, selectedTag}) => {
+    const [setTag, setPage, getNotes, setPageData, setUser] = useContext(BlogContext);
 
     return (
-        <div className="col-lg-2">
-            <div className="widget-blocks">
-                <div className="col-lg-12 col-md-6">
-                    <div className="widget">
-                        <h2 className="section-title mb-3">Tags</h2>
-                        <div className="widget-body">
-                            <ul className="widget-list">
-                                <li>
-                                    <a
-                                        onClick={() => {
-                                            setTag('');
-                                            setPage('');
-                                            getNotes();
-                                        }}
+        <div className="widget-blocks">
+            <div className="widget">
+                <h2 className="section-title mb-3">Tags</h2>
+                <div className="widget-body">
+                    <ul className="widget-list">
+                        <li>
+                            <a className={selectedTag ? "" : "fw-bold"}
+                               onClick={() => {
+                                   setTag('');
+                                   setPage('');
+                                   getNotes();
+                               }}
+                            >
+                                All
+                            </a>
+                        </li>
+                        {groupTags.map((t, i) => {
+                            return (
+                                <li key={i}>
+                                    <a className={selectedTag === t.value ? "fw-bold" : ""}
+                                       onClick={() => {
+                                           setTag(t.value);
+                                           setPage('');
+                                           getNotes();
+                                       }}
                                     >
-                                        All
+                                        {t.value} {t.total}
                                     </a>
                                 </li>
-                                {groupTags.map((t, i) => {
-                                    return (
-                                        <li key={i}>
-                                            <a
-                                                onClick={() => {
-                                                    setTag(t.value);
-                                                    setPage('');
-                                                    getNotes();
-                                                }}
-                                            >
-                                                {t.value} {t.total}
-                                            </a>
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </div>
-                    </div>
+                            );
+                        })}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+/**
+ * UsersNotes
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const UsersNotes = ({groupUsersNotes, selectedUser}) => {
+    const [setTag, setPage, getNotes, setPageData, setUser] = useContext(BlogContext);
+
+    return (
+        <div className="widget-blocks">
+            <div className="widget">
+                <h2 className="section-title mb-3">Users</h2>
+                <div className="widget-body">
+                    <ul className="widget-list">
+                        <li>
+                            <a className={selectedUser ? "" : "fw-bold"}
+                               onClick={() => {
+                                   setUser('');
+                                   setPage('');
+                                   getNotes();
+                               }}
+                            >
+                                All
+                            </a>
+                        </li>
+                        {groupUsersNotes.map((t, i) => {
+                            return (
+                                <li key={i}>
+                                    <a className={selectedUser === t.user__username ? "fw-bold" : ""}
+                                       onClick={() => {
+                                           setUser(t.user__username);
+                                           setPage('');
+                                           getNotes();
+                                       }}
+                                    >
+                                        {t.user__username} {t.total}
+                                    </a>
+                                </li>
+                            );
+                        })}
+                    </ul>
                 </div>
             </div>
         </div>
@@ -126,7 +169,7 @@ const Tags = ({groupTags}) => {
 }
 
 function BlogPagination({paginator}) {
-    const [setTag, setPage, getNotes, setPageData] = useContext(BlogContext);
+    const [setTag, setPage, getNotes, setPageData, setUser] = useContext(BlogContext);
 
     let pageCount = Math.ceil(paginator.count / Constants.pageSize);
 
@@ -185,8 +228,10 @@ class BlogPage extends React.Component {
         this.state = {
             notes: [],
             tags: [],
+            users: [],
             paginator: {},
             selectedTag: '',
+            selectedUser: '',
             selectedPage: ''
         }
     }
@@ -194,6 +239,7 @@ class BlogPage extends React.Component {
     componentDidMount() {
         this.state.selectedTag = this.props.selectedTag;
         this.state.selectedPage = this.props.selectedPage;
+        this.state.selectedUser = this.props.selectedUser;
 
         this.getNotes();
     }
@@ -210,10 +256,14 @@ class BlogPage extends React.Component {
 
         if (this.state.selectedPage && this.state.selectedTag) {
             blogUrl += '?p=' + this.state.selectedPage + '&tags=' + this.state.selectedTag;
+        } else if (this.state.selectedPage && this.state.selectedUser) {
+            blogUrl += '?p=' + this.state.selectedPage + '&user=' + this.state.selectedUser;
         } else if (this.state.selectedPage) {
             blogUrl += '?p=' + this.state.selectedPage;
         } else if (this.state.selectedTag) {
             blogUrl += '?tags=' + this.state.selectedTag;
+        } else if (this.state.selectedUser) {
+            blogUrl += '?user=' + this.state.selectedUser;
         }
 
         axios.get(blogUrl).then(response => {
@@ -222,6 +272,7 @@ class BlogPage extends React.Component {
                 {
                     notes: notes.results,
                     tags: notes.tags,
+                    users: notes.user_notes,
                     paginator: notes.paginator
                 }
             )
@@ -229,12 +280,18 @@ class BlogPage extends React.Component {
         }).catch(error => console.log(error))
     }
 
-    setPageData(tag, page) {
-        this.props.pageData(tag, page);
+    setPageData(tag, page, user) {
+        this.props.pageData(tag, page, user);
     }
 
     setTag(tag) {
         this.state.selectedTag = tag;
+        this.state.selectedUser = "";
+    }
+
+    setUser(user) {
+        this.state.selectedUser = user;
+        this.state.selectedTag = "";
     }
 
     setPage(page) {
@@ -250,24 +307,38 @@ class BlogPage extends React.Component {
                         <div className="container">
                             <BlogContext.Provider
                                 value={[this.setTag.bind(this), this.setPage.bind(this),
-                                    this.getNotes.bind(this), this.setPageData.bind(this)]}>
+                                    this.getNotes.bind(this), this.setPageData.bind(this),
+                                    this.setUser.bind(this)]}>
                                 <div className="row no-gutters-lg">
-                                    {this.state.tags.length > 0 ? <Tags groupTags={this.state.tags}/> : null}
-                                    <div className="col-lg-9 mb-lg-5">
-                                        {this.state.notes.map((note) =>
-                                            <PhotoNotesItem key={note.id} note={note}/>)}
-                                        {this.state.notes.length > 0 ?
+                                    <div className="d-flex ">
+                                        <div className="d-inline-block col-3">
+                                            <div>
+                                                {this.state.tags.length > 0 ?
+                                                    <Tags groupTags={this.state.tags}
+                                                          selectedTag={this.state.selectedTag}/> : null}
+                                            </div>
+                                            <div>
+                                                {this.state.users.length > 0 ?
+                                                    <UsersNotes groupUsersNotes={this.state.users}
+                                                                selectedUser={this.state.selectedUser}/> : null}
+                                            </div>
+                                        </div>
+                                        <div className="d-inline-block col-lg-9 mb-lg-5">
+                                            {this.state.notes.map((note) =>
+                                                <PhotoNotesItem key={note.id} note={note}/>)}
+                                            {this.state.notes.length > 0 ?
 
-                                            (<BlogPagination paginator={this.state.paginator}/>) :
+                                                (<BlogPagination paginator={this.state.paginator}/>) :
 
-                                            (<div className="text-light">
-                                                There are no posts.
-                                                {isAuthenticated ? <> Create the <a
-                                                        href={appPath.createNote}>first</a> one.</> :
-                                                    <> Log in <a href={appPath.login}>here</a>.</>
-                                                }
-                                            </div>)
-                                        }
+                                                (<div className="text-light">
+                                                    There are no posts.
+                                                    {isAuthenticated ? <> Create the <a
+                                                            href={appPath.createNote}>first</a> one.</> :
+                                                        <> Log in <a href={appPath.login}>here</a>.</>
+                                                    }
+                                                </div>)
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             </BlogContext.Provider>
