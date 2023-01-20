@@ -33,7 +33,7 @@ const PhotoNotesItem = ({note}) => {
                         <div className="d-inline-block">
                             <img src="/img/Rock16.svg" title="Rock!" alt=""/>
                             <span className="text-uppercase ms-1 text-info">
-                                <a href={`/profile/view/${note.profile_id}`}>{note.user_firstname}</a>
+                                <a href={`/profile/view/${note.profile_id}`}>{note.username}</a>
                             </span>
                         </div>
                         <span className="d-inline-block">{Moment(note.modified).format('LLL')}</span>

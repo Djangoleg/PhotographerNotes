@@ -463,7 +463,7 @@ a.post-title-sm:hover {
   padding-left: 20px;
 }
 .content ul {
-  padding-left: 0;
+  padding-left: 8px;
 }
 .content ul li {
   position: relative;
