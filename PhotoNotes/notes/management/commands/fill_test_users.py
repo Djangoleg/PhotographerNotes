@@ -44,4 +44,4 @@ class Command(BaseCommand):
 
         print(f'photo_notes last_id: {self.user_pk}')
         if need_alter_sequence:
-            alter_sequence('notes_photonotes_id_seq', self.user_pk)
+            alter_sequence('notes_photonotes_id_seq', self.user_pk + 1)

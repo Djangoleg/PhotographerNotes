@@ -67,7 +67,7 @@ class Command(BaseCommand):
             new_photo_notes = PhotoNotes(**ph_n)
             new_photo_notes.save()
 
-        last_id = len(photo_notes)
+        last_id = len(photo_notes) + 1
         print(f'photo_notes last_id: {last_id}')
         if need_alter_sequence:
             alter_sequence('notes_photonotes_id_seq', last_id)
