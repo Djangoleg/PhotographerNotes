@@ -17,6 +17,7 @@ def alter_sequence(sequence_name, last_id):
         )
         cursor = connection.cursor()
         cursor.execute(f'ALTER SEQUENCE {sequence_name} RESTART WITH {last_id};')
+        connection.commit()
         connection.close()
     except Exception as e:
         print(f'alter_sequence error: {e}')
