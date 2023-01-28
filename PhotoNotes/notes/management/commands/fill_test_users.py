@@ -1,5 +1,7 @@
 from django.core.management import BaseCommand
 
+from PhotoNotes import settings
+from notes.management.commands.alter_sequence import alter_sequence
 from users.models import User, UserProfile
 from rest_framework.authtoken.models import Token
 
@@ -21,6 +23,9 @@ class Command(BaseCommand):
         return user
 
     def handle(self, *args, **options):
+        need_alter_sequence = True if 'postgresql' in settings.DATABASES['default']['ENGINE'] else False
+        print(f'users need_alter_sequence: {need_alter_sequence}')
+
         UserProfile.objects.all().delete()
         User.objects.all().delete()
 
@@ -36,3 +41,7 @@ class Command(BaseCommand):
 
         johny = self.create_user('johny', 'Johny', 'Dre')
         UserProfile.objects.create(user=johny, image="user_pics/3.jpg", info="I love photography")
+
+        print(f'photo_notes last_id: {self.user_pk}')
+        if need_alter_sequence:
+            alter_sequence('notes_photonotes_id_seq', self.user_pk)
