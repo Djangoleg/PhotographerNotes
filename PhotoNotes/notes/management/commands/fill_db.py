@@ -5,8 +5,10 @@ from pathlib import Path
 from PIL import Image
 from django.core.management import BaseCommand
 
+from PhotoNotes import settings
 from carousel.models import Carousel
 from comments.models import Comments
+from notes.management.commands.alter_sequence import alter_sequence
 
 from notes.models import PhotoNotes, PhotoNotesTags
 from users.models import User
@@ -47,6 +49,9 @@ def crop_image(image_path):
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
+        need_alter_sequence = True if 'postgresql' in settings.DATABASES['default']['ENGINE'] else False
+        print(f'photo_notes need_alter_sequence: {need_alter_sequence}')
+
         photo_notes = load_from_json(JSON_PATH_NOTES + 'notes.json')
         PhotoNotes.objects.all().delete()
 
@@ -61,6 +66,11 @@ class Command(BaseCommand):
             ph_n['user'] = User.objects.get(pk=p.get('user'))
             new_photo_notes = PhotoNotes(**ph_n)
             new_photo_notes.save()
+
+        last_id = len(photo_notes) + 1
+        print(f'photo_notes last_id: {last_id}')
+        if need_alter_sequence:
+            alter_sequence('notes_photonotes_id_seq', last_id)
 
         photo_carousel = load_from_json(JSON_PATH_CAROUSEL + 'carousel.json')
         Carousel.objects.all().delete()
