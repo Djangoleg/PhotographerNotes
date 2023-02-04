@@ -4,7 +4,8 @@ const url = {
     get: function () {
         if ((window.location.hostname === 'myphotonotes.tech') ||
             (window.location.hostname === 'www.myphotonotes.tech') ||
-            (window.location.hostname === 'test-mpn.tech')) {
+            (window.location.hostname === 'test-mpn.tech') ||
+            (window.location.hostname === 'www.test-mpn.tech')) {
             return this.prod;
         } else {
             return this.dev;
