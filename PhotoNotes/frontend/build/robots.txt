@@ -1,0 +1,6 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /blog
+Allow: /login
+Allow: /registration
+Allow: /feedback

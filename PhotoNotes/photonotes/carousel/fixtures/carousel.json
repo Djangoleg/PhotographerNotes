@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "beautiful sunset",
+    "image": "index_photo/PhotoNotesIndexPhoto1.jpg",
+    "is_active": true
+  },
+  {
+    "id": 2,
+    "title": "mahatma gandhi",
+    "image": "index_photo/PhotoNotesIndexPhoto2.jpg",
+    "is_active": true
+  },
+  {
+    "id": 3,
+    "title": "in the park",
+    "image": "index_photo/PhotoNotesIndexPhoto3.jpg",
+    "is_active": true
+  },
+  {
+    "id": 4,
+    "title": "good dog",
+    "image": "index_photo/PhotoNotesIndexPhoto4.jpg",
+    "is_active": true
+  },
+  {
+    "id": 5,
+    "title": "jungle",
+    "image": "index_photo/PhotoNotesIndexPhoto5.jpg",
+    "is_active": true
+  }
+]
