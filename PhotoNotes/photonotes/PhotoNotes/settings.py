@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['test-mpn.tech', 'www.test-mpn.tech',]
+ALLOWED_HOSTS = ['www.myphotonotes.tech', 'myphotonotes.tech',]
 
 # Application definition
 
@@ -133,6 +133,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -159,7 +160,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = []
 
-DOMAIN_NAME = 'https://test-mpn.tech'
+DOMAIN_NAME = 'https://www.myphotonotes.tech'
 
 # Email settings
 EMAIL_HOST = os.getenv('EMAIL_HOST')
@@ -183,4 +184,3 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-
