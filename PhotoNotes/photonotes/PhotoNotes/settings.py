@@ -23,12 +23,12 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-t7xc8zi&n#+f-q9o@h$ng52$hpmh53p#))7t=a8xv5xcr4fs7t'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['test-mpn.tech', 'www.test-mpn.tech',]
 
 # Application definition
 
@@ -89,8 +89,12 @@ WSGI_APPLICATION = 'PhotoNotes.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRESQL_USER'),
+        'PASSWORD': os.getenv('POSTGRESQL_PASSWORD'),
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -128,9 +132,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static',
-# ]
 
 MEDIA_URL = '/media/'
 
@@ -149,40 +150,24 @@ USER_EMAIL_KEY_LIFETIME = 48
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://193.160.119.6',
-    'http://localhost:3000',
-    'https://myphotonotes.tech',
-    'https://www.myphotonotes.tech',
-]
+CORS_ALLOWED_ORIGINS = []
 
-# Veryfi email
-# (linux):  sudo python3 -m smtpd -n -c DebuggingServer localhost:25
-# (windows):  python -m smtpd -n -c DebuggingServer localhost:25
+DOMAIN_NAME = 'https://test-mpn.tech'
 
-# For console test.
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-DOMAIN_NAME = 'http://localhost:3000'
-
-if os.getenv('EMAIL_HOST'):
-    EMAIL_HOST = os.getenv('EMAIL_HOST')
-    EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
-    EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-    EMAIL_USE_TLS = True if os.getenv('EMAIL_USE_TLS') == 'True' else False
-    EMAIL_USE_SSL = True if os.getenv('EMAIL_USE_SSL') == 'True' else False
-else:
-    EMAIL_HOST = 'localhost'
-    EMAIL_PORT = 25
-    EMAIL_USER_SSL = True if os.getenv('EMAIL_USER_SSL') == 'True' else False
-    EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+# Email settings
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True if os.getenv('EMAIL_USE_TLS') == 'True' else False
+EMAIL_USE_SSL = True if os.getenv('EMAIL_USE_SSL') == 'True' else False
 
 ALLOW_REGISTRATION_NEW_USERS = True
 
@@ -193,3 +178,9 @@ MAX_MINICARD_SIZE = 600
 
 # For blog. Reduction of the original image to.
 MAX_IMAGE_SIZE = 1280
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
