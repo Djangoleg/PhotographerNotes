@@ -1,0 +1,5 @@
+settings.py merge=ours
+Dockerfile merge=ours
+nginx.conf merge=ours
+server.crt merge=ours
+server.key merge=ours
