@@ -335,7 +335,6 @@ class Comments extends React.Component {
     }
 
     render() {
-
         return (
             <div>
                 <Card className="comment-card" {...this.props}>
