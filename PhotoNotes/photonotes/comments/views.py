@@ -1,7 +1,5 @@
 from collections import OrderedDict
 
-from django.shortcuts import render
-
 # Create your views here.
 # CommentViewSet
 from mptt.templatetags.mptt_tags import cache_tree_children
@@ -12,6 +10,15 @@ from rest_framework.viewsets import ModelViewSet
 from PhotoNotes.settings import ALLOW_ANONYMOUS_COMMENTS
 from comments.models import Comments
 from comments.serializers import CommentModelSerializer
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 
 class CommentViewSet(ModelViewSet):
@@ -42,11 +49,19 @@ class CommentViewSet(ModelViewSet):
                 ('message', 'Anonymous comments are not allowed! Log in please.'),
             ]), status=status.HTTP_200_OK)
 
-        return super(CommentViewSet, self).create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        comment = self.perform_create(serializer)
+        comment.ip_address = get_client_ip(request)
+        comment.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        return serializer.save()
 
     def perform_destroy(self, instance):
         request_user = self.request.user
         if request_user.pk != instance.note.user.pk:
             raise Exception('Destroy other comment is prohibited!')
         instance.delete()
-
