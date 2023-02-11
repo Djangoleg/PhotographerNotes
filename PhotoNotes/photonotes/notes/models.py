@@ -12,7 +12,7 @@ class PhotoNotes(models.Model):
     image = models.ImageField(verbose_name='Image', upload_to='post_photo', blank=True)
     imageminicard = models.ImageField(verbose_name='Image mini cards', upload_to='post_photo', blank=True)
     photo_comment = models.TextField(verbose_name='Comment')
-    user = models.ForeignKey(User, verbose_name='User', null=True, blank=True, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name='User', null=False, db_index=True, on_delete=models.CASCADE)
     pinned = models.BooleanField(verbose_name='Pinned', default=False, db_index=True)
 
 
