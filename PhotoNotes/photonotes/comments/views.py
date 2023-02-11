@@ -42,14 +42,23 @@ class CommentViewSet(ModelViewSet):
         ]))
 
     def create(self, request, *args, **kwargs):
-        print(f'Client IP: {get_client_ip(request)}')
+
         if not ALLOW_ANONYMOUS_COMMENTS and request.user.is_anonymous:
             return Response(OrderedDict([
                 ('is_forbidden', True),
                 ('message', 'Anonymous comments are not allowed! Log in please.'),
             ]), status=status.HTTP_200_OK)
 
-        return super(CommentViewSet, self).create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        comment = self.perform_create(serializer)
+        comment.ip_address = get_client_ip(request)
+        comment.save()
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        return serializer.save()
 
     def perform_destroy(self, instance):
         request_user = self.request.user
