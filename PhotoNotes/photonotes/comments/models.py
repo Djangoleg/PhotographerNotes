@@ -15,3 +15,4 @@ class Comments(MPTTModel):
     note = models.ForeignKey(PhotoNotes, verbose_name='PhotoNote', db_index=True, on_delete=models.CASCADE)
     parent = TreeForeignKey('self', verbose_name='Parent', related_name='children', null=True,
                             blank=True, db_index=True, on_delete=models.CASCADE)
+    ip_address = models.GenericIPAddressField(verbose_name='IP', null=True)
