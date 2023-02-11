@@ -1,7 +1,5 @@
 from collections import OrderedDict
 
-from django.shortcuts import render
-
 # Create your views here.
 # CommentViewSet
 from mptt.templatetags.mptt_tags import cache_tree_children
@@ -12,6 +10,15 @@ from rest_framework.viewsets import ModelViewSet
 from PhotoNotes.settings import ALLOW_ANONYMOUS_COMMENTS
 from comments.models import Comments
 from comments.serializers import CommentModelSerializer
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 
 class CommentViewSet(ModelViewSet):
@@ -35,7 +42,7 @@ class CommentViewSet(ModelViewSet):
         ]))
 
     def create(self, request, *args, **kwargs):
-
+        print(f'Client IP: {get_client_ip(request)}')
         if not ALLOW_ANONYMOUS_COMMENTS and request.user.is_anonymous:
             return Response(OrderedDict([
                 ('is_forbidden', True),
@@ -49,4 +56,3 @@ class CommentViewSet(ModelViewSet):
         if request_user.pk != instance.note.user.pk:
             raise Exception('Destroy other comment is prohibited!')
         instance.delete()
-
