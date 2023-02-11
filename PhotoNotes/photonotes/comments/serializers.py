@@ -19,9 +19,7 @@ class UserNameRelatedField(SlugRelatedField):
         if user and (len(user)) == 1:
             return user.first()
         else:
-            # raise ValidationError(f"User with name: {value} not found")
-            user = User.objects.create_user(username=value)
-            return user
+            return None
 
 
 class RecursiveField(serializers.Serializer):
@@ -37,8 +35,9 @@ class CommentModelSerializer(ModelSerializer):
 
     class Meta:
         model = Comments
-        fields = ('id', 'created', 'body', 'note', 'user', 'note_owner', 'parent', 'children')
+        fields = ('id', 'created', 'body', 'note', 'user', 'anon_username', 'note_owner', 'parent', 'children')
 
     def get_note_owner(self, obj):
         return obj.note.user.username
+
 

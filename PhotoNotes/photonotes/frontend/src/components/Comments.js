@@ -45,6 +45,7 @@ const Reply = (props) => {
             body: text,
             note: parseInt(routeParams.id),
             user: username ? username : getCurrentUserName(),
+            anon_username: getCurrentUserName() ? null :  username,
             parent: props.parent_id === undefined ? null : props.parent_id,
             children: []
         };
@@ -117,7 +118,7 @@ const gen_comments = (comments, colorindex, path) => {
             <Comment
                 id={comment.id}
                 parent={comment.parent}
-                username={comment.user}
+                username={comment.user ? comment.user : `(anon) ${comment.anon_username}`}
                 note_owner={comment.note_owner}
                 date={comment.created}
                 text={comment.body}
