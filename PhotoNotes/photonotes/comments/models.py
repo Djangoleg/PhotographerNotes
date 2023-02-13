@@ -16,4 +16,3 @@ class Comments(MPTTModel):
     parent = TreeForeignKey('self', verbose_name='Parent', related_name='children', null=True,
                             blank=True, db_index=True, on_delete=models.CASCADE)
     ip_address = models.GenericIPAddressField(verbose_name='IP', null=True)
-    test_field = models.TextField(verbose_name='Test Field', max_length=250, blank=True, null=True)
