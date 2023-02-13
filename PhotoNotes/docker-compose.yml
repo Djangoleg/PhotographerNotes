@@ -18,7 +18,7 @@ services:
     restart: always
     privileged: true
     volumes:
-      - ./data/photonotes:/usr/local/photonotes
+      - ./photonotes:/usr/local/photonotes
     #expose:
     ports:
       - 2087:2087
