@@ -20,8 +20,8 @@ html, body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    /*min-height: -webkit-fill-available;*/
     min-height: 93%;
+    min-height: -webkit-fill-available;
 }
 
 .bg-about {
