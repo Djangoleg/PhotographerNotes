@@ -8,3 +8,6 @@ class Carousel(models.Model):
     title = models.TextField(verbose_name='Title', max_length=250, blank=True, null=True)
     image = models.ImageField(verbose_name='Image', upload_to='index_photo', blank=True)
     is_active = models.BooleanField(verbose_name='Is active', default=True, db_index=True)
+
+    def __str__(self):
+        return self.title
