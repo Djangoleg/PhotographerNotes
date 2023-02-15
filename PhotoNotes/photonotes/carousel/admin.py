@@ -5,5 +5,5 @@ from carousel.models import Carousel
 
 
 @admin.register(Carousel)
-class CourseAdmin(admin.ModelAdmin):
-    pass
+class CarouselAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created', 'image', 'priority', 'is_active')
