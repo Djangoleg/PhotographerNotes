@@ -9,7 +9,7 @@ from carousel.serializers import CarouselModelSerializer
 
 
 class CarouselViewSet(ModelViewSet):
-    queryset = Carousel.objects.filter(is_active=True)
+    queryset = Carousel.objects.filter(is_active=True).order_by('priority')
     http_method_names = ['get', 'head']
 
     def get(self, request):
