@@ -32,6 +32,7 @@ services:
       #gunicorn --bind :2087 --workers 2 PhotoNotes.wsgi:application"
       bash -c "
       cd /usr/local/photonotes &&
+      python3 manage.py collectstatic --no-input --clear &&
       python3 manage.py makemigrations && 
       python3 manage.py migrate &&
       gunicorn --bind :2087 --workers 2 PhotoNotes.wsgi:application"
@@ -40,6 +41,8 @@ services:
   nginx:
     build: ./nginx
     restart: always
+    volumes:
+      - ./photonotes/static:/static
     ports:
       - 8443:8443
     depends_on:
