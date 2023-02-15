@@ -9,5 +9,5 @@ venv/
 !**/migrations/__init__.py
 whoosh_index/
 for_test_trash.py
-/media/
+**/media/**
 allure_reports/
