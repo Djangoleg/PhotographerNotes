@@ -40,7 +40,9 @@ const Note = ({note}) => {
                     </div>
                     <h2 className="h1">{note.title}</h2>
                     <div className="card-image">
-                        <img loading="lazy" decoding="async" src={note.image} className="w-100"/>
+                        <a href={note.image}>
+                            <img loading="lazy" decoding="async" src={note.image} className="w-100" alt="" />
+                        </a>
                     </div>
                     <div className="card-body px-0 pb-1">
                         <ul className="post-meta mb-2">
