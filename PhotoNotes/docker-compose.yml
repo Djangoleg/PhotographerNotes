@@ -13,6 +13,11 @@ services:
     privileged: true
     ports:
       - 5432:5432
+  memcached:
+    image: bitnami/memcached:latest
+    restart: always
+    ports:
+      - 11211:11211
   backend:
     build: ./photonotes
     restart: always
@@ -26,18 +31,19 @@ services:
       #bash -c "
       #cd /usr/local/photonotes &&
       #python3 manage.py collectstatic --no-input --clear &&
-      #python3 manage.py makemigrations && 
+      #python3 manage.py makemigrations &&
       #python3 manage.py migrate &&
       #python3 manage.py fill_test_users &&
       #python3 manage.py fill_db &&
       #gunicorn --bind :2087 --workers 2 PhotoNotes.wsgi:application"
       bash -c "
       cd /usr/local/photonotes &&
-      python3 manage.py makemigrations && 
+      python3 manage.py makemigrations &&
       python3 manage.py migrate &&
       gunicorn --bind :2087 --workers 2 PhotoNotes.wsgi:application"
     depends_on:
       - db
+      - memcached
   nginx:
     build: ./nginx
     restart: always
