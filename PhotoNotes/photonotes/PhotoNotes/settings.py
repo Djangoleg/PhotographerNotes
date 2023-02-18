@@ -190,3 +190,26 @@ MAX_MINICARD_SIZE = 600
 
 # For blog. Reduction of the original image to.
 MAX_IMAGE_SIZE = 1280
+
+if os.name == 'posix':
+    CACHE_MIDDLEWARE_ALIAS = 'default'
+    CACHE_MIDDLEWARE_SECONDS = 120
+    CACHE_MIDDLEWARE_KEY_PREFIX = 'photonotes'
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+            'LOCATION': 'memcached:11211',
+        }
+    }
+
+# Enabled low cache.
+LOW_CACHE = True
+
+# Cash identification value.
+CACHE_NOTES_KEY = 'notes_key'
+
+# Time in seconds of the life cache for notes.
+CACHE_NOTES_TIME = 60 * 5
+
+# Time in seconds of the life cache for carousel.
+CACHE_CAROUSEL_TIME = 60 * 15
