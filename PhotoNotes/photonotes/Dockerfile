@@ -1,4 +1,4 @@
-FROM python:3.10.5
+FROM python:3.11
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 RUN mkdir -p /usr/local/photonotes
