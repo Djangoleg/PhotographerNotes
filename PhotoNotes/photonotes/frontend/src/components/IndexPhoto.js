@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import axios from "axios";
 import url from "./AppURL";
@@ -30,7 +30,7 @@ class IndexPhoto extends React.Component {
                 {this.state.carousel.map((p) => {
                     return (
                         <Carousel.Item key={p.id}>
-                            <img className="d-block w-100" src={p.image_url}/>
+                            <img className="d-block w-100" src={p.image_url} alt=''/>
                             <Carousel.Caption>
                                 {p.title}
                             </Carousel.Caption>

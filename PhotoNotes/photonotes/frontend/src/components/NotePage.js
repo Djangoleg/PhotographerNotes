@@ -9,7 +9,7 @@ import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 import withParams from "./ComponentWithParams";
 import appPath from "./AppPath";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Viewer from "react-viewer";
 import {BrowserView, MobileView} from "react-device-detect";
 
@@ -17,7 +17,6 @@ const BlogContext = createContext({});
 
 const Note = ({note}) => {
     const [setPageData] = useContext(BlogContext);
-    const navigate = useNavigate();
     const [visible, setVisible] = React.useState(false);
 
     const showControlButtons = () => {
@@ -75,10 +74,13 @@ const Note = ({note}) => {
                                 {note.tags ?
                                     note.tags.map((tag, i) => {
                                         return (
-                                            <a key={i} onClick={() => {
-                                                setPageData(tag, '');
-                                                navigate(appPath.blog);
-                                            }}>{tag}</a>
+                                            <Link
+                                                key={i}
+                                                onClick={() => {
+                                                    setPageData(tag, '');
+                                                }}
+                                                to={appPath.blog}
+                                            >{tag}</Link>
                                         );
                                     }) : null}
                             </li>
