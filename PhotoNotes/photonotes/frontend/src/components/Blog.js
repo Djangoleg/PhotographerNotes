@@ -12,12 +12,13 @@ import EditButton from "./EditButton";
 import withParams from "./ComponentWithParams";
 import Viewer from 'react-viewer';
 import {Link} from "react-router-dom";
+import {BrowserView, MobileView} from 'react-device-detect';
 
 const BlogContext = createContext({});
 
 const PhotoNotesItem = ({note, index}) => {
     const [setTag, setPage, getNotes, setPageData, setUser] = useContext(BlogContext);
-    const [ visible, setVisible ] = React.useState(false);
+    const [visible, setVisible] = React.useState(false);
 
     const showControlButtons = () => {
         const auth = Auth;
@@ -43,24 +44,31 @@ const PhotoNotesItem = ({note, index}) => {
                     </div>
                     <h2 className="h1">{note.title}</h2>
                     <div className="card-image">
+                        <BrowserView>
+                            <Link rel="noreferrer" onClick={() => {
+                                setVisible(true);
+                            }}>
+                                <img className="w-100" src={note.image} alt={note.title}></img>
+                            </Link>
 
-                        <Link rel="noreferrer" onClick={() => { setVisible(true); }}>
-                            <img className="w-100" src={note.image} alt={note.title}></img>
-                        </Link>
-
-                        <Viewer
-                            visible={visible}
-                            onClose={() => {
-                                setVisible(false);
-                            }}
-                            showTotal={false}
-                            noNavbar={true}
-                            onMaskClick={() => {
-                                setVisible(false);
-                            }}
-                            images={[{src: note.image, alt: `${note.title} `}]}
-                        />
-
+                            <Viewer
+                                visible={visible}
+                                onClose={() => {
+                                    setVisible(false);
+                                }}
+                                showTotal={false}
+                                noNavbar={true}
+                                onMaskClick={() => {
+                                    setVisible(false);
+                                }}
+                                images={[{src: note.image, alt: `${note.title} `}]}
+                            />
+                        </BrowserView>
+                        <MobileView>
+                            <a href={note.image}>
+                                <img loading="lazy" decoding="async" src={note.image} className="w-100" alt=""/>
+                            </a>
+                        </MobileView>
                     </div>
                     <div className="card-body px-0 pb-1">
                         <ul className="post-meta mb-2">
