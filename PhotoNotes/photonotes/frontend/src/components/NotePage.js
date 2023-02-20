@@ -65,7 +65,7 @@ const Note = ({note}) => {
                         </BrowserView>
                         <MobileView>
                             <a href={note.image}>
-                                <img loading="lazy" decoding="async" src={note.image} className="w-100" alt=""/>
+                                <img src={note.image} className="w-100" alt=""/>
                             </a>
                         </MobileView>
                     </div>

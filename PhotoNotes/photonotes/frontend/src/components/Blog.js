@@ -50,7 +50,6 @@ const PhotoNotesItem = ({note, index}) => {
                             }}>
                                 <img className="w-100" src={note.image} alt={note.title}></img>
                             </Link>
-
                             <Viewer
                                 visible={visible}
                                 onClose={() => {
@@ -66,7 +65,7 @@ const PhotoNotesItem = ({note, index}) => {
                         </BrowserView>
                         <MobileView>
                             <a href={note.image}>
-                                <img loading="lazy" decoding="async" src={note.image} className="w-100" alt=""/>
+                                <img src={note.image} className="w-100" alt=""/>
                             </a>
                         </MobileView>
                     </div>
