@@ -1,4 +1,4 @@
-import React, {createContext, useContext} from 'react';
+import React, {createContext, useContext, useState, useCallback} from 'react';
 import Moment from 'moment';
 import Auth from "./Authentication";
 import Constants from "./AppConstants";
@@ -10,11 +10,15 @@ import appPath from "./AppPath";
 import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 import withParams from "./ComponentWithParams";
+import Viewer from 'react-viewer';
+import {Link} from "react-router-dom";
+import {BrowserView, MobileView} from 'react-device-detect';
 
 const BlogContext = createContext({});
 
-const PhotoNotesItem = ({note}) => {
+const PhotoNotesItem = ({note, index}) => {
     const [setTag, setPage, getNotes, setPageData, setUser] = useContext(BlogContext);
+    const [visible, setVisible] = React.useState(false);
 
     const showControlButtons = () => {
         const auth = Auth;
@@ -40,9 +44,30 @@ const PhotoNotesItem = ({note}) => {
                     </div>
                     <h2 className="h1">{note.title}</h2>
                     <div className="card-image">
-                        <a href={note.image}>
-                            <img loading="lazy" decoding="async" src={note.image} className="w-100" alt="" />
-                        </a>
+                        <BrowserView>
+                            <Link rel="noreferrer" onClick={() => {
+                                setVisible(true);
+                            }}>
+                                <img className="w-100" src={note.image} alt={note.title}></img>
+                            </Link>
+                            <Viewer
+                                visible={visible}
+                                onClose={() => {
+                                    setVisible(false);
+                                }}
+                                showTotal={false}
+                                noNavbar={true}
+                                onMaskClick={() => {
+                                    setVisible(false);
+                                }}
+                                images={[{src: note.image, alt: `${note.title} `}]}
+                            />
+                        </BrowserView>
+                        <MobileView>
+                            <a href={note.image}>
+                                <img src={note.image} className="w-100" alt=""/>
+                            </a>
+                        </MobileView>
                     </div>
                     <div className="card-body px-0 pb-1">
                         <ul className="post-meta mb-2">
@@ -318,8 +343,8 @@ class BlogPage extends React.Component {
                                 <div className="row no-gutters-lg">
                                     <div className="d-flex ">
                                         <div className="d-inline-block col-9 mb-lg-5">
-                                            {this.state.notes.map((note) =>
-                                                <PhotoNotesItem key={note.id} note={note}/>)}
+                                            {this.state.notes.map((note, index) =>
+                                                <PhotoNotesItem key={note.id} note={note} index={index}/>)}
                                             {this.state.notes.length > 0 ?
 
                                                 (<BlogPagination paginator={this.state.paginator}/>) :
