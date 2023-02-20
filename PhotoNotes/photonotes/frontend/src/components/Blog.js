@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState, useCallback} from 'react';
+import React, {createContext, useContext} from 'react';
 import Moment from 'moment';
 import Auth from "./Authentication";
 import Constants from "./AppConstants";
@@ -13,6 +13,7 @@ import withParams from "./ComponentWithParams";
 import Viewer from 'react-viewer';
 import {Link} from "react-router-dom";
 import {BrowserView, MobileView} from 'react-device-detect';
+import ScrollToTop from "react-scroll-to-top";
 
 const BlogContext = createContext({});
 
@@ -376,6 +377,7 @@ class BlogPage extends React.Component {
                         </div>
                     </section>
                 </main>
+                <ScrollToTop smooth color='#336666'/>
             </div>
         )
     }

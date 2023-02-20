@@ -266,6 +266,7 @@ class UseProfile extends React.Component {
                                                             <img id="note_image"
                                                                  className="rounded mx-auto d-block blog-img"
                                                                  src={(this.state.image || '/img/empty_user_pic.jpg')}
+                                                                 alt=''
                                                             />
                                                         </div>
                                                         <div className="card-body px-0 pb-1">
