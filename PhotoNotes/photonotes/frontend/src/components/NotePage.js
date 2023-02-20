@@ -9,13 +9,15 @@ import DeleteButton from "./DeleteButton";
 import EditButton from "./EditButton";
 import withParams from "./ComponentWithParams";
 import appPath from "./AppPath";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import Viewer from "react-viewer";
 
 const BlogContext = createContext({});
 
 const Note = ({note}) => {
     const [setPageData] = useContext(BlogContext);
     const navigate = useNavigate();
+    const [ visible, setVisible ] = React.useState(false);
 
     const showControlButtons = () => {
         const auth = Auth;
@@ -40,9 +42,22 @@ const Note = ({note}) => {
                     </div>
                     <h2 className="h1">{note.title}</h2>
                     <div className="card-image">
-                        <a href={note.image}>
-                            <img loading="lazy" decoding="async" src={note.image} className="w-100" alt="" />
-                        </a>
+                        <Link rel="noreferrer" onClick={() => { setVisible(true); }}>
+                            <img className="w-100" src={note.image} alt={note.title}></img>
+                        </Link>
+
+                        <Viewer
+                            visible={visible}
+                            onClose={() => {
+                                setVisible(false);
+                            }}
+                            showTotal={false}
+                            noNavbar={true}
+                            onMaskClick={() => {
+                                setVisible(false);
+                            }}
+                            images={[{src: note.image, alt: `${note.title} `}]}
+                        />
                     </div>
                     <div className="card-body px-0 pb-1">
                         <ul className="post-meta mb-2">
