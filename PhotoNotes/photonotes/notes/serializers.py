@@ -1,5 +1,6 @@
 import os
 from io import BytesIO
+
 from PIL import Image, ImageOps
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -12,6 +13,26 @@ from PhotoNotes.settings import MAX_IMAGE_SIZE, MAX_MINICARD_SIZE
 from comments.models import Comments
 from notes.models import PhotoNotes, PhotoNotesTags
 from users.models import User, UserProfile
+from notes.imagehelper import resize_image, crop_to_aspect
+
+
+def get_minicard(file_content, image_name, content_type, max_image_size):
+    target_image = Image.open(file_content)
+    target_image = ImageOps.exif_transpose(target_image)
+    width, height = target_image.size
+    if width > max_image_size or height > max_image_size:
+        size = (max_image_size, max_image_size)
+        target_image.thumbnail(size, resample=Image.ANTIALIAS)
+
+    temp_image = crop_to_aspect(target_image, max_image_size, max_image_size)
+    buffer = BytesIO()
+    temp_image.save(buffer, format="JPEG")
+
+    new_picture_filename = 'crop_' + image_name
+    new_picture_file = InMemoryUploadedFile(file=buffer, field_name='imageminicard', name=new_picture_filename,
+                                            content_type=content_type, size=len(buffer.getvalue()),
+                                            charset=None)
+    return new_picture_file
 
 
 class PhotoNoteModelSerializer(ModelSerializer):
@@ -47,10 +68,11 @@ class PhotoNoteModelSerializer(ModelSerializer):
         image.image.close()
         image_name = os.path.split(image.name)[1]
 
-        validated_data['imageminicard'] = self.crop_image(file_content, image_name, image.content_type)
+        validated_data['imageminicard'] = get_minicard(file_content, image_name, image.content_type,
+                                                       max_image_size=MAX_MINICARD_SIZE)
 
-        resize_image = self.resize_image(file_content, image_name, image.content_type)
-        validated_data['image'] = resize_image if resize_image else image
+        resize_img = resize_image(file_content, image_name, image.content_type, max_image_size=MAX_IMAGE_SIZE)
+        validated_data['image'] = resize_img if resize_img else image
 
         note = PhotoNotes.objects.create(**validated_data)
         for tag in tags_data:
@@ -68,10 +90,11 @@ class PhotoNoteModelSerializer(ModelSerializer):
             image.image.close()
             image_name = os.path.split(image.name)[1]
 
-            instance.imageminicard = self.crop_image(file_content, image_name, image.content_type)
+            instance.imageminicard = get_minicard(file_content, image_name, image.content_type,
+                                                  max_image_size=MAX_MINICARD_SIZE)
 
-            resize_image = self.resize_image(file_content, image_name, image.content_type)
-            instance.image = resize_image if resize_image else image
+            resize_img = resize_image(file_content, image_name, image.content_type, max_image_size=MAX_IMAGE_SIZE)
+            instance.image = resize_img if resize_img else image
 
         instance.photo_comment = validated_data.get('photo_comment', instance.photo_comment)
         instance.pinned = validated_data.get('pinned', instance.pinned)
@@ -80,48 +103,3 @@ class PhotoNoteModelSerializer(ModelSerializer):
         for tag in tags_data:
             PhotoNotesTags.objects.create(note_id=instance.id, value=tag)
         return instance
-
-    def resize_image(self, file_content, image_name, content_type):
-        target_image = Image.open(file_content)
-        target_image = ImageOps.exif_transpose(target_image)
-        width, height = target_image.size
-        size = (MAX_IMAGE_SIZE, MAX_IMAGE_SIZE)
-
-        if width > MAX_IMAGE_SIZE or height > MAX_IMAGE_SIZE:
-            target_image.thumbnail(size, resample=Image.ANTIALIAS)
-            buffer = BytesIO()
-            target_image.save(buffer, format="JPEG")
-
-            new_picture_file = InMemoryUploadedFile(file=buffer, field_name='imageminicard', name=image_name,
-                                                    content_type=content_type, size=len(buffer.getvalue()),
-                                                    charset=None)
-            return new_picture_file
-        else:
-            return None
-
-    def crop_image(self, file_content, image_name, content_type):
-        target_image = Image.open(file_content)
-        target_image = ImageOps.exif_transpose(target_image)
-
-        width, height = target_image.size  # Get dimensions
-        new_width = MAX_MINICARD_SIZE
-        new_height = MAX_MINICARD_SIZE
-
-        left = (width - new_width) / 2
-        top = (height - new_height) / 2
-        right = (width + new_width) / 2
-        bottom = (height + new_height) / 2
-
-        area = (left, top, right, bottom)
-
-        temp_file = target_image.crop(area)
-        buffer = BytesIO()
-        temp_file.save(buffer, format="JPEG")
-
-        new_picture_filename = 'crop_' + image_name
-
-        new_picture_file = InMemoryUploadedFile(file=buffer, field_name='imageminicard', name=new_picture_filename,
-                                                content_type=content_type, size=len(buffer.getvalue()),
-                                                charset=None)
-
-        return new_picture_file
