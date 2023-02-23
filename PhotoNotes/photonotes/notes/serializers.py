@@ -24,7 +24,7 @@ class PhotoNoteModelSerializer(ModelSerializer):
 
     class Meta:
         model = PhotoNotes
-        fields = ('id', 'modified', 'username', 'user_firstname', 'profile_id', 'title', 'image', 'photo_comment',
+        fields = ('id', 'created', 'username', 'user_firstname', 'profile_id', 'title', 'image', 'photo_comment',
                   'tags', 'comments_number', 'pinned')
 
     def get_profile_id(self, obj):
