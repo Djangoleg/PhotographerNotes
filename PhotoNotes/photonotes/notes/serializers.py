@@ -1,9 +1,7 @@
 import os
-from io import BytesIO
 
 from PIL import Image, ImageOps
 from django.core.files.base import ContentFile
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from rest_framework import serializers
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import ModelSerializer
@@ -13,26 +11,8 @@ from PhotoNotes.settings import MAX_IMAGE_SIZE, MAX_MINICARD_SIZE
 from comments.models import Comments
 from notes.models import PhotoNotes, PhotoNotesTags
 from users.models import User, UserProfile
-from notes.imagehelper import resize_image, crop_to_aspect
-
-
-def get_minicard(file_content, image_name, content_type, max_image_size):
-    target_image = Image.open(file_content)
-    target_image = ImageOps.exif_transpose(target_image)
-    width, height = target_image.size
-    if width > max_image_size or height > max_image_size:
-        size = (max_image_size, max_image_size)
-        target_image.thumbnail(size, resample=Image.ANTIALIAS)
-
-    temp_image = crop_to_aspect(target_image, max_image_size, max_image_size)
-    buffer = BytesIO()
-    temp_image.save(buffer, format="JPEG")
-
-    new_picture_filename = 'crop_' + image_name
-    new_picture_file = InMemoryUploadedFile(file=buffer, field_name='imageminicard', name=new_picture_filename,
-                                            content_type=content_type, size=len(buffer.getvalue()),
-                                            charset=None)
-    return new_picture_file
+from notes.imagehelper import crop_to_aspect, check_and_resize_image_if_need, get_memory_upload_file, \
+    get_random_file_name
 
 
 class PhotoNoteModelSerializer(ModelSerializer):
@@ -44,7 +24,7 @@ class PhotoNoteModelSerializer(ModelSerializer):
 
     class Meta:
         model = PhotoNotes
-        fields = ('id', 'modified', 'username', 'user_firstname', 'profile_id', 'title', 'image', 'photo_comment',
+        fields = ('id', 'created', 'username', 'user_firstname', 'profile_id', 'title', 'image', 'photo_comment',
                   'tags', 'comments_number', 'pinned')
 
     def get_profile_id(self, obj):
@@ -63,16 +43,24 @@ class PhotoNoteModelSerializer(ModelSerializer):
         request = self.context.get('request')
         tags_data = json.loads(request.data.get('tags'))
 
-        image = validated_data.pop('image')
-        file_content = ContentFile(image.read())
-        image.image.close()
-        image_name = os.path.split(image.name)[1]
+        raw_image = validated_data.pop('image')
+        file_content = ContentFile(raw_image.read())
+        raw_image.image.close()
 
-        validated_data['imageminicard'] = get_minicard(file_content, image_name, image.content_type,
-                                                       max_image_size=MAX_MINICARD_SIZE)
+        image_name = get_random_file_name(20, 'pn_', '.jpg')
+        image_mini_card_name = f"crop_{image_name}"
 
-        resize_img = resize_image(file_content, image_name, image.content_type, max_image_size=MAX_IMAGE_SIZE)
-        validated_data['image'] = resize_img if resize_img else image
+        image = Image.open(file_content)
+        check_and_resize_image_if_need(image, max_image_size=MAX_IMAGE_SIZE)
+        trans_image = ImageOps.exif_transpose(image)
+
+        validated_data['image'] = get_memory_upload_file(trans_image, image_name, raw_image.content_type, 'image')
+
+        check_and_resize_image_if_need(trans_image, max_image_size=MAX_MINICARD_SIZE)
+        mini_card = crop_to_aspect(trans_image, MAX_MINICARD_SIZE, MAX_MINICARD_SIZE)
+
+        validated_data['imageminicard'] = get_memory_upload_file(mini_card, image_mini_card_name,
+                                                                 raw_image.content_type, 'imageminicard')
 
         note = PhotoNotes.objects.create(**validated_data)
         for tag in tags_data:
@@ -83,18 +71,26 @@ class PhotoNoteModelSerializer(ModelSerializer):
         request = self.context.get('request')
         tags_data = json.loads(request.data.get('tags'))
         instance.title = validated_data.get('title', instance.title)
-        image = validated_data.get('image', instance.image)
-        instance.image = image
-        if not image.closed:
-            file_content = ContentFile(image.read())
-            image.image.close()
-            image_name = os.path.split(image.name)[1]
+        raw_image = validated_data.get('image', instance.image)
+        instance.image = raw_image
+        if not raw_image.closed:
+            file_content = ContentFile(raw_image.read())
+            raw_image.image.close()
 
-            instance.imageminicard = get_minicard(file_content, image_name, image.content_type,
-                                                  max_image_size=MAX_MINICARD_SIZE)
+            image_name = get_random_file_name(20, 'pn_', '.jpg')
+            image_mini_card_name = f"crop_{image_name}"
 
-            resize_img = resize_image(file_content, image_name, image.content_type, max_image_size=MAX_IMAGE_SIZE)
-            instance.image = resize_img if resize_img else image
+            image = Image.open(file_content)
+            check_and_resize_image_if_need(image, max_image_size=MAX_IMAGE_SIZE)
+            trans_image = ImageOps.exif_transpose(image)
+
+            instance.image = get_memory_upload_file(trans_image, image_name, raw_image.content_type, 'image')
+
+            check_and_resize_image_if_need(trans_image, max_image_size=MAX_MINICARD_SIZE)
+            mini_card = crop_to_aspect(trans_image, MAX_MINICARD_SIZE, MAX_MINICARD_SIZE)
+
+            instance.imageminicard = get_memory_upload_file(mini_card, image_mini_card_name,
+                                                            raw_image.content_type, 'imageminicard')
 
         instance.photo_comment = validated_data.get('photo_comment', instance.photo_comment)
         instance.pinned = validated_data.get('pinned', instance.pinned)

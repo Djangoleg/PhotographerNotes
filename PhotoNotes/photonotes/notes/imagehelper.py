@@ -1,7 +1,8 @@
-import os
 from io import BytesIO
 from PIL import Image, ImageOps
 from django.core.files.uploadedfile import InMemoryUploadedFile
+import random
+import string
 
 
 def crop_to_aspect(image, aspect, divisor=1, alignx=0.5, aligny=0.5):
@@ -16,35 +17,33 @@ def crop_to_aspect(image, aspect, divisor=1, alignx=0.5, aligny=0.5):
         Image: The cropped Image object.
     """
     if image.width / image.height > aspect / divisor:
-        newwidth = int(image.height * (aspect / divisor))
-        newheight = image.height
+        new_width = int(image.height * (aspect / divisor))
+        new_height = image.height
     else:
-        newwidth = image.width
-        newheight = int(image.width / (aspect / divisor))
-    img = image.crop((alignx * (image.width - newwidth),
-                     aligny * (image.height - newheight),
-                     alignx * (image.width - newwidth) + newwidth,
-                     aligny * (image.height - newheight) + newheight))
+        new_width = image.width
+        new_height = int(image.width / (aspect / divisor))
+    img = image.crop((alignx * (image.width - new_width),
+                      aligny * (image.height - new_height),
+                      alignx * (image.width - new_width) + new_width,
+                      aligny * (image.height - new_height) + new_height))
     return img
 
 
-def resize_image(file_content, image_name, content_type, max_image_size):
-    target_image = Image.open(file_content)
-    target_image = ImageOps.exif_transpose(target_image)
-    width, height = target_image.size
-    size = (max_image_size, max_image_size)
-
+def check_and_resize_image_if_need(image, max_image_size):
+    width, height = image.size
     if width > max_image_size or height > max_image_size:
-        target_image.thumbnail(size, resample=Image.ANTIALIAS)
-        buffer = BytesIO()
-        target_image.save(buffer, format="JPEG")
+        size = (max_image_size, max_image_size)
+        image.thumbnail(size, resample=Image.ANTIALIAS)
 
-        new_picture_file = InMemoryUploadedFile(file=buffer, field_name='imageminicard', name=image_name,
-                                                content_type=content_type, size=len(buffer.getvalue()),
-                                                charset=None)
-        return new_picture_file
-    else:
-        return None
+
+def get_memory_upload_file(image, image_name, content_type, field_name):
+    buffer = BytesIO()
+    image.save(buffer, filename=image_name, format="JPEG")
+
+    new_picture_file = InMemoryUploadedFile(file=buffer, field_name=field_name, name=image_name,
+                                            content_type=content_type, size=len(buffer.getvalue()),
+                                            charset=None)
+    return new_picture_file
 
 
 def crop_image(file_content, image_name, content_type, new_width, new_height):
@@ -70,3 +69,8 @@ def crop_image(file_content, image_name, content_type, new_width, new_height):
                                             content_type=content_type, size=len(buffer.getvalue()),
                                             charset=None)
     return new_picture_file
+
+
+def get_random_file_name(length, prefix, extension):
+    letters = string.ascii_letters
+    return prefix + ''.join((random.choice(letters)) for _ in range(length)) + extension

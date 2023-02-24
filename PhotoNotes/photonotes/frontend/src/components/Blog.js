@@ -41,7 +41,7 @@ const PhotoNotesItem = ({note, index}) => {
                                 <a href={`/profile/view/${note.profile_id}`}>{note.username}</a>
                             </span>
                         </div>
-                        <span className="d-inline-block">{Moment(note.modified).format('LLL')}</span>
+                        <span className="d-inline-block">{Moment(note.created).format('LLL')}</span>
                     </div>
                     <h2 className="h1">{note.title}</h2>
                     <div className="card-image">
@@ -377,7 +377,7 @@ class BlogPage extends React.Component {
                         </div>
                     </section>
                 </main>
-                <ScrollToTop smooth color='#336666'/>
+                <ScrollToTop smooth color='#336666' className='scroll-to-top-up-100 '/>
             </div>
         )
     }

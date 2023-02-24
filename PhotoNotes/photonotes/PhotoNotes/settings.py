@@ -180,6 +180,9 @@ MAX_MINICARD_SIZE = 600
 # For blog. Reduction of the original image to.
 MAX_IMAGE_SIZE = 1280
 
+# For profile. Reduction of the original image to.
+MAX_PROFILE_IMAGE_SIZE = 800
+
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
