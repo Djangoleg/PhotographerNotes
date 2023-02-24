@@ -40,7 +40,7 @@ class PhotoNotes extends React.Component {
                 <Menu/>
                 <Routes>
                     <Route path={appPath.index} element={
-                        <div>
+                        <>
                             <div className="content bg-blog">
                                 <div className="h-100 justify-content-lg-center align-items-lg-start">
                                     <IndexPhoto/>
@@ -48,45 +48,48 @@ class PhotoNotes extends React.Component {
                                 </div>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route exact path={appPath.login} element={
-                        <div>
+                        <>
                             <div className="content">
                                 <LoginForm
                                     authData={(username, password) => Auth.login(username, password)}/>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route exact path={appPath.registration} element={
-                        <div>
+                        <>
                             <div className="content">
                                 <RegForm/>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route exact path={appPath.blog} element={
-                        <div className="content bg-blog">
-                            <div className="justify-content-center align-items-center">
-                                <BlogPage
-                                    selectedTag={this.state.blogSelectedTag}
-                                    selectedPage={this.state.blogSelectedPage}
-                                    selectedUser={this.state.blogSelectedUser}
+                        <>
+                            <div className="content bg-blog">
+                                <div className="justify-content-center align-items-center">
+                                    <BlogPage
+                                        selectedTag={this.state.blogSelectedTag}
+                                        selectedPage={this.state.blogSelectedPage}
+                                        selectedUser={this.state.blogSelectedUser}
 
-                                    pageData={(selectedTag, selectedPage, selectedUser) => {
-                                        this.setState({
-                                            blogSelectedTag: selectedTag,
-                                            blogSelectedPage: selectedPage,
-                                            blogSelectedUser: selectedUser
-                                        });
-                                    }}/>
+                                        pageData={(selectedTag, selectedPage, selectedUser) => {
+                                            this.setState({
+                                                blogSelectedTag: selectedTag,
+                                                blogSelectedPage: selectedPage,
+                                                blogSelectedUser: selectedUser
+                                            });
+                                        }}/>
+                                </div>
                             </div>
-                        </div>
+                            <Footer/>
+                        </>
                     }/>
                     <Route exact path={appPath.editNote} element={
-                        <div>
+                        <>
                             <div className="content">
                                 <EditNoteForm
                                     pagetitle="Edit Note"
@@ -100,10 +103,10 @@ class PhotoNotes extends React.Component {
                                 />
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route exact path={appPath.viewNote} element={
-                        <div>
+                        <>
                             <div className="content bg-blog">
                                 <NotePage
                                     pageData={(selectedTag, selectedPage, selectedUser) => {
@@ -116,10 +119,10 @@ class PhotoNotes extends React.Component {
                                 />
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route exact path={appPath.createNote} element={
-                        <div>
+                        <>
                             <div className="content">
                                 <EditNoteForm
                                     pagetitle="Create Note"
@@ -133,66 +136,66 @@ class PhotoNotes extends React.Component {
                                 />
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route path={appPath.verify} element={
-                        <div>
+                        <>
                             <div className="content">
                                 <div className="bg-blog position-fixed w-100">
                                     <EmailVerification/>
                                 </div>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route path={appPath.feedback} element={
-                        <div>
+                        <>
                             <div className="content pb-5">
                                 <FeedbackForm/>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route path={appPath.profile} element={
-                        <div>
+                        <>
                             <div className="content">
                                 <UseProfile/>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route path={appPath.checkkey} element={
-                        <div>
+                        <>
                             <div className="content">
                                 <SettingNewPwd/>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route path={appPath.recoveryPwd} element={
-                        <div>
+                        <>
                             <div className="content">
                                 <RecoveryPwd/>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                     <Route path={appPath.about} element={
-                        <div>
-                            <div className="content">
+                        <>
+                            <div className="content bg-about">
                                 <AboutPage/>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
 
                     <Route path={appPath.any} element={
-                        <div>
+                        <>
                             <div className="content">
                                 <NotFound/>
                             </div>
                             <Footer/>
-                        </div>
+                        </>
                     }/>
                 </Routes>
             </BrowserRouter>

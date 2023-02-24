@@ -38,7 +38,7 @@ const Note = ({note}) => {
                                 <a href={`/profile/view/${note.profile_id}`}>{note.username}</a>
                             </span>
                         </div>
-                        <span className="d-inline-block">{Moment(note.modified).format('LLL')}</span>
+                        <span className="d-inline-block">{Moment(note.created).format('LLL')}</span>
                     </div>
                     <h2 className="h1">{note.title}</h2>
                     <div className="card-image">

@@ -115,7 +115,7 @@ a:hover {
 
 .section {
   padding-top: 30px;
-  padding-bottom: 80px;
+  /*padding-bottom: 80px;*/
 }
 
 .section-title {
@@ -204,14 +204,6 @@ a:hover {
   background-color: #131313 !important;
 }
 
-@media screen and (min-width: 1400px) {
-  .container {
-    max-width: 1320px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    /*min-height: 1125px;*/
-  }
-}
 .rounded {
   border-radius: 6px !important;
 }
@@ -652,4 +644,9 @@ a.post-title-sm:hover {
 
 .rti--input::placeholder {
   color: darkgray;
+}
+
+.scroll-to-top-up-100 {
+  bottom: 100px !important;
+  right: 100px !important;
 }

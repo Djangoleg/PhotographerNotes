@@ -10,7 +10,7 @@ from notes.models import PhotoNotes
 
 
 class MiniCardsViewSet(ModelViewSet):
-    queryset = PhotoNotes.objects.all().order_by('-modified')
+    queryset = PhotoNotes.objects.all().order_by('-created')
     serializer_class = MiniCardsSerializer
     http_method_names = ['get', 'head']
 

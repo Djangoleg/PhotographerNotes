@@ -15,7 +15,7 @@ const IndexMiniCardsItem = ({card}) => {
                                                         href={`/note/view/${card.id}`}>{card.title}</a></h3>
 
                 <div className="text-center text-muted letter-spacing text-uppercase font-sm text-white-50">
-                    {Moment(card.modified).format('LLL')}
+                    {Moment(card.created).format('LLL')}
                 </div>
             </article>
         </div>
