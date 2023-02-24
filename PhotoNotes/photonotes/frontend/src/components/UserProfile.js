@@ -4,6 +4,7 @@ import url from "./AppURL";
 import axios from "axios";
 import $ from "jquery";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import withParams from "./ComponentWithParams";
 
 class UseProfile extends React.Component {
@@ -47,6 +48,11 @@ class UseProfile extends React.Component {
     };
 
     handleSubmit = (event) => {
+
+        $('#save-button').prop('disabled', true);
+        $('#cancel-button').prop('disabled', true);
+        $('#spinner-loading').removeClass('visually-hidden');
+
         if ($('#note_image').attr('src')) {
             $('#chooseFile').prop('required', false);
         } else {
@@ -78,11 +84,21 @@ class UseProfile extends React.Component {
             {
                 headers: headers,
             }).then(response => {
-            if (this.state.selectedFile) {
-                this.setState({image: URL.createObjectURL(this.state.selectedFile)});
+
+            if (response.data) {
+                this.setState({image: response.data.image});
+            } else {
+                if (this.state.selectedFile) {
+                    this.setState({image: URL.createObjectURL(this.state.selectedFile)});
+                }
             }
+            $('#spinner-loading').addClass('visually-hidden');
             this.setState({edit: false});
+
         }).catch(error => {
+            $('#spinner-loading').addClass('visually-hidden');
+            $('#save-button').prop('disabled', false);
+            $('#cancel-button').prop('disabled', false);
             console.log(error);
             alert('Error change profile!');
         });
@@ -245,10 +261,16 @@ class UseProfile extends React.Component {
                                                             <label
                                                                 className="col-lg-3 col-form-label form-control-label"></label>
                                                             <div className="col-lg-9">
-                                                                <input type="reset" className="btn btn-secondary"
+                                                                <div className="text-center">
+                                                                    <Spinner id="spinner-loading"
+                                                                             className="visually-hidden"
+                                                                             animation="border"
+                                                                             variant="success"/>
+                                                                </div>
+                                                                <input id="cancel-button" type="reset" className="btn btn-secondary"
                                                                        value="Cancel"
                                                                        onClick={(event) => this.cancelSubmit(event)}/>
-                                                                <input type="button" className="btn btn-primary ms-2"
+                                                                <input id="save-button" type="button" className="btn btn-primary ms-2"
                                                                        value="Save Changes"
                                                                        onClick={(event) => this.handleSubmit(event)}/>
                                                             </div>
