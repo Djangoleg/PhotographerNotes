@@ -377,7 +377,7 @@ class BlogPage extends React.Component {
                         </div>
                     </section>
                 </main>
-                <ScrollToTop smooth color='#336666'/>
+                <ScrollToTop smooth color='#336666' className='scroll-to-top-up-100 '/>
             </div>
         )
     }

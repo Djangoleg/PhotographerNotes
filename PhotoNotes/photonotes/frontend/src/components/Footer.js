@@ -5,7 +5,7 @@ import moment from "moment";
 const Footer = () => {
 
     return (
-        <div className="footer fixed-bottom">
+        <div className="footer">
             <div className="d-block d-flex justify-content-between">
                 <a className="d-inline-block nav-link ms-5 ps-5" href={appPath.feedback}>
                     <img src="/img/feedback.png" alt="Feedback" />
