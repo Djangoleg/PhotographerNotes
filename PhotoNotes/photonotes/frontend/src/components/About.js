@@ -16,9 +16,9 @@ class AboutPage extends React.Component {
                 <div className="container-fluid d-flex align-items-center justify-content-between">
                     <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div className="row mb-5">
-                            <div className="container d-flex align-items-center col-12 col-md-3 col-lg-3">
-                                <img className="" src="/img/wfs-646x861.jpg" alt=""/>
-                            </div>
+                            {/*<div className="container d-flex align-items-center col-12 col-md-3 col-lg-3">*/}
+                            {/*    <img className="" src="/img/wfs-646x861.jpg" alt=""/>*/}
+                            {/*</div>*/}
                             <div
                                 className="container col-12 col-md-6 col-lg-5 mt-4 text-white text-center text-wrap">
                                 <h2 className="text-white">My photo notes</h2>
@@ -31,9 +31,9 @@ class AboutPage extends React.Component {
                                 <div>
                                     <a className="btn btn-primary mt-4 mb-5" href={appPath.feedback}>Feedback</a></div>
                             </div>
-                            <div className="container d-flex align-items-center col-12 col-md-3 col-lg-3">
-                                <img className="" src="/img/wf-646x861.jpg" alt=""/>
-                            </div>
+                            {/*<div className="container d-flex align-items-center col-12 col-md-3 col-lg-3">*/}
+                            {/*    <img className="" src="/img/wf-646x861.jpg" alt=""/>*/}
+                            {/*</div>*/}
                         </div>
                     </div>
                 </div>
