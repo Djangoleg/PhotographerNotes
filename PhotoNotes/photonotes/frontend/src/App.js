@@ -182,7 +182,7 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route path={appPath.about} element={
                         <>
-                            <div className="content bg-about">
+                            <div className="content bg-blog">
                                 <AboutPage/>
                             </div>
                             <Footer/>
