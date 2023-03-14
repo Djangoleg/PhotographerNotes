@@ -53,6 +53,8 @@ services:
       - 8443:8443
     depends_on:
       - backend
+    environment:
+      TZ: ${TIMEZONE}
   frontend:
     build: ./frontend
     restart: always
@@ -60,3 +62,5 @@ services:
       - 443:443
     depends_on:
       - nginx
+    environment:
+      TZ: ${TIMEZONE}
