@@ -6,22 +6,6 @@ from comments.models import Comments
 from users.models import User
 
 
-class UserNameRelatedField(SlugRelatedField):
-    slug_field = 'username'
-
-    def __init__(self, **kwargs):
-        kwargs['read_only'] = False
-        kwargs['queryset'] = User.objects.all()
-        super().__init__(self.slug_field, **kwargs)
-
-    def to_internal_value(self, value):
-        user = User.objects.filter(username=value)
-        if user and (len(user)) == 1:
-            return user.first()
-        else:
-            return None
-
-
 class RecursiveField(serializers.Serializer):
 
     def to_representation(self, value):
@@ -30,7 +14,7 @@ class RecursiveField(serializers.Serializer):
 
 class CommentModelSerializer(ModelSerializer):
     children = RecursiveField(many=True, read_only=True)
-    user = UserNameRelatedField()
+    user = SlugRelatedField(slug_field='username', read_only=True)
     note_owner = serializers.SerializerMethodField(source='get_note_owner')
 
     class Meta:
@@ -39,5 +23,3 @@ class CommentModelSerializer(ModelSerializer):
 
     def get_note_owner(self, obj):
         return obj.note.user.username
-
-
