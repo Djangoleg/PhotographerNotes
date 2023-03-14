@@ -53,6 +53,8 @@ class CommentViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         comment = self.perform_create(serializer)
         comment.ip_address = get_client_ip(request)
+        if not request.user.is_anonymous:
+            comment.user = request.user
         comment.save()
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
