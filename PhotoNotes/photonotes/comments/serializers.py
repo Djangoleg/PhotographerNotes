@@ -3,7 +3,6 @@ from rest_framework.relations import SlugRelatedField
 from rest_framework.serializers import ModelSerializer
 
 from comments.models import Comments
-from users.models import User
 
 
 class RecursiveField(serializers.Serializer):
