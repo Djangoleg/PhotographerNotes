@@ -140,10 +140,8 @@ class PhotoNotes extends React.Component {
                     }/>
                     <Route path={appPath.verify} element={
                         <>
-                            <div className="content">
-                                <div className="bg-blog position-fixed w-100">
-                                    <EmailVerification/>
-                                </div>
+                            <div className="content bg-blog">
+                                <EmailVerification/>
                             </div>
                             <Footer/>
                         </>

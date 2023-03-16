@@ -4,16 +4,18 @@ from django.db import models
 from users.models import User
 
 
+class MessageStatus(models.IntegerChoices):
+    NEW = 1, 'NEW'
+    SND = 2, 'SENDED'
+    ERR = 3, 'ERROR'
+
+
+class SenderType(models.IntegerChoices):
+    EMAIL = 1, 'EMAIL'
+    TLG = 2, 'TELEGRAM'
+
+
 class Message(models.Model):
-    class MessageStatus(models.IntegerChoices):
-        NEW = 1, 'NEW'
-        SND = 2, 'SENDED'
-        ERR = 3, 'ERROR'
-
-    class SenderType(models.IntegerChoices):
-        EMAIL = 1, 'EMAIL'
-        TLG = 2, 'TELEGRAM'
-
     created = models.DateTimeField(verbose_name='Сreated', auto_now_add=True, db_index=True)
     modified = models.DateTimeField(verbose_name='Modified', auto_now=True, db_index=True)
     type = models.PositiveSmallIntegerField(choices=SenderType.choices, default=SenderType.EMAIL)
