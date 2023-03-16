@@ -2,7 +2,6 @@ import hashlib
 import random
 from collections import OrderedDict
 
-from django.contrib import auth
 from django.core.mail import send_mail
 from django.http import JsonResponse
 
