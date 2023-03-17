@@ -34,6 +34,7 @@ services:
       #python3 manage.py migrate &&
       #python3 manage.py fill_test_users &&
       #python3 manage.py fill_db &&
+      #python3 manage.py fill_site &&
       #gunicorn --bind :2087 --workers 2 PhotoNotes.wsgi:application"
       bash -c "
       cd /usr/local/photonotes &&
