@@ -1,7 +1,3 @@
-from django.contrib.auth.models import AnonymousUser
-from django.core.mail import send_mail
-from django.shortcuts import render
-
 # Create your views here.
 from rest_framework import status
 from rest_framework.response import Response
@@ -10,18 +6,23 @@ from rest_framework.viewsets import ModelViewSet
 from PhotoNotes import settings
 from feedback.models import Feedback
 from feedback.serializers import FeedbackModelSerializer
+from messenger.message_sender import MessageSender
+from messenger.models import SenderType
 
 
 def send_feedback(feedback):
     """Send feedback to admin"""
-    subject = feedback.title
+    params = {'subject': feedback.title, 'recipient_list': [settings.EMAIL_HOST_USER]}
 
     if feedback.user:
-        message = f'Email: {feedback.user.email}\nCommunication: {feedback.communication}\n{feedback.body}'
+        body = f'Email: {feedback.user.email}\nCommunication: {feedback.communication}\n{feedback.body}'
+        params['user_pk'] = feedback.user.pk
     else:
-        message = f'Communication: {feedback.communication}\n{feedback.body}'
+        body = f'Communication: {feedback.communication}\n{feedback.body}'
 
-    return send_mail(subject, message, settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER], fail_silently=False)
+    params['body'] = body
+    message_sender = MessageSender(sender_type=SenderType.EMAIL, params=params)
+    return message_sender.send()
 
 
 class FeedbackViewSet(ModelViewSet):
@@ -39,6 +40,7 @@ class FeedbackViewSet(ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         feedback = self.perform_create(serializer)
-        send_feedback(feedback)
+        feedback.message = send_feedback(feedback)
+        feedback.save()
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

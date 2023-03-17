@@ -60,7 +60,7 @@ class EmailVerification extends React.Component {
                     <section className="section">
                         <div className="container">
                             <div className="col-lg-12 text-center mb-5">
-                                <h2>Email Verification</h2>
+                                <h2 className="text-white">Email Verification</h2>
                             </div>
                             <div className="col-12 mb-5 d-flex justify-content-center">
                                 <input id="verification_btn"

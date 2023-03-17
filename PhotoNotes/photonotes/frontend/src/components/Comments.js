@@ -45,7 +45,7 @@ const Reply = (props) => {
             body: text,
             note: parseInt(routeParams.id),
             user: username ? username : getCurrentUserName(),
-            anon_username: getCurrentUserName() ? null :  username,
+            anon_username: getCurrentUserName() ? null : username,
             parent: props.parent_id === undefined ? null : props.parent_id,
             children: []
         };
@@ -138,17 +138,18 @@ let Comment = (props) => {
     const [hidden, setHidden] = useState(false);
     const [hiddenCommentId, setHiddenCommentId] = useState(-1);
 
-    useEffect(() => {
-        const calcHidden = async () => {
-            if (((props.path.length > 4 && props.path.length % 2 === 0) ||
-                (props.path[props.path.length - 1] > 5)) && (hiddenCommentId !== props.id)) {
-                setHidden(true);
-            }
-        };
-
-        calcHidden().then(r => {
-        });
-    }, [props]);
+    // useEffect(() => {
+    //     const calcHidden = async () => {
+    //         if (((props.path.length > 4 && props.path.length % 2 === 0) ||
+    //             (props.path[props.path.length - 1] > 5)) && (hiddenCommentId !== props.id)) {
+    //             setHidden(true);
+    //         }
+    //
+    //     };
+    //
+    //     calcHidden().then(r => {
+    //     });
+    // }, [props]);
 
     const showDeleteButton = () => {
         if (getCurrentUserName() === props.note_owner) {
@@ -202,13 +203,13 @@ let Comment = (props) => {
               >
                       <div className="reply-link d-inline-block">reply</div>
               </span>
-              {showDeleteButton() ? (
-              <span
-                    className={`${compare(replying, props.path) ? "selected" : ""}`}
-                    onClick={() => {
-                        deleteComment(props.id);
-                    }}
-              >
+                                    {showDeleteButton() ? (
+                                        <span
+                                            className={`${compare(replying, props.path) ? "selected" : ""}`}
+                                            onClick={() => {
+                                                deleteComment(props.id);
+                                            }}
+                                        >
                     <div className="reply-link d-inline-block">delete</div>
               </span>) : null}
 
@@ -230,7 +231,6 @@ let Comment = (props) => {
                 )}
             </div>
         </div>
-
     );
 }
 
@@ -307,12 +307,12 @@ class Comments extends React.Component {
                 headers: headers,
             }).then(response => {
 
-                if (response.data.is_forbidden) {
-                    $('#add-comment-message').html(`${response.data.message}`).css('color', '#ff606e');
-                    return;
-                }
+            if (response.data.is_forbidden) {
+                $('#add-comment-message').html(`${response.data.message}`).css('color', '#ff606e');
+                return;
+            }
 
-                this.getComments();
+            this.getComments();
         }).catch(error => {
             console.log(error);
             alert('Added comment error!');
