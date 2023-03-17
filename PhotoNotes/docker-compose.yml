@@ -40,7 +40,6 @@ services:
       cd /usr/local/photonotes &&
       python3 manage.py makemigrations && 
       python3 manage.py migrate &&
-      python3 manage.py fill_site &&
       gunicorn --bind :2087 --workers 2 PhotoNotes.wsgi:application"
     depends_on:
       - db
