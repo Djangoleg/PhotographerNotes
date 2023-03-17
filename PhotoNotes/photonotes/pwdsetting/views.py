@@ -1,7 +1,6 @@
 from collections import OrderedDict
 
 # Create your views here.
-from django.core.mail import send_mail
 from django.http import JsonResponse
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -10,6 +9,8 @@ from rest_framework.reverse import reverse
 from rest_framework.viewsets import ModelViewSet
 
 from PhotoNotes import settings
+from messenger.message_sender import MessageSender
+from messenger.models import SenderType
 from pwdsetting.models import PwdActions
 from pwdsetting.serializers import PwdActionsSerializer
 from users.models import UserProfile
@@ -18,7 +19,16 @@ from users.models import UserProfile
 def send_pwd_link(pwd_action):
     pwd_link = reverse('checkkey', args=[pwd_action.hash_key])
     subject, message = 'link to change your password', f'{settings.DOMAIN_NAME}{pwd_link}'
-    send_mail(subject, message, settings.EMAIL_HOST_USER, [pwd_action.email], fail_silently=False)
+
+    params = {'subject': subject,
+              'body': message,
+              'recipient_list': [pwd_action.email]}
+
+    if pwd_action.user:
+        params['user_pk'] = pwd_action.user.pk
+
+    message_sender = MessageSender(sender_type=SenderType.EMAIL, params=params)
+    return message_sender.send()
 
 
 def check_hash_key(request, hash_key):

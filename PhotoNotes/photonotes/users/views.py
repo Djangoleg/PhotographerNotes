@@ -2,8 +2,6 @@ import hashlib
 import random
 from collections import OrderedDict
 
-from django.contrib import auth
-from django.core.mail import send_mail
 from django.http import JsonResponse
 
 # Create your views here.
@@ -15,6 +13,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from PhotoNotes import settings
 from PhotoNotes.settings import ALLOW_REGISTRATION_NEW_USERS
+from messenger.message_sender import MessageSender
+from messenger.models import SenderType
 from users.models import User, UserProfile
 from users.serializers import UserModelSerializer, UserProfileModelSerializer
 from rest_framework.authtoken.models import Token
@@ -63,7 +63,12 @@ class UserViewSet(ModelViewSet):
         verify_link = reverse('verify', args=[user.username, user.activation_key])
         subject = f'To activate the {user.username} account follow the link'
         message = f'To verify the {user.username} account on the portal \n {settings.DOMAIN_NAME}{verify_link}'
-        return send_mail(subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+
+        message_sender = MessageSender(sender_type=SenderType.EMAIL, params={'subject': subject,
+                                                                             'body': message,
+                                                                             'recipient_list': [user.email],
+                                                                             'user_pk': user.pk})
+        return message_sender.send()
 
     def verify(self, username, activation_key):
         """Check that the key in the link matches the key in the database and 48 hours have not passed"""
