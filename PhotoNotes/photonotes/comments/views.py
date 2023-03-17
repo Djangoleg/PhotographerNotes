@@ -14,11 +14,6 @@ from messenger.message_sender import MessageSender
 from messenger.models import SenderType
 
 
-def send_message(params):
-    message_sender = MessageSender(sender_type=SenderType.EMAIL, params=params)
-    message_sender.send()
-
-
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -87,8 +82,10 @@ class CommentViewSet(ModelViewSet):
             params['subject'] = subject
             params['body'] = message
 
+            message_sender = MessageSender(sender_type=SenderType.EMAIL, params=params)
+
             # Its work, but need to think - is this normal?
-            thread = Thread(target=send_message, args=(params,))
+            thread = Thread(target=message_sender.send)
             thread.start()
 
         headers = self.get_success_headers(serializer.data)
