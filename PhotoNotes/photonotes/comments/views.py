@@ -1,7 +1,7 @@
 from collections import OrderedDict
+from threading import Thread
 
-# Create your views here.
-# CommentViewSet
+from django.contrib.sites.models import Site
 from mptt.templatetags.mptt_tags import cache_tree_children
 from rest_framework import status
 from rest_framework.response import Response
@@ -10,6 +10,13 @@ from rest_framework.viewsets import ModelViewSet
 from PhotoNotes.settings import ALLOW_ANONYMOUS_COMMENTS
 from comments.models import Comments
 from comments.serializers import CommentModelSerializer
+from messenger.message_sender import MessageSender
+from messenger.models import SenderType
+
+
+def send_message(params):
+    message_sender = MessageSender(sender_type=SenderType.EMAIL, params=params)
+    message_sender.send()
 
 
 def get_client_ip(request):
@@ -21,11 +28,12 @@ def get_client_ip(request):
     return ip
 
 
+# CommentViewSet
 class CommentViewSet(ModelViewSet):
     queryset = Comments.objects.all()
     serializer_class = CommentModelSerializer
 
-    def list(self, request):
+    def list(self, request, *args, **kwargs):
         note_id = self.request.query_params.get('note_id')
         if note_id:
             tree = cache_tree_children(Comments.objects.filter(level=0, note_id=note_id).order_by('-created'))
@@ -53,9 +61,36 @@ class CommentViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         comment = self.perform_create(serializer)
         comment.ip_address = get_client_ip(request)
-        if not request.user.is_anonymous:
-            comment.user = request.user
+
+        request_user = None if request.user.is_anonymous else request.user
+        if request_user:
+            comment.user = request_user
         comment.save()
+
+        # Do not send a message if commenting to himself.
+        if request_user != comment.note.user:
+            params = {'recipient_list': [comment.note.user.email]}
+
+            if request_user:
+                params['user_pk'] = request_user.pk
+
+            subject = f'A comment has been added to your entry "{comment.note.title}"'
+
+            if comment.user:
+                comment_user_name = comment.user.first_name
+            else:
+                comment_user_name = comment.anon_username
+
+            message = f'{Site.objects.get_current().domain}/note/view/{comment.note.pk}\nComment ' \
+                      f'from "{comment_user_name}":\n{comment.body}\n'
+
+            params['subject'] = subject
+            params['body'] = message
+
+            # Its work, but need to think - is this normal?
+            thread = Thread(target=send_message, args=(params,))
+            thread.start()
+
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
