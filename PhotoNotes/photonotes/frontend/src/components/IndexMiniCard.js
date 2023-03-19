@@ -2,6 +2,7 @@ import React from 'react';
 import axios from "axios";
 import url from "./AppURL";
 import Moment from "moment/moment";
+import Auth from "./Authentication";
 
 const IndexMiniCardsItem = ({card}) => {
     return (
@@ -12,7 +13,7 @@ const IndexMiniCardsItem = ({card}) => {
                 </a>
 
                 <h3 className="text-center post-title-card mt-1"><a className="text-white"
-                                                        href={`/note/view/${card.id}`}>{card.title}</a></h3>
+                                                                    href={`/note/view/${card.id}`}>{card.title}</a></h3>
 
                 <div className="text-center text-muted letter-spacing text-uppercase font-sm text-white-50">
                     {Moment(card.created).format('LLL')}
@@ -32,15 +33,18 @@ class IndexMiniCards extends React.Component {
 
     componentDidMount() {
 
-        axios.get(`${url.get()}/api/minicards/`)
-            .then(response => {
-                const cards = response.data
-                this.setState(
-                    {
-                        cards: cards
-                    }
-                )
-            }).catch(error => console.log(error))
+        let headers = Auth.getHeaders();
+
+        axios.get(`${url.get()}/api/minicards/`, {
+            headers: headers,
+        }).then(response => {
+            const cards = response.data
+            this.setState(
+                {
+                    cards: cards
+                }
+            )
+        }).catch(error => console.log(error))
     }
 
     render() {

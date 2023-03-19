@@ -13,7 +13,9 @@ class PhotoNotes(models.Model):
     imageminicard = models.ImageField(verbose_name='Image mini cards', upload_to='post_photo', blank=True)
     photo_comment = models.TextField(verbose_name='Comment')
     user = models.ForeignKey(User, verbose_name='User', null=False, db_index=True, on_delete=models.CASCADE)
-    pinned = models.BooleanField(verbose_name='Pinned', default=False, db_index=True)
+    is_pinned = models.BooleanField(verbose_name='Pinned', default=False)
+    is_private = models.BooleanField(verbose_name='Private', default=False)
+    is_hide_minicard = models.BooleanField(verbose_name='Hide mini card', default=False)
 
 
 class PhotoNotesTags(models.Model):

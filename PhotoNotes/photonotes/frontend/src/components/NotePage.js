@@ -116,15 +116,18 @@ class NotePage extends React.Component {
 
         let noteUrl = `${url.get()}/api/notes/?note_id=${noteId}`;
 
-        axios.get(noteUrl)
-            .then(response => {
-                const note = response.data
-                this.setState(
-                    {
-                        note: note.results[0]
-                    }
-                )
-            }).catch(error => console.log(error))
+        let headers = Auth.getHeaders();
+
+        axios.get(noteUrl, {
+            headers: headers,
+        }).then(response => {
+            const note = response.data
+            this.setState(
+                {
+                    note: note.results[0]
+                }
+            )
+        }).catch(error => console.log(error))
     }
 
     setPageData(tag, page) {
