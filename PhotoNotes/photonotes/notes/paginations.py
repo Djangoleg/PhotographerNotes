@@ -1,6 +1,6 @@
 from collections import OrderedDict
 
-from django.db.models import Count
+from django.db.models import Count, Q
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
@@ -15,8 +15,14 @@ class CustomPagination(PageNumberPagination):
     page_query_param = 'p'
 
     def get_paginated_response(self, data):
+        if self.request.user.is_anonymous:
+            tags = PhotoNotesTags.objects.filter(Q(note__is_private=False)).\
+                values('value').annotate(total=Count('value')).order_by('total')
+        else:
+            tags = PhotoNotesTags.objects.filter(Q(note__is_private=False) |
+                                                 Q(note__is_private=True, note__user=self.request.user)). \
+                values('value').annotate(total=Count('value')).order_by('total')
 
-        tags = PhotoNotesTags.objects.all().values('value').annotate(total=Count('value')).order_by('total')
         users = PhotoNotes.objects.all().values('user__username').annotate(total=Count('id')).order_by('user__username')
         paginator = {
             'count': self.page.paginator.count,
