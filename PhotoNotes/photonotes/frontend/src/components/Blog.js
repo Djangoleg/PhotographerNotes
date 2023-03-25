@@ -298,7 +298,11 @@ class BlogPage extends React.Component {
             blogUrl += '?user=' + this.state.selectedUser;
         }
 
-        axios.get(blogUrl).then(response => {
+        let headers = Auth.getHeaders();
+
+        axios.get(blogUrl, {
+            headers: headers,
+        }).then(response => {
             const notes = response.data
             this.setState(
                 {

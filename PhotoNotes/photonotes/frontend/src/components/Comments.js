@@ -266,16 +266,19 @@ class Comments extends React.Component {
 
         let commentsUrl = `${url.get()}/api/comments/?note_id=${id}`;
 
-        axios.get(commentsUrl)
-            .then(response => {
-                const comments = response.data
-                this.setState(
-                    {
-                        comments: comments.results,
-                        count: comments.count
-                    }
-                )
-            }).catch(error => console.log(error))
+        let headers = Auth.getHeaders();
+
+        axios.get(commentsUrl, {
+            headers: headers,
+        }).then(response => {
+            const comments = response.data
+            this.setState(
+                {
+                    comments: comments.results,
+                    count: comments.count
+                }
+            )
+        }).catch(error => console.log(error))
     }
 
     componentDidMount() {

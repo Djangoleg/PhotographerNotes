@@ -122,24 +122,25 @@ class UseProfile extends React.Component {
 
         if (profileId) {
 
-            Auth.getTokenFromStorage();
+            let headers = Auth.getHeaders();
             let profileUrl = `${url.get()}/api/profile/?id=${profileId}`;
-            axios.get(`${profileUrl}`)
-                .then(response => {
-                    let profile = response.data;
-                    if (profile.length > 0) {
-                        profile = profile[0];
-                        this.setState(
-                            {
-                                image: profile.image,
-                                firstname: profile.user.first_name,
-                                lastname: profile.user.last_name,
-                                info: profile.info,
-                                username: profile.user.username
-                            }
-                        )
-                    }
-                }).catch(error => console.log(error))
+            axios.get(`${profileUrl}`, {
+                headers: headers,
+            }).then(response => {
+                let profile = response.data;
+                if (profile.length > 0) {
+                    profile = profile[0];
+                    this.setState(
+                        {
+                            image: profile.image,
+                            firstname: profile.user.first_name,
+                            lastname: profile.user.last_name,
+                            info: profile.info,
+                            username: profile.user.username
+                        }
+                    )
+                }
+            }).catch(error => console.log(error))
         }
     }
 
@@ -267,10 +268,12 @@ class UseProfile extends React.Component {
                                                                              animation="border"
                                                                              variant="success"/>
                                                                 </div>
-                                                                <input id="cancel-button" type="reset" className="btn btn-secondary"
+                                                                <input id="cancel-button" type="reset"
+                                                                       className="btn btn-secondary"
                                                                        value="Cancel"
                                                                        onClick={(event) => this.cancelSubmit(event)}/>
-                                                                <input id="save-button" type="button" className="btn btn-primary ms-2"
+                                                                <input id="save-button" type="button"
+                                                                       className="btn btn-primary ms-2"
                                                                        value="Save Changes"
                                                                        onClick={(event) => this.handleSubmit(event)}/>
                                                             </div>
