@@ -213,7 +213,7 @@ if os.name == 'posix':
 LOW_CACHE = True
 
 # Cash identification value.
-CACHE_NOTES_KEY = 'notes_key'
+# CACHE_NOTES_KEY = 'notes_key'
 CACHE_MINICARDS_NOTES_KEY = 'minicard_key'
 
 # Time in seconds of the life cache for notes.
