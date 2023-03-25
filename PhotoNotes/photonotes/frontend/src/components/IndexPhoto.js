@@ -2,6 +2,7 @@ import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 import axios from "axios";
 import url from "./AppURL";
+import Auth from "./Authentication";
 
 class IndexPhoto extends React.Component {
     constructor(props) {
@@ -13,15 +14,18 @@ class IndexPhoto extends React.Component {
 
     componentDidMount() {
 
-        axios.get(`${url.get()}/api/carousel/`)
-            .then(response => {
-                const carousel = response.data
-                this.setState(
-                    {
-                        carousel: carousel
-                    }
-                )
-            }).catch(error => console.log(error))
+        let headers = Auth.getHeaders();
+
+        axios.get(`${url.get()}/api/carousel/`, {
+            headers: headers,
+        }).then(response => {
+            const carousel = response.data
+            this.setState(
+                {
+                    carousel: carousel
+                }
+            )
+        }).catch(error => console.log(error))
     }
 
     render() {

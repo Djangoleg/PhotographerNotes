@@ -17,7 +17,9 @@ class EditNoteForm extends React.Component {
             comment: '',
             image: null,
             selectedFile: null,
-            pinned: '',
+            is_pinned: '',
+            is_private: '',
+            is_hide_minicard: '',
             tags: [],
             tagsWasChanged: false
         };
@@ -28,21 +30,24 @@ class EditNoteForm extends React.Component {
         let noteId = this.props.params.id;
 
         if (noteId) {
-            Auth.getTokenFromStorage();
+            let headers = Auth.getHeaders();
             let notesUrl = `${url.get()}/api/notes/?note_id=${noteId}`;
-            axios.get(`${notesUrl}`)
-                .then(response => {
-                    const note = response.data.results[0];
-                    this.setState(
-                        {
-                            title: note.title,
-                            comment: note.photo_comment,
-                            image: note.image,
-                            tags: note.tags,
-                            pinned: note.pinned
-                        }
-                    )
-                }).catch(error => console.log(error))
+            axios.get(`${notesUrl}`, {
+                headers: headers,
+            }).then(response => {
+                const note = response.data.results[0];
+                this.setState(
+                    {
+                        title: note.title,
+                        comment: note.photo_comment,
+                        image: note.image,
+                        tags: note.tags,
+                        is_pinned: note.is_pinned,
+                        is_private: note.is_private,
+                        is_hide_minicard: note.is_hide_minicard
+                    }
+                )
+            }).catch(error => console.log(error))
         }
     }
 
@@ -60,6 +65,23 @@ class EditNoteForm extends React.Component {
             $("#noFile").text("No file chosen...");
         }
     };
+
+    handleChangePrivate = (event) => {
+        let value = event.target.checked;
+
+        this.setState(
+            {
+                [event.target.name]: value,
+                is_hide_minicard: false
+            }
+        );
+
+        if (value) {
+            $('#is_hide_minicard').attr("disabled", true);
+        } else {
+            $('#is_hide_minicard').removeAttr("disabled");
+        }
+    }
 
     handleChange = (event) => {
         let value = event.target.value;
@@ -110,7 +132,9 @@ class EditNoteForm extends React.Component {
             data.append('image', this.state.selectedFile);
         }
 
-        data.append('pinned', this.state.pinned);
+        data.append('is_pinned', this.state.is_pinned);
+        data.append('is_private', this.state.is_private);
+        data.append('is_hide_minicard', this.state.is_hide_minicard);
 
         if (this.props.params.id) {
             // Edit note.
@@ -231,10 +255,33 @@ class EditNoteForm extends React.Component {
                                         <div className="form-group row">
                                             <label className="col-lg-3 col-form-label form-control-label">Pinned</label>
                                             <div className="col-lg-9">
-                                                <input className="form-check-input" id="pinned" name="pinned"
+                                                <input className="form-check-input" id="is_pinned" name="is_pinned"
                                                        type="checkbox"
-                                                       checked={this.state.pinned}
+                                                       checked={this.state.is_pinned}
                                                        onChange={(event) => this.handleChange(event)}
+                                                />
+                                            </div>
+                                            <label
+                                                className="col-lg-3 col-form-label form-control-label">Private</label>
+                                            <div className="col-lg-9">
+                                                <input className="form-check-input" id="is_private" name="is_private"
+                                                       type="checkbox"
+                                                       checked={this.state.is_private}
+                                                       onChange={(event) => this.handleChangePrivate(event)}
+                                                />
+                                            </div>
+                                            <label id="is_hide_minicard_label"
+                                                   name="is_hide_minicard_label"
+                                                   className={this.state.is_private ? "col-lg-3 col-form-label form-control-label text-muted" :
+                                                        "col-lg-3 col-form-label form-control-label"}>Hide mini
+                                                card</label>
+                                            <div className="col-lg-9">
+                                                <input className="form-check-input" id="is_hide_minicard"
+                                                       name="is_hide_minicard"
+                                                       type="checkbox"
+                                                       checked={this.state.is_hide_minicard}
+                                                       onChange={(event) => this.handleChange(event)}
+                                                       disabled={this.state.is_private}
                                                 />
                                             </div>
                                         </div>

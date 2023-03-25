@@ -10,16 +10,16 @@ from notes.models import PhotoNotes
 
 
 class MiniCardsViewSet(ModelViewSet):
-    queryset = PhotoNotes.objects.all().order_by('-created')
+    queryset = PhotoNotes.objects.filter(is_private=False, is_hide_minicard=False).order_by('-created')
     serializer_class = MiniCardsSerializer
     http_method_names = ['get', 'head']
 
     def list(self, request, *args, **kwargs):
         if settings.LOW_CACHE:
-            data = cache.get(settings.CACHE_NOTES_KEY)
+            data = cache.get(settings.CACHE_MINICARDS_NOTES_KEY)
             if not data:
                 data = self.filter_queryset(self.get_queryset())
-                cache.set(settings.CACHE_NOTES_KEY, data, settings.CACHE_NOTES_TIME)
+                cache.set(settings.CACHE_MINICARDS_NOTES_KEY, data, settings.CACHE_NOTES_TIME)
         else:
             data = self.filter_queryset(self.get_queryset())
 
