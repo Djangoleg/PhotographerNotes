@@ -7,40 +7,38 @@ import Modal from "react-bootstrap/Modal";
 import {useNavigate} from "react-router-dom";
 import appPath from "./AppPath";
 
-const DeleteNoteModal = ({note, setPageData}) => {
+const DeleteUserModal = () => {
     const navigate = useNavigate();
+    let auth = Auth;
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
     const handleDelete = () => {
-        let headers = Auth.getHeaders();
-        axios.delete(`${url.get()}/api/notes/${note.id}/`, {
+        let headers = auth.getHeaders();
+        let apiUrl = `${url.get()}/api/users/${auth.profile}/`;
+        axios.delete(apiUrl, {
             headers: headers,
         }).then(() => {
             setShow(false);
-            setPageData('', '', '');
-            if (window.location.pathname.includes('blog')) {
-                window.location.reload();
-            } else {
-                navigate(appPath.blog);
-            }
+            navigate(appPath.index);
         }).catch(error => {
             setShow(false);
             console.log(error);
-            alert('Error delete note!');
+            alert('Error delete user!');
         });
     }
 
     return (
         <div className="d-inline-block">
-            <Button type="submit" className="btn btn-primary ms-1" onClick={handleShow}>
-                Delete
-            </Button>
+            <input type="button"
+                   className="btn btn-danger ms-2"
+                   value="Delete user"
+                   onClick={handleShow}/>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Deleting a note</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Note "{note.title}" will be deleted!</Modal.Body>
+                <Modal.Body>User "{auth.username}" will be deleted!</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
@@ -54,4 +52,4 @@ const DeleteNoteModal = ({note, setPageData}) => {
     );
 }
 
-export default DeleteNoteModal;
+export default DeleteUserModal;

@@ -6,6 +6,7 @@ import $ from "jquery";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import withParams from "./ComponentWithParams";
+import DeleteUserModal from "./DeleteUserModal";
 
 class UseProfile extends React.Component {
     constructor(props) {
@@ -289,6 +290,7 @@ class UseProfile extends React.Component {
                                                                        className="btn btn-secondary"
                                                                        value="Cancel"
                                                                        onClick={(event) => this.cancelSubmit(event)}/>
+                                                                <DeleteUserModal/>
                                                                 <input id="save-button" type="button"
                                                                        className="btn btn-primary ms-2"
                                                                        value="Save Changes"
