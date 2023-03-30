@@ -16,7 +16,8 @@ class UseProfile extends React.Component {
             firstname: '',
             lastname: '',
             username: '',
-            edit: false
+            edit: false,
+            receive_email_notify: ''
         }
     }
 
@@ -73,6 +74,7 @@ class UseProfile extends React.Component {
         let data = new FormData();
         data.append('firstname', this.state.firstname);
         data.append('lastname', this.state.lastname);
+        data.append('receive_email_notify', this.state.receive_email_notify);
         if (this.state.selectedFile) {
             data.append('image', this.state.selectedFile);
         }
@@ -136,7 +138,8 @@ class UseProfile extends React.Component {
                             firstname: profile.user.first_name,
                             lastname: profile.user.last_name,
                             info: profile.info,
-                            username: profile.user.username
+                            username: profile.user.username,
+                            receive_email_notify: profile.receive_email_notify
                         }
                     )
                 }
@@ -254,6 +257,20 @@ class UseProfile extends React.Component {
                                                                 <div className="invalid-feedback">Info field cannot be
                                                                     blank!
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                        <br/>
+                                                        <div className="form-group row">
+                                                            <label
+                                                                className="col-lg-3 col-form-label form-control-label">Receive
+                                                                    email notifications</label>
+                                                            <div className="col-lg-9">
+                                                                <input className="form-check-input mt-2 mb-2" id="receive_email_notify"
+                                                                       name="receive_email_notify"
+                                                                       type="checkbox"
+                                                                       checked={this.state.receive_email_notify}
+                                                                       onChange={(event) => this.handleChange(event)}
+                                                                />
                                                             </div>
                                                         </div>
 
