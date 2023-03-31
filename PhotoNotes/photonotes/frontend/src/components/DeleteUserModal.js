@@ -4,43 +4,39 @@ import axios from "axios";
 import url from "./AppURL";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import {useNavigate} from "react-router-dom";
 import appPath from "./AppPath";
 
-const DeleteButton = ({note, setPageData}) => {
-    const navigate = useNavigate();
+const DeleteUserModal = () => {
+    let auth = Auth;
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
     const handleDelete = () => {
-        let headers = Auth.getHeaders();
-        axios.delete(`${url.get()}/api/notes/${note.id}/`, {
+        let headers = auth.getHeaders();
+        let apiUrl = `${url.get()}/api/users/${auth.user}/`;
+        axios.delete(apiUrl, {
             headers: headers,
         }).then(() => {
             setShow(false);
-            setPageData('', '', '');
-            if (window.location.pathname.includes('blog')) {
-                window.location.reload();
-            } else {
-                navigate(appPath.blog);
-            }
+            auth.logoutWithRedirect(appPath.index);
         }).catch(error => {
             setShow(false);
             console.log(error);
-            alert('Error change or create note!');
+            alert('Error delete user!');
         });
     }
 
     return (
         <div className="d-inline-block">
-            <Button type="submit" className="btn btn-primary ms-1" onClick={handleShow}>
-                Delete
-            </Button>
+            <input type="button"
+                   className="btn btn-danger ms-2"
+                   value="Delete user"
+                   onClick={handleShow}/>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Deleting a note</Modal.Title>
+                    <Modal.Title>Deleting a user</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Note "{note.title}" will be deleted!</Modal.Body>
+                <Modal.Body>User "{auth.username}" will be deleted! All notes will also be deleted.</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
@@ -54,4 +50,4 @@ const DeleteButton = ({note, setPageData}) => {
     );
 }
 
-export default DeleteButton;
+export default DeleteUserModal;
