@@ -4,23 +4,21 @@ import axios from "axios";
 import url from "./AppURL";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import {useNavigate} from "react-router-dom";
 import appPath from "./AppPath";
 
 const DeleteUserModal = () => {
-    const navigate = useNavigate();
     let auth = Auth;
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     const handleClose = () => setShow(false);
     const handleDelete = () => {
         let headers = auth.getHeaders();
-        let apiUrl = `${url.get()}/api/users/${auth.profile}/`;
+        let apiUrl = `${url.get()}/api/users/${auth.user}/`;
         axios.delete(apiUrl, {
             headers: headers,
         }).then(() => {
             setShow(false);
-            navigate(appPath.index);
+            auth.logoutWithRedirect(appPath.index);
         }).catch(error => {
             setShow(false);
             console.log(error);
@@ -36,9 +34,9 @@ const DeleteUserModal = () => {
                    onClick={handleShow}/>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Deleting a note</Modal.Title>
+                    <Modal.Title>Deleting a user</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>User "{auth.username}" will be deleted!</Modal.Body>
+                <Modal.Body>User "{auth.username}" will be deleted! All notes will also be deleted.</Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
