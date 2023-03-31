@@ -2,6 +2,7 @@ import hashlib
 import random
 from collections import OrderedDict
 
+from django.core.cache import cache
 from django.http import JsonResponse
 
 # Create your views here.
@@ -23,7 +24,7 @@ from rest_framework.authtoken.models import Token
 class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserModelSerializer
-    http_method_names = ['post', 'head']
+    http_method_names = ['post', 'head', 'delete']
 
     def create(self, request, *args, **kwargs):
 
@@ -57,6 +58,15 @@ class UserViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         return serializer.save()
+
+    def perform_destroy(self, instance):
+        if self.request.user.is_anonymous:
+            raise Exception('Destroy user is prohibited!')
+        if self.request.user.pk != instance.pk:
+            raise Exception('Destroy user is prohibited!')
+        if settings.LOW_CACHE:
+            cache.delete(settings.CACHE_MINICARDS_NOTES_KEY)
+        instance.delete()
 
     def send_verify_link(self, user):
         """Send an email with a link to activate your profile"""
@@ -130,5 +140,6 @@ class CustomAuthToken(ObtainAuthToken):
         return Response({
             'token': token.key,
             'profile_id': profile.pk,
+            'user_id': user.pk,
             'firstname': user.first_name
         })

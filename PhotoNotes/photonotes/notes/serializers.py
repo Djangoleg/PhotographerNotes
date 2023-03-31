@@ -53,6 +53,7 @@ class PhotoNoteModelSerializer(ModelSerializer):
         image = Image.open(file_content)
         check_and_resize_image_if_need(image, max_image_size=MAX_IMAGE_SIZE)
         trans_image = ImageOps.exif_transpose(image)
+        trans_image = trans_image.convert('RGB')
 
         validated_data['image'] = get_memory_upload_file(trans_image, image_name, raw_image.content_type, 'image')
 

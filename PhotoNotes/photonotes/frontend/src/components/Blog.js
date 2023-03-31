@@ -7,7 +7,7 @@ import url from "./AppURL";
 import '../blog.css';
 import Pagination from 'react-bootstrap/Pagination';
 import appPath from "./AppPath";
-import DeleteButton from "./DeleteButton";
+import DeleteNoteModal from "./DeleteNoteModal";
 import EditButton from "./EditButton";
 import withParams from "./ComponentWithParams";
 import Viewer from 'react-viewer';
@@ -93,7 +93,7 @@ const PhotoNotesItem = ({note, index}) => {
                         <div><a href={`/note/view/${note.id}`}>Comments {note.comments_number}</a></div>
                     </div>
                     <div className="d-flex justify-content-end">
-                        {showControlButtons() ? <DeleteButton note={note} setPageData={setPageData}/> : null}
+                        {showControlButtons() ? <DeleteNoteModal note={note} setPageData={setPageData}/> : null}
                         {showControlButtons() ? <EditButton noteId={note.id}/> : null}
                     </div>
                 </article>

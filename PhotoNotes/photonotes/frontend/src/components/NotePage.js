@@ -5,7 +5,7 @@ import Moment from "moment/moment";
 import Comments from "./Comments";
 import BackButton from "./BackButton";
 import Auth from "./Authentication";
-import DeleteButton from "./DeleteButton";
+import DeleteNoteModal from "./DeleteNoteModal";
 import EditButton from "./EditButton";
 import withParams from "./ComponentWithParams";
 import appPath from "./AppPath";
@@ -88,7 +88,7 @@ const Note = ({note}) => {
                         <p className="card-text m-3">{note.photo_comment}</p>
                     </div>
                     <div className="d-flex justify-content-end">
-                        {showControlButtons() ? <DeleteButton note={note} setPageData={setPageData}/> : null}
+                        {showControlButtons() ? <DeleteNoteModal note={note} setPageData={setPageData}/> : null}
                         {showControlButtons() ? <EditButton noteId={note.id}/> : null}
                         <BackButton/>
                     </div>

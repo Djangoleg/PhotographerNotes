@@ -29,7 +29,7 @@ class UserProfileModelSerializer(ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('id', 'user', 'image', 'info')
+        fields = ('id', 'user', 'image', 'info', 'receive_email_notify')
 
     def update(self, instance, validated_data):
         request = self.context.get('request')
@@ -38,6 +38,7 @@ class UserProfileModelSerializer(ModelSerializer):
         user.last_name = request.data.get('lastname', user.last_name)
         user.save()
         instance.user = user
+        instance.receive_email_notify = validated_data.get('receive_email_notify', instance.receive_email_notify)
 
         raw_image = validated_data.get('image', instance.image)
         instance.image = raw_image

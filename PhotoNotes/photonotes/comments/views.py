@@ -12,6 +12,7 @@ from comments.models import Comments
 from comments.serializers import CommentModelSerializer
 from messenger.message_sender import MessageSender
 from messenger.models import SenderType
+from users.models import UserProfile
 
 
 def get_client_ip(request):
@@ -62,31 +63,34 @@ class CommentViewSet(ModelViewSet):
             comment.user = request_user
         comment.save()
 
-        # Do not send a message if commenting to himself.
         if request_user != comment.note.user:
-            params = {'recipient_list': [comment.note.user.email]}
+            profile = UserProfile.objects.get(user=comment.note.user)
 
-            if request_user:
-                params['user_pk'] = request_user.pk
+            if profile.receive_email_notify:
 
-            subject = f'A comment has been added to your entry "{comment.note.title}"'
+                params = {'recipient_list': [comment.note.user.email]}
 
-            if comment.user:
-                comment_user_name = comment.user.first_name
-            else:
-                comment_user_name = comment.anon_username
+                if request_user:
+                    params['user_pk'] = request_user.pk
 
-            message = f'{Site.objects.get_current().domain}/note/view/{comment.note.pk}\nComment ' \
-                      f'from "{comment_user_name}":\n{comment.body}\n'
+                subject = f'A comment has been added to your entry "{comment.note.title}"'
 
-            params['subject'] = subject
-            params['body'] = message
+                if comment.user:
+                    comment_user_name = comment.user.first_name
+                else:
+                    comment_user_name = comment.anon_username
 
-            message_sender = MessageSender(sender_type=SenderType.EMAIL, params=params)
+                message = f'{Site.objects.get_current().domain}/note/view/{comment.note.pk}\nComment ' \
+                          f'from "{comment_user_name}":\n{comment.body}\n'
 
-            # Its work, but need to think - is this normal?
-            thread = Thread(target=message_sender.send)
-            thread.start()
+                params['subject'] = subject
+                params['body'] = message
+
+                message_sender = MessageSender(sender_type=SenderType.EMAIL, params=params)
+
+                # Its work, but need to think - is this normal?
+                thread = Thread(target=message_sender.send)
+                thread.start()
 
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
