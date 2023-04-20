@@ -1,5 +1,3 @@
-import os
-
 from PIL import Image, ImageOps
 from django.core.files.base import ContentFile
 from rest_framework import serializers
@@ -9,6 +7,7 @@ from rest_framework.utils import json
 
 from PhotoNotes.settings import MAX_IMAGE_SIZE, MAX_MINICARD_SIZE
 from comments.models import Comments
+from likes.models import PhotoNotesLikes
 from notes.models import PhotoNotes, PhotoNotesTags
 from users.models import User, UserProfile
 from notes.imagehelper import crop_to_aspect, check_and_resize_image_if_need, get_memory_upload_file, \
@@ -21,11 +20,15 @@ class PhotoNoteModelSerializer(ModelSerializer):
     username = serializers.SerializerMethodField(source='get_username', read_only=True)
     user_firstname = serializers.SerializerMethodField(source='get_user_firstname', read_only=True)
     profile_id = serializers.SerializerMethodField(source='get_profile_id', read_only=True)
+    likes_number = serializers.SerializerMethodField(source='get_likes_number', read_only=True)
 
     class Meta:
         model = PhotoNotes
         fields = ('id', 'created', 'username', 'user_firstname', 'profile_id', 'title', 'image', 'photo_comment',
-                  'tags', 'comments_number', 'is_pinned', 'is_private', 'is_hide_minicard',)
+                  'tags', 'comments_number', 'is_pinned', 'is_private', 'is_hide_minicard', 'likes_number',)
+
+    def get_likes_number(self, obj):
+        return PhotoNotesLikes.objects.filter(note=obj).count()
 
     def get_profile_id(self, obj):
         return UserProfile.objects.get(user=obj.user).pk

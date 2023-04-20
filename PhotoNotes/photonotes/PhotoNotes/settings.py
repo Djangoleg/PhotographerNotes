@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'minicards',
     'pwdsetting',
     'messenger',
+    'likes',
 ]
 
 SITE_ID = 1

@@ -90,7 +90,10 @@ const PhotoNotesItem = ({note, index}) => {
                             </li>
                         </ul>
                         <p className="card-text m-3">{note.photo_comment}</p>
-                        <div><a href={`/note/view/${note.id}`}>Comments {note.comments_number}</a></div>
+                        <div className="d-flex justify-content-between">
+                            <a className="d-inline-block" href={`/note/view/${note.id}`}>Comments {note.comments_number}</a>
+                            <a className="d-inline-block" onClick={() => {  }}> Like {note.likes_number}</a>
+                        </div>
                     </div>
                     <div className="d-flex justify-content-end">
                         {showControlButtons() ? <DeleteNoteModal note={note} setPageData={setPageData}/> : null}
