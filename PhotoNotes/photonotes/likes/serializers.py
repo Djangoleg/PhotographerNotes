@@ -7,4 +7,3 @@ class PhotoNoteLikesModelSerializer(ModelSerializer):
     class Meta:
         model = PhotoNotesLikes
         fields = ('id', 'note', 'user',)
-        
