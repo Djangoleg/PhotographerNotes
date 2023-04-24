@@ -14,7 +14,7 @@ import Viewer from 'react-viewer';
 import {Link} from "react-router-dom";
 import {BrowserView, MobileView} from 'react-device-detect';
 import ScrollToTop from "react-scroll-to-top";
-import $ from "jquery";
+
 
 const BlogContext = createContext({});
 
@@ -24,10 +24,7 @@ const PhotoNotesItem = ({note, index}) => {
 
     const showControlButtons = () => {
         const auth = Auth;
-        if (auth.username === note.username) {
-            return true;
-        }
-        return false;
+        return auth.username === note.username;
     }
 
     return (
@@ -92,11 +89,11 @@ const PhotoNotesItem = ({note, index}) => {
                         </ul>
                         <p className="card-text m-3">{note.photo_comment}</p>
                         <div className="d-flex justify-content-between">
-                            <a className="d-inline-block" href={`/note/view/${note.id}`}>Comments {note.comments_number}</a>
+                            <a className="d-inline-block"
+                               href={`/note/view/${note.id}`}>Comments {note.comments_number}</a>
                             <a className="d-inline-block"
                                onClick={() => {
                                    addLike(note.id);
-                                   //getNotes();
                                }}
                             > Like {note.likes_number}</a>
                         </div>
@@ -290,7 +287,7 @@ class BlogPage extends React.Component {
         document.documentElement.scrollTop = 0;
     }
 
-    getNotes() {
+    getNotes(isbackToTop = true) {
         this.props.pageData(this.state.selectedTag, this.state.selectedPage);
 
         let blogUrl = `${url.get()}/api/notes/`;
@@ -321,7 +318,9 @@ class BlogPage extends React.Component {
                     paginator: notes.paginator
                 }
             )
-            this.backToTop();
+            if (isbackToTop) {
+                this.backToTop();
+            }
         }).catch(error => console.log(error))
     }
 
@@ -339,10 +338,9 @@ class BlogPage extends React.Component {
                 headers: headers,
             }).then(response => {
 
-            this.getNotes();
+            this.getNotes(false);
         }).catch(error => {
-            console.log(error);
-            alert('Added like error!');
+            this.props.navigate(appPath.login);
         });
     }
 
