@@ -325,7 +325,6 @@ class BlogPage extends React.Component {
     }
 
     addLike(noteId) {
-        console.log(`noteId: ${noteId}`);
         const auth = Auth;
         let headers = auth.getHeaders();
         let likeUrl = `${url.get()}/api/likes/`;
