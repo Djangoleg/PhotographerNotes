@@ -14,27 +14,21 @@ class PhotoNoteLikesViewSet(ModelViewSet):
     queryset = PhotoNotesLikes.objects.all()
     serializer_class = PhotoNoteLikesModelSerializer
 
-    def perform_create(self, serializer):
-        return serializer.save()
-
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        if serializer:
-            serializer.is_valid(raise_exception=True)
-            headers = self.get_success_headers(serializer.data)
+        serializer.is_valid(raise_exception=True)
+        headers = self.get_success_headers(serializer.data)
 
-            request_user = None if request.user.is_anonymous else request.user
+        request_user = None if request.user.is_anonymous else request.user
 
-            if request_user:
-                note = PhotoNotes.objects.get(pk=serializer.data['note'])
-                likes = PhotoNotesLikes.objects.filter(note=note, user=request_user)
-                if len(likes) == 0:
-                    PhotoNotesLikes.objects.create(note=note, user=request_user)
-                    return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-                else:
-                    PhotoNotesLikes.objects.filter(note=note, user=request_user).delete()
-                    return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
+        if request_user:
+            note = PhotoNotes.objects.get(pk=serializer.data['note'])
+            likes = PhotoNotesLikes.objects.filter(note=note, user=request_user)
+            if len(likes) == 0:
+                PhotoNotesLikes.objects.create(note=note, user=request_user)
+                return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
             else:
-                return Response(serializer.data, status=status.HTTP_304_NOT_MODIFIED, headers=headers)
+                PhotoNotesLikes.objects.filter(note=note, user=request_user).delete()
+                return Response(serializer.data, status=status.HTTP_200_OK, headers=headers)
         else:
-            return Response('', status=status.HTTP_304_NOT_MODIFIED)
+            return Response(serializer.data, status=status.HTTP_401_UNAUTHORIZED, headers=headers)

@@ -19,7 +19,7 @@ import ScrollToTop from "react-scroll-to-top";
 const BlogContext = createContext({});
 
 const PhotoNotesItem = ({note, index}) => {
-    const [setTag, setPage, getNotes, setPageData, setUser, addLike] = useContext(BlogContext);
+    const [setTag, setPage, getNotes, setPageData, setUser, setLikeOrUnlike] = useContext(BlogContext);
     const [visible, setVisible] = React.useState(false);
 
     const showControlButtons = () => {
@@ -93,12 +93,12 @@ const PhotoNotesItem = ({note, index}) => {
                                href={`/note/view/${note.id}`}>Comments {note.comments_number}</a>
                             <a className="d-inline-block"
                                onClick={() => {
-                                   addLike(note.id);
+                                   setLikeOrUnlike(note.id);
                                }}
                             > Like {note.likes_number}</a>
                         </div>
                     </div>
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end pt-2">
                         {showControlButtons() ? <DeleteNoteModal note={note} setPageData={setPageData}/> : null}
                         {showControlButtons() ? <EditButton noteId={note.id}/> : null}
                     </div>
@@ -324,7 +324,7 @@ class BlogPage extends React.Component {
         }).catch(error => console.log(error))
     }
 
-    addLike(noteId) {
+    setLikeOrUnlike(noteId) {
         const auth = Auth;
         let headers = auth.getHeaders();
         let likeUrl = `${url.get()}/api/likes/`;
@@ -336,7 +336,6 @@ class BlogPage extends React.Component {
             {
                 headers: headers,
             }).then(response => {
-
             this.getNotes(false);
         }).catch(error => {
             this.props.navigate(appPath.login);
@@ -371,7 +370,7 @@ class BlogPage extends React.Component {
                             <BlogContext.Provider
                                 value={[this.setTag.bind(this), this.setPage.bind(this),
                                     this.getNotes.bind(this), this.setPageData.bind(this),
-                                    this.setUser.bind(this), this.addLike.bind(this)]}>
+                                    this.setUser.bind(this), this.setLikeOrUnlike.bind(this)]}>
                                 <div className="row no-gutters-lg">
                                     <div className="d-flex ">
                                         <div className="d-inline-block col-9 mb-lg-5">
