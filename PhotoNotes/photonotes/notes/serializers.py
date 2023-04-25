@@ -16,6 +16,7 @@ from notes.imagehelper import crop_to_aspect, check_and_resize_image_if_need, ge
 
 class PhotoNoteModelSerializer(ModelSerializer):
     tags = StringRelatedField(many=True, read_only=True)
+    likes = StringRelatedField(many=True, read_only=True)
     comments_number = serializers.SerializerMethodField(source='get_comments_number', read_only=True)
     username = serializers.SerializerMethodField(source='get_username', read_only=True)
     user_firstname = serializers.SerializerMethodField(source='get_user_firstname', read_only=True)
@@ -25,7 +26,7 @@ class PhotoNoteModelSerializer(ModelSerializer):
     class Meta:
         model = PhotoNotes
         fields = ('id', 'created', 'username', 'user_firstname', 'profile_id', 'title', 'image', 'photo_comment',
-                  'tags', 'comments_number', 'is_pinned', 'is_private', 'is_hide_minicard', 'likes_number',)
+                  'tags', 'likes', 'comments_number', 'is_pinned', 'is_private', 'is_hide_minicard', 'likes_number',)
 
     def get_likes_number(self, obj):
         return PhotoNotesLikes.objects.filter(note=obj).count()

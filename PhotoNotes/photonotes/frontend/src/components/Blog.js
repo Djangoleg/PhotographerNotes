@@ -95,7 +95,9 @@ const PhotoNotesItem = ({note, index}) => {
                                onClick={() => {
                                    setLikeOrUnlike(note.id);
                                }}
-                            > Like {note.likes_number}</a>
+                               data-tooltip-id="my-tooltip"
+                               data-tooltip-content={note.likes.join('\n')}
+                            > Likes {note.likes_number}</a>
                         </div>
                     </div>
                     <div className="d-flex justify-content-end pt-2">

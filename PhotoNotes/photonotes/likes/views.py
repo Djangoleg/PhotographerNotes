@@ -13,6 +13,7 @@ from notes.models import PhotoNotes
 class PhotoNoteLikesViewSet(ModelViewSet):
     queryset = PhotoNotesLikes.objects.all()
     serializer_class = PhotoNoteLikesModelSerializer
+    http_method_names = ['post', 'head']
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

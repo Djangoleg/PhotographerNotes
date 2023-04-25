@@ -15,3 +15,6 @@ class PhotoNotesLikes(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['note', 'user'], name='unique like')
         ]
+
+    def __str__(self):
+        return self.user.username
