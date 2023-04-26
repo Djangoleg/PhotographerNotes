@@ -12,11 +12,12 @@ import appPath from "./AppPath";
 import {Link} from "react-router-dom";
 import Viewer from "react-viewer";
 import {BrowserView, MobileView} from "react-device-detect";
+import Popup from "reactjs-popup";
 
 const BlogContext = createContext({});
 
 const Note = ({note}) => {
-    const [setPageData] = useContext(BlogContext);
+    const [setPageData, setLikeOrUnlike] = useContext(BlogContext);
     const [visible, setVisible] = React.useState(false);
 
     const showControlButtons = () => {
@@ -86,8 +87,42 @@ const Note = ({note}) => {
                             </li>
                         </ul>
                         <p className="card-text m-3">{note.photo_comment}</p>
+                        <div className="d-flex justify-content-end">
+
+                            {note.likes.length > 0 ?
+                                (
+                                    <Popup
+                                        trigger={
+                                            <a className="d-inline-block"
+                                               onClick={() => {
+                                                   setLikeOrUnlike(note.id);
+                                               }}
+                                            > Likes {note.likes_number}</a>
+                                        }
+                                        arrow={true}
+                                        on={['hover', 'focus']}
+                                        position="top center">
+                                        {note.likes.map((user, i) => {
+                                            return (
+                                                <div key={i}>
+                                                    <a href={`/profile/view/${user.split('|')[0]}`}>{user.split('|')[1]}</a>
+                                                </div>
+                                            );
+                                        })}
+                                    </Popup>
+                                ) :
+                                (
+                                    <a className="d-inline-block"
+                                       onClick={() => {
+                                           setLikeOrUnlike(note.id);
+                                       }}
+                                    > Likes {note.likes_number}</a>
+                                )
+                            }
+
+                        </div>
                     </div>
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end pt-2">
                         {showControlButtons() ? <DeleteNoteModal note={note} setPageData={setPageData}/> : null}
                         {showControlButtons() ? <EditButton noteId={note.id}/> : null}
                         <BackButton/>
@@ -102,7 +137,7 @@ class NotePage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            note: {}
+            note: ''
         }
     }
 
@@ -134,6 +169,24 @@ class NotePage extends React.Component {
         this.props.pageData(tag, page);
     }
 
+    setLikeOrUnlike(noteId) {
+        const auth = Auth;
+        let headers = auth.getHeaders();
+        let likeUrl = `${url.get()}/api/likes/`;
+        let data = {
+            note: noteId
+        };
+        axios.post(likeUrl,
+            data,
+            {
+                headers: headers,
+            }).then(response => {
+            this.componentDidMount();
+        }).catch(error => {
+            this.props.navigate(appPath.login);
+        });
+    }
+
     render() {
         return (
             <div>
@@ -142,8 +195,13 @@ class NotePage extends React.Component {
                         <div className="container">
                             <div className="row no-gutters-lg justify-content-center">
                                 <div className="col-lg-9 mb-lg-5">
-                                    <BlogContext.Provider value={[this.setPageData.bind(this)]}>
-                                        <Note note={this.state.note}/>
+                                    <BlogContext.Provider value={[this.setPageData.bind(this),
+                                        this.setLikeOrUnlike.bind(this)]}>
+                                        {
+                                            this.state.note ?
+                                                (<Note note={this.state.note}/>) :
+                                                null
+                                        }
                                         <Comments note={this.state.note.id}/>
                                     </BlogContext.Provider>
                                 </div>

@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 from notes.models import PhotoNotes
-from users.models import User
+from users.models import User, UserProfile
 
 
 class PhotoNotesLikes(models.Model):
@@ -17,4 +17,4 @@ class PhotoNotesLikes(models.Model):
         ]
 
     def __str__(self):
-        return self.user.username
+        return f'{UserProfile.objects.get(user=self.user).pk}|{self.user.username}'

@@ -14,11 +14,12 @@ import Viewer from 'react-viewer';
 import {Link} from "react-router-dom";
 import {BrowserView, MobileView} from 'react-device-detect';
 import ScrollToTop from "react-scroll-to-top";
+import Popup from 'reactjs-popup';
 
 
 const BlogContext = createContext({});
 
-const PhotoNotesItem = ({note, index}) => {
+const PhotoNotesItem = ({note}) => {
     const [setTag, setPage, getNotes, setPageData, setUser, setLikeOrUnlike] = useContext(BlogContext);
     const [visible, setVisible] = React.useState(false);
 
@@ -91,13 +92,38 @@ const PhotoNotesItem = ({note, index}) => {
                         <div className="d-flex justify-content-between">
                             <a className="d-inline-block"
                                href={`/note/view/${note.id}`}>Comments {note.comments_number}</a>
-                            <a className="d-inline-block"
-                               onClick={() => {
-                                   setLikeOrUnlike(note.id);
-                               }}
-                               data-tooltip-id="my-tooltip"
-                               data-tooltip-content={note.likes.join('\n')}
-                            > Likes {note.likes_number}</a>
+
+                            {note.likes.length > 0 ?
+                                (
+                                    <Popup
+                                        trigger={
+                                            <a className="d-inline-block"
+                                               onClick={() => {
+                                                   setLikeOrUnlike(note.id);
+                                               }}
+                                            > Likes {note.likes_number}</a>
+                                        }
+                                        arrow={true}
+                                        on={['hover', 'focus']}
+                                        position="top center">
+                                        {note.likes.map((user, i) => {
+                                            return (
+                                                <div key={i}>
+                                                    <a href={`/profile/view/${user.split('|')[0]}`}>{user.split('|')[1]}</a>
+                                                </div>
+                                            );
+                                        })}
+                                    </Popup>
+                                ) :
+                                (
+                                    <a className="d-inline-block"
+                                       onClick={() => {
+                                           setLikeOrUnlike(note.id);
+                                       }}
+                                    > Likes {note.likes_number}</a>
+                                )
+                            }
+
                         </div>
                     </div>
                     <div className="d-flex justify-content-end pt-2">
@@ -377,7 +403,7 @@ class BlogPage extends React.Component {
                                     <div className="d-flex ">
                                         <div className="d-inline-block col-9 mb-lg-5">
                                             {this.state.notes.map((note, index) =>
-                                                <PhotoNotesItem key={note.id} note={note} index={index}/>)}
+                                                <PhotoNotesItem key={note.id} note={note} />)}
                                             {this.state.notes.length > 0 ?
 
                                                 (<BlogPagination paginator={this.state.paginator}/>) :
