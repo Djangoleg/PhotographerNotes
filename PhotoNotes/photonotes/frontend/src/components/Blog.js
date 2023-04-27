@@ -14,19 +14,18 @@ import Viewer from 'react-viewer';
 import {Link} from "react-router-dom";
 import {BrowserView, MobileView} from 'react-device-detect';
 import ScrollToTop from "react-scroll-to-top";
+import LikesPopup from "./LikePopup";
+
 
 const BlogContext = createContext({});
 
-const PhotoNotesItem = ({note, index}) => {
-    const [setTag, setPage, getNotes, setPageData, setUser] = useContext(BlogContext);
+const PhotoNotesItem = ({note}) => {
+    const [setTag, setPage, getNotes, setPageData, setUser, setLikeOrUnlike] = useContext(BlogContext);
     const [visible, setVisible] = React.useState(false);
 
     const showControlButtons = () => {
         const auth = Auth;
-        if (auth.username === note.username) {
-            return true;
-        }
-        return false;
+        return auth.username === note.username;
     }
 
     return (
@@ -90,9 +89,13 @@ const PhotoNotesItem = ({note, index}) => {
                             </li>
                         </ul>
                         <p className="card-text m-3">{note.photo_comment}</p>
-                        <div><a href={`/note/view/${note.id}`}>Comments {note.comments_number}</a></div>
+                        <div className="d-flex justify-content-between">
+                            <a className="d-inline-block"
+                               href={`/note/view/${note.id}`}>Comments {note.comments_number}</a>
+                            <LikesPopup note={note} setLikeOrUnlike={setLikeOrUnlike} />
+                        </div>
                     </div>
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end pt-2">
                         {showControlButtons() ? <DeleteNoteModal note={note} setPageData={setPageData}/> : null}
                         {showControlButtons() ? <EditButton noteId={note.id}/> : null}
                     </div>
@@ -281,7 +284,7 @@ class BlogPage extends React.Component {
         document.documentElement.scrollTop = 0;
     }
 
-    getNotes() {
+    getNotes(isbackToTop = true) {
         this.props.pageData(this.state.selectedTag, this.state.selectedPage);
 
         let blogUrl = `${url.get()}/api/notes/`;
@@ -312,8 +315,28 @@ class BlogPage extends React.Component {
                     paginator: notes.paginator
                 }
             )
-            this.backToTop();
+            if (isbackToTop) {
+                this.backToTop();
+            }
         }).catch(error => console.log(error))
+    }
+
+    setLikeOrUnlike(noteId) {
+        const auth = Auth;
+        let headers = auth.getHeaders();
+        let likeUrl = `${url.get()}/api/likes/`;
+        let data = {
+            note: noteId
+        };
+        axios.post(likeUrl,
+            data,
+            {
+                headers: headers,
+            }).then(response => {
+            this.getNotes(false);
+        }).catch(error => {
+            this.props.navigate(appPath.login);
+        });
     }
 
     setPageData(tag, page, user) {
@@ -344,12 +367,12 @@ class BlogPage extends React.Component {
                             <BlogContext.Provider
                                 value={[this.setTag.bind(this), this.setPage.bind(this),
                                     this.getNotes.bind(this), this.setPageData.bind(this),
-                                    this.setUser.bind(this)]}>
+                                    this.setUser.bind(this), this.setLikeOrUnlike.bind(this)]}>
                                 <div className="row no-gutters-lg">
                                     <div className="d-flex ">
                                         <div className="d-inline-block col-9 mb-lg-5">
                                             {this.state.notes.map((note, index) =>
-                                                <PhotoNotesItem key={note.id} note={note} index={index}/>)}
+                                                <PhotoNotesItem key={note.id} note={note} />)}
                                             {this.state.notes.length > 0 ?
 
                                                 (<BlogPagination paginator={this.state.paginator}/>) :
