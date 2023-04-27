@@ -12,7 +12,7 @@ import appPath from "./AppPath";
 import {Link} from "react-router-dom";
 import Viewer from "react-viewer";
 import {BrowserView, MobileView} from "react-device-detect";
-import Popup from "reactjs-popup";
+import LikesPopup from "./LikePopup";
 
 const BlogContext = createContext({});
 
@@ -88,38 +88,7 @@ const Note = ({note}) => {
                         </ul>
                         <p className="card-text m-3">{note.photo_comment}</p>
                         <div className="d-flex justify-content-end">
-
-                            {note.likes.length > 0 ?
-                                (
-                                    <Popup
-                                        trigger={
-                                            <a className="d-inline-block"
-                                               onClick={() => {
-                                                   setLikeOrUnlike(note.id);
-                                               }}
-                                            > Likes {note.likes_number}</a>
-                                        }
-                                        arrow={true}
-                                        on={['hover', 'focus']}
-                                        position="top center">
-                                        {note.likes.map((user, i) => {
-                                            return (
-                                                <div key={i}>
-                                                    <a href={`/profile/view/${user.split('|')[0]}`}>{user.split('|')[1]}</a>
-                                                </div>
-                                            );
-                                        })}
-                                    </Popup>
-                                ) :
-                                (
-                                    <a className="d-inline-block"
-                                       onClick={() => {
-                                           setLikeOrUnlike(note.id);
-                                       }}
-                                    > Likes {note.likes_number}</a>
-                                )
-                            }
-
+                            <LikesPopup note={note} setLikeOrUnlike={setLikeOrUnlike} />
                         </div>
                     </div>
                     <div className="d-flex justify-content-end pt-2">
