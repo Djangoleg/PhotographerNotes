@@ -25,6 +25,7 @@
     "react-tag-input-component": "^2.0.2",
     "react-textarea-autosize": "^8.4.0",
     "react-viewer": "^3.2.2",
+    "reactjs-popup": "^2.0.5",
     "styled-components": "^5.3.6",
     "universal-cookie": "^4.0.4",
     "validator": "^13.7.0",
