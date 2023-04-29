@@ -72,13 +72,22 @@ class EditNoteForm extends React.Component {
         this.setState(
             {
                 [event.target.name]: value,
-                is_hide_minicard: false
             }
         );
 
         if (value) {
+            this.setState(
+                {
+                    is_hide_minicard: true,
+                }
+            );
             $('#is_hide_minicard').attr("disabled", true);
         } else {
+            this.setState(
+                {
+                    is_hide_minicard: false,
+                }
+            );
             $('#is_hide_minicard').removeAttr("disabled");
         }
     }
@@ -273,7 +282,7 @@ class EditNoteForm extends React.Component {
                                             <label id="is_hide_minicard_label"
                                                    name="is_hide_minicard_label"
                                                    className={this.state.is_private ? "col-lg-3 col-form-label form-control-label text-muted" :
-                                                        "col-lg-3 col-form-label form-control-label"}>Hide mini
+                                                       "col-lg-3 col-form-label form-control-label"}>Hide mini
                                                 card</label>
                                             <div className="col-lg-9">
                                                 <input className="form-check-input" id="is_hide_minicard"

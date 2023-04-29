@@ -1,5 +1,5 @@
 import '../comments.css';
-import React, {createContext, useContext, useEffect, useState} from "react";
+import React, {createContext, useContext, useState} from "react";
 import {useParams} from "react-router-dom";
 import url from "./AppURL";
 import axios from "axios";
@@ -71,7 +71,7 @@ const Reply = (props) => {
                                   rows="1"
                                   placeholder="Username.."
                                   defaultValue={getCurrentUserName()}
-                                  readOnly={getCurrentUserName() ? true : false}
+                                  readOnly={!!getCurrentUserName()}
                                   onChange={value => {
                                       setUsername(value.target.value);
                                   }}
@@ -120,6 +120,7 @@ const gen_comments = (comments, colorindex, path) => {
                 parent={comment.parent}
                 username={comment.user ? comment.user : `(anon) ${comment.anon_username}`}
                 note_owner={comment.note_owner}
+                profile_pk={comment.profile_pk}
                 date={comment.created}
                 text={comment.body}
                 comments={comment.children}
@@ -183,7 +184,15 @@ let Comment = (props) => {
               >
                 [{minimized ? "+" : "-"}]
               </span>
-                                <span id="username">{props.username}</span>
+                                <span id="username">
+                                    {
+                                        props.profile_pk ? (
+                                            <a href={`/profile/view/${props.profile_pk}`}>{props.username}</a>
+                                        ) : (
+                                            props.username
+                                        )
+                                    }
+                                </span>
                                 <span id="date">{Moment(props.date).format('LLL')}</span>
                             </div>
                             <div id="content" className={minimized ? "hidden" : ""}>

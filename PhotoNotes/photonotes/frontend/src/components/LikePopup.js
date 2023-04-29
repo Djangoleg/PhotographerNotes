@@ -8,11 +8,13 @@ const LikesPopup = ({note, setLikeOrUnlike}) => {
             (
                 <Popup
                     trigger={
-                        <a className="d-inline-block"
-                           onClick={() => {
-                               setLikeOrUnlike(note.id);
-                           }}
-                        > Likes {note.likes_number}</a>
+                        <input type="button"
+                               className="btn btn-link text-decoration-none"
+                               value={`Likes ${note.likes_number}`}
+                               onClick={() => {
+                                   setLikeOrUnlike(note.id);
+                               }}
+                        />
                     }
                     arrow={true}
                     on={['hover', 'focus']}
@@ -27,11 +29,13 @@ const LikesPopup = ({note, setLikeOrUnlike}) => {
                 </Popup>
             ) :
             (
-                <a className="d-inline-block"
-                   onClick={() => {
-                       setLikeOrUnlike(note.id);
-                   }}
-                > Likes {note.likes_number}</a>
+                <input type="button"
+                       className="btn btn-link text-decoration-none"
+                       value={`Likes ${note.likes_number}`}
+                       onClick={() => {
+                           setLikeOrUnlike(note.id);
+                       }}
+                />
             )
     )
 }
