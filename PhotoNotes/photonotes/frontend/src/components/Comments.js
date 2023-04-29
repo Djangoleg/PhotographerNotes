@@ -1,5 +1,5 @@
 import '../comments.css';
-import React, {createContext, useContext, useEffect, useState} from "react";
+import React, {createContext, useContext, useState} from "react";
 import {useParams} from "react-router-dom";
 import url from "./AppURL";
 import axios from "axios";
