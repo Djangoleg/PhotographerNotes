@@ -2,7 +2,6 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import url from "./AppURL"
 import appPath from "./AppPath";
-import {useNavigate} from "react-router-dom";
 
 const Auth = {
     token: '',
