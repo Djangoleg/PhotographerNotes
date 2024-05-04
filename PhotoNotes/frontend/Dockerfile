@@ -1,5 +1,4 @@
-from nginx:latest
-
+FROM nginx:latest
 COPY ./build /var/www
 RUN mkdir -p /etc/nginx/certs
 COPY ./self_signed_ssl /etc/nginx/certs

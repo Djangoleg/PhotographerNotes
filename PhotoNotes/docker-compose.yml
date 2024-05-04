@@ -1,5 +1,3 @@
-version: '3.1'
-
 services:
   db:
     image: postgres:latest
@@ -14,7 +12,7 @@ services:
     ports:
       - 5432:5432
   memcached:
-    image: bitnami/memcached:latest
+    image: memcached:latest
     restart: always
     ports:
       - 11211:11211
@@ -28,15 +26,15 @@ services:
     ports:
       - 2087:2087
     command:
-      #bash -c "
-      #cd /usr/local/photonotes &&
-      #python3 manage.py collectstatic --no-input --clear &&
-      #python3 manage.py makemigrations &&
-      #python3 manage.py migrate &&
-      #python3 manage.py fill_test_users &&
-      #python3 manage.py fill_db &&
-      #python3 manage.py fill_site &&
-      #gunicorn --bind :2087 --workers 2 PhotoNotes.wsgi:application"
+      # bash -c "
+      # cd /usr/local/photonotes &&
+      # python3 manage.py collectstatic --no-input --clear &&
+      # python3 manage.py makemigrations &&
+      # python3 manage.py migrate &&
+      # python3 manage.py fill_test_users &&
+      # python3 manage.py fill_db &&
+      # python3 manage.py fill_site &&
+      # gunicorn --bind :2087 --workers 2 PhotoNotes.wsgi:application"
       bash -c "
       cd /usr/local/photonotes &&
       python3 manage.py makemigrations &&
