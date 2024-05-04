@@ -28,7 +28,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['test-mpn.tech', 'www.test-mpn.tech',]
+ALLOWED_HOSTS = ['fbs.home', 'www.fbs.home',]
 
 # Application definition
 
