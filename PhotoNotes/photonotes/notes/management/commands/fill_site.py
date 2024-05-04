@@ -8,7 +8,7 @@ class Command(BaseCommand):
         Site.objects.all().delete()
         sites = [
             {'id': 1, 'name': 'dev', 'domain': 'http://localhost:3000'},
-            {'id': 2, 'name': 'test', 'domain': 'https://test-mpn.tech'},
+            {'id': 2, 'name': 'test', 'domain': 'https://fbs.home'},
             {'id': 3, 'name': 'prod', 'domain': 'https://myphotonotes.tech'},
         ]
 
