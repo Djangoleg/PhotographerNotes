@@ -199,7 +199,8 @@ MAX_IMAGE_SIZE = 1280
 # For profile. Reduction of the original image to.
 MAX_PROFILE_IMAGE_SIZE = 800
 
-if os.name == 'posix':
+# if os.name == 'posix':
+if "localhost" not in DOMAIN_NAME:
     CACHE_MIDDLEWARE_ALIAS = 'default'
     CACHE_MIDDLEWARE_SECONDS = 120
     CACHE_MIDDLEWARE_KEY_PREFIX = 'photonotes'
