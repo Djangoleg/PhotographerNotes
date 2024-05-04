@@ -1,5 +1,4 @@
-from nginx:latest
-
+FROM nginx:latest
 RUN rm /etc/nginx/conf.d/default.conf
 RUN mkdir -p /etc/nginx/certs
 COPY ./myphotonotes_tech /etc/nginx/certs
